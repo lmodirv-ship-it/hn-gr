@@ -1,15 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { StartProjectForm } from "@/components/forms/StartProjectForm";
 
-const searchSchema = z.object({
-  projectType: fallback(z.string(), "").optional(),
-  summary: fallback(z.string(), "").optional(),
-});
+type StartProjectSearch = {
+  projectType?: string;
+  summary?: string;
+};
 
 export const Route = createFileRoute("/start-project")({
-  validateSearch: zodValidator(searchSchema),
+  validateSearch: (search: Record<string, unknown>): StartProjectSearch => ({
+    projectType: typeof search.projectType === "string" ? search.projectType : undefined,
+    summary: typeof search.summary === "string" ? search.summary : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Start your project — HN-groupe" },
