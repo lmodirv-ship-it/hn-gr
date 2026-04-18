@@ -130,7 +130,7 @@ function AdminPage() {
                     <td className="px-4 py-3">
                       <select
                         value={r.status}
-                        onChange={(e) => void updateStatus(r.id, e.target.value)}
+                        onChange={(e) => void updateStatus(r.id, e.target.value as (typeof STATUSES)[number])}
                         className="rounded-md border border-border bg-background px-2 py-1 text-xs outline-none focus:border-primary"
                       >
                         {STATUSES.map((s) => (
