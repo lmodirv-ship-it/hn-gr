@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StartProjectRouteImport } from './routes/start-project'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as IdeaGeneratorRouteImport } from './routes/idea-generator'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -30,6 +31,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdeaGeneratorRoute = IdeaGeneratorRouteImport.update({
+  id: '/idea-generator',
+  path: '/idea-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/start-project': typeof StartProjectRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/start-project': typeof StartProjectRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/start-project': typeof StartProjectRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/dashboard'
+    | '/idea-generator'
     | '/portfolio'
     | '/services'
     | '/start-project'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/dashboard'
+    | '/idea-generator'
     | '/portfolio'
     | '/services'
     | '/start-project'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/dashboard'
+    | '/idea-generator'
     | '/portfolio'
     | '/services'
     | '/start-project'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
+  IdeaGeneratorRoute: typeof IdeaGeneratorRoute
   PortfolioRoute: typeof PortfolioRoute
   ServicesRoute: typeof ServicesRoute
   StartProjectRoute: typeof StartProjectRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/idea-generator': {
+      id: '/idea-generator'
+      path: '/idea-generator'
+      fullPath: '/idea-generator'
+      preLoaderRoute: typeof IdeaGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
+  IdeaGeneratorRoute: IdeaGeneratorRoute,
   PortfolioRoute: PortfolioRoute,
   ServicesRoute: ServicesRoute,
   StartProjectRoute: StartProjectRoute,
@@ -187,3 +208,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
