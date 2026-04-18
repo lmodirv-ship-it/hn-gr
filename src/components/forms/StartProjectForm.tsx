@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { useSearch } from "@tanstack/react-router";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { submitProjectRequest } from "@/server/projectRequests";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 
 const projectTypes = ["Website", "E-commerce", "Platform", "Custom software", "Other"] as const;
 const budgets = [
@@ -17,6 +18,7 @@ export function StartProjectForm() {
     projectType?: string;
     summary?: string;
   };
+  const { user } = useAuth();
 
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -33,26 +35,24 @@ export function StartProjectForm() {
 
     const fd = new FormData(e.currentTarget);
     try {
-      await submitProjectRequest({
-        data: {
-          name: String(fd.get("name") ?? ""),
-          email: String(fd.get("email") ?? ""),
-          phone: String(fd.get("phone") ?? ""),
-          projectType: String(fd.get("projectType") ?? "Website") as
-            | "Website"
-            | "E-commerce"
-            | "Platform"
-            | "Custom software"
-            | "Other",
-          budget: String(fd.get("budget") ?? ""),
-          description: String(fd.get("description") ?? ""),
-          prefilledFromChat: fd.get("prefilledFromChat") === "on",
-        },
+      const { error: err } = await supabase.from("project_requests").insert({
+        user_id: user?.id ?? null,
+        full_name: String(fd.get("name") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        phone: String(fd.get("phone") ?? ""),
+        project_type: String(fd.get("projectType") ?? "Website"),
+        budget: String(fd.get("budget") ?? ""),
+        description: String(fd.get("description") ?? ""),
       });
+      if (err) throw err;
       setSuccess(true);
     } catch (err) {
       console.error(err);
-      setError("Something went wrong. Please check the fields and try again.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please check the fields and try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -66,7 +66,8 @@ export function StartProjectForm() {
         </div>
         <h3 className="mt-5 font-display text-2xl font-bold">Request received</h3>
         <p className="mt-2 text-muted-foreground">
-          Thanks! A HN-groupe expert will reach out within one business day.
+          Thanks! An HN-GROUPE expert will reach out within one business day.
+          {user ? " Track progress from your dashboard." : " Sign up to track its progress."}
         </p>
       </div>
     );
@@ -86,10 +87,22 @@ export function StartProjectForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Full name">
-          <input name="name" required maxLength={120} className={inputCls} />
+          <input
+            name="name"
+            required
+            maxLength={120}
+            defaultValue={user?.user_metadata?.full_name ?? ""}
+            className={inputCls}
+          />
         </Field>
         <Field label="Email">
-          <input name="email" type="email" required className={inputCls} />
+          <input
+            name="email"
+            type="email"
+            required
+            defaultValue={user?.email ?? ""}
+            className={inputCls}
+          />
         </Field>
         <Field label="WhatsApp / Phone">
           <input name="phone" required className={inputCls} />
@@ -123,16 +136,6 @@ export function StartProjectForm() {
           placeholder="Tell us about your goals, target users, and any references…"
         />
       </Field>
-
-      <label className="flex items-center gap-2 text-sm text-muted-foreground">
-        <input
-          type="checkbox"
-          name="prefilledFromChat"
-          defaultChecked={Boolean(search.summary)}
-          className="h-4 w-4 rounded border-border bg-background"
-        />
-        Prefill from last AI chat suggestion
-      </label>
 
       {error && (
         <p className="rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">

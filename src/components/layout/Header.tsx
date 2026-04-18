@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 const links = [
   { to: "/", label: "Home" },
@@ -11,6 +12,8 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
@@ -20,7 +23,7 @@ export function Header() {
             H
           </span>
           <span>
-            HN<span className="text-primary">-groupe</span>
+            HN<span className="text-primary">-GROUPE</span>
           </span>
         </Link>
 
@@ -38,7 +41,34 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
+          {user ? (
+            <>
+              <Link
+                to="/dashboard"
+                className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border px-3 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
+              </Link>
+              <button
+                onClick={() => {
+                  void signOut().then(() => navigate({ to: "/" }));
+                }}
+                className="grid h-9 w-9 place-items-center rounded-md border border-border text-muted-foreground hover:text-foreground"
+                aria-label="Sign out"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/auth"
+              className="inline-flex h-9 items-center rounded-md border border-border px-3 text-sm text-muted-foreground hover:text-foreground"
+            >
+              Sign in
+            </Link>
+          )}
           <Link
             to="/start-project"
             className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
@@ -71,6 +101,23 @@ export function Header() {
                 {l.label}
               </Link>
             ))}
+            {user ? (
+              <Link
+                to="/dashboard"
+                onClick={() => setOpen(false)}
+                className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setOpen(false)}
+                className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+              >
+                Sign in
+              </Link>
+            )}
             <Link
               to="/start-project"
               onClick={() => setOpen(false)}
