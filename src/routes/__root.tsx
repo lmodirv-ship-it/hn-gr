@@ -47,6 +47,24 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "HN-groupe — Smart software & web solutions" },
+      { name: "description", content: "N-groupe is a software and web solutions studio website that:
+
+Presents HN-groupe services (web development, software, platforms, design).
+
+Shows a portfolio of" },
+      { property: "og:description", content: "N-groupe is a software and web solutions studio website that:
+
+Presents HN-groupe services (web development, software, platforms, design).
+
+Shows a portfolio of" },
+      { name: "twitter:description", content: "N-groupe is a software and web solutions studio website that:
+
+Presents HN-groupe services (web development, software, platforms, design).
+
+Shows a portfolio of" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/g9dYUUMiwpd1WQjB2jpPGmqKT172/social-images/social-1776539517041-hn-groupe.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/g9dYUUMiwpd1WQjB2jpPGmqKT172/social-images/social-1776539517041-hn-groupe.webp" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
