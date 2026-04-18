@@ -50,7 +50,7 @@ function AdminPage() {
     if (isAdmin) load();
   }, [isAdmin]);
 
-  const updateStatus = async (id: string, status: string) => {
+  const updateStatus = async (id: string, status: (typeof STATUSES)[number]) => {
     await supabase.from("project_requests").update({ status }).eq("id", id);
     load();
   };
