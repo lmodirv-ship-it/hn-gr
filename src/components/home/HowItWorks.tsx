@@ -32,9 +32,11 @@ export function HowItWorks() {
         {steps.map((s) => (
           <div
             key={s.n}
-            className="relative rounded-2xl border border-border bg-surface/60 p-6 backdrop-blur"
+            className="glass relative rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:ring-glow"
           >
-            <span className="font-display text-5xl font-bold text-primary/30">{s.n}</span>
+            <span className="font-display text-5xl font-bold text-gradient-gold opacity-70">
+              {s.n}
+            </span>
             <h3 className="mt-2 font-display text-xl font-semibold">{s.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{s.text}</p>
           </div>
