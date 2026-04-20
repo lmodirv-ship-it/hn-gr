@@ -1,4 +1,5 @@
 import { services } from "@/data/services";
+import servicesVisual from "@/assets/services-visual.jpg";
 
 interface Props {
   detailed?: boolean;
@@ -6,15 +7,31 @@ interface Props {
 
 export function ServicesSection({ detailed = false }: Props) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <section className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
       {!detailed && (
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Services
-          </span>
-          <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">
-            Everything you need to launch and grow.
-          </h2>
+        <div className="mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
+          <div className="text-center md:text-right">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Services
+            </span>
+            <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">
+              Everything you need to launch and grow.
+            </h2>
+          </div>
+          <div className="hidden h-32 w-32 overflow-hidden rounded-full border border-primary/30 shadow-[var(--shadow-gold)] md:block">
+            <img
+              src={servicesVisual}
+              alt="HN-GROUPE services visual"
+              width={256}
+              height={256}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <p className="text-center text-sm text-muted-foreground md:text-left">
+            From a fast company website to a full custom platform — pick what fits your stage,
+            or combine services for an end-to-end build.
+          </p>
         </div>
       )}
 
