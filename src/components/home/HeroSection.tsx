@@ -1,18 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import heroVideo from "@/assets/hero-video.mp4.asset.json";
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden">
-      {/* Cinematic background image */}
+      {/* Cinematic background video with image fallback */}
       <div className="absolute inset-0">
-        <img
-          src={heroBg}
-          alt="HN-GROUPE — luxury tech background"
-          width={1920}
-          height={1080}
-          className="h-full w-full object-cover opacity-60"
+        <video
+          src={heroVideo.url}
+          poster={heroBg}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="h-full w-full object-cover opacity-70"
         />
         <div
           className="absolute inset-0"
