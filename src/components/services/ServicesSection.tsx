@@ -45,9 +45,9 @@ export function ServicesSection({ detailed = false }: Props) {
         {services.map((s) => (
           <article
             key={s.id}
-            className="group relative overflow-hidden rounded-2xl border border-border bg-surface/60 p-6 backdrop-blur transition-colors hover:border-primary/50"
+            className="glass group relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:ring-glow"
           >
-            <div className="grid h-12 w-12 place-items-center rounded-lg bg-primary/10 text-primary">
+            <div className="grid h-12 w-12 place-items-center rounded-lg bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)] transition-transform duration-500 group-hover:scale-110">
               <s.icon className="h-6 w-6" />
             </div>
             <h3 className="mt-5 font-display text-xl font-semibold">{s.title}</h3>

@@ -53,9 +53,9 @@ export function AboutSection() {
             {pillars.map((p) => (
               <div
                 key={p.title}
-                className="rounded-xl border border-border bg-surface/60 p-5 backdrop-blur transition-colors hover:border-primary/50"
+                className="glass rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
               >
-                <div className="grid h-10 w-10 place-items-center rounded-md bg-primary/10 text-primary">
+                <div className="grid h-10 w-10 place-items-center rounded-md bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]">
                   <p.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-4 font-display text-base font-semibold">{p.title}</h3>

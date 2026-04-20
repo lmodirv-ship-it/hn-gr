@@ -26,13 +26,16 @@ export function HeroSection() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-40">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-surface/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-            <Sparkles className="h-3 w-3 text-primary" />
-            AI-assisted project planning
+        <div className="mx-auto max-w-3xl text-center animate-fade-up">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-surface/40 px-4 py-1.5 text-xs text-muted-foreground backdrop-blur-md">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            AI-assisted project planning · Available now
           </span>
 
-          <h1 className="mt-6 font-display text-4xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+          <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl xl:text-8xl">
             We Build{" "}
             <span className="bg-[image:var(--gradient-gold)] bg-clip-text text-transparent">
               Digital Powerhouses
@@ -48,14 +51,17 @@ export function HeroSection() {
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               to="/start-project"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[image:var(--gradient-gold)] px-7 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
+              className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-md bg-[image:var(--gradient-gold)] px-7 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.03]"
             >
-              Start your project
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <span className="relative z-10 inline-flex items-center gap-2">
+                Start your project
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
+              <span className="absolute inset-0 -translate-x-full bg-white/20 transition-transform duration-700 group-hover:translate-x-full" />
             </Link>
             <Link
               to="/portfolio"
-              className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-surface/60 px-7 text-sm font-semibold backdrop-blur hover:bg-surface"
+              className="glass inline-flex h-12 items-center justify-center rounded-md px-7 text-sm font-semibold hover:border-primary/40"
             >
               Explore our work
             </Link>

@@ -4,6 +4,7 @@ import appCss from "../styles.css?url";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { BackgroundFX } from "@/components/effects/BackgroundFX";
 
 function NotFoundComponent() {
   return (
@@ -77,7 +78,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen flex-col">
+      <BackgroundFX />
       <Header />
       <main className="flex-1">
         <Outlet />
