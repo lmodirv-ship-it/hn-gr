@@ -5,7 +5,17 @@ import { useCallback, useEffect, useRef } from "react";
  * No external audio files needed. All sounds are synthesized.
  */
 
-type SoundType = "click" | "hover" | "success" | "open" | "close" | "tick";
+type SoundType =
+  | "click"
+  | "hover"
+  | "success"
+  | "open"
+  | "close"
+  | "tick"
+  | "soft"
+  | "chime"
+  | "whoosh"
+  | "type";
 
 let sharedCtx: AudioContext | null = null;
 let muted = false;
@@ -83,23 +93,42 @@ export function playSound(kind: SoundType) {
   if (muted) return;
   switch (kind) {
     case "click":
-      tone({ freq: 880, duration: 0.08, type: "triangle", gain: 0.06, sweepTo: 1320 });
+      // Premium glassy click — short metallic ping
+      tone({ freq: 1200, duration: 0.06, type: "triangle", gain: 0.05, sweepTo: 1800 });
+      setTimeout(() => tone({ freq: 2400, duration: 0.04, type: "sine", gain: 0.03 }), 15);
       break;
     case "hover":
-      tone({ freq: 1400, duration: 0.05, type: "sine", gain: 0.025 });
+      // Soft airy tick
+      tone({ freq: 1800, duration: 0.04, type: "sine", gain: 0.018 });
+      break;
+    case "soft":
+      tone({ freq: 700, duration: 0.05, type: "sine", gain: 0.025 });
       break;
     case "success":
-      tone({ freq: 660, duration: 0.1, type: "triangle", gain: 0.07 });
-      setTimeout(() => tone({ freq: 990, duration: 0.14, type: "triangle", gain: 0.07 }), 90);
+      // Pleasant rising chord
+      tone({ freq: 660, duration: 0.12, type: "triangle", gain: 0.06 });
+      setTimeout(() => tone({ freq: 880, duration: 0.14, type: "triangle", gain: 0.06 }), 90);
+      setTimeout(() => tone({ freq: 1320, duration: 0.18, type: "sine", gain: 0.05 }), 200);
+      break;
+    case "chime":
+      tone({ freq: 1320, duration: 0.18, type: "sine", gain: 0.05 });
+      setTimeout(() => tone({ freq: 1760, duration: 0.22, type: "sine", gain: 0.04 }), 80);
       break;
     case "open":
-      tone({ freq: 520, duration: 0.12, type: "sine", gain: 0.06, sweepTo: 880 });
+      // Whoosh up
+      tone({ freq: 380, duration: 0.18, type: "sine", gain: 0.05, sweepTo: 1100 });
       break;
     case "close":
-      tone({ freq: 880, duration: 0.12, type: "sine", gain: 0.06, sweepTo: 440 });
+      tone({ freq: 1100, duration: 0.16, type: "sine", gain: 0.05, sweepTo: 380 });
+      break;
+    case "whoosh":
+      tone({ freq: 220, duration: 0.22, type: "sawtooth", gain: 0.03, sweepTo: 880 });
+      break;
+    case "type":
+      tone({ freq: 1600 + Math.random() * 400, duration: 0.025, type: "square", gain: 0.015 });
       break;
     case "tick":
-      tone({ freq: 2000, duration: 0.03, type: "square", gain: 0.02 });
+      tone({ freq: 2200, duration: 0.03, type: "square", gain: 0.02 });
       break;
   }
 }
@@ -115,22 +144,57 @@ export function useGlobalUiSounds() {
     if (typeof window === "undefined") return;
     isSoundMuted();
 
+    const interactiveSelector = [
+      "button",
+      "a[href]",
+      "[role=button]",
+      "[role=tab]",
+      "[role=menuitem]",
+      "[role=option]",
+      "[data-sound]",
+      ".neon-card",
+      ".glass",
+      ".glass-strong",
+      "[data-card]",
+      "input[type=submit]",
+      "input[type=button]",
+      "summary",
+    ].join(",");
+
     const isInteractive = (el: Element | null): HTMLElement | null => {
       if (!el) return null;
-      const node = (el as HTMLElement).closest(
-        "button, a, [role=button], [data-sound]"
-      ) as HTMLElement | null;
+      const node = (el as HTMLElement).closest(interactiveSelector) as HTMLElement | null;
       if (!node) return null;
       if (node.hasAttribute("data-sound-off")) return null;
+      if (node.closest("[data-sound-off]")) return null;
       if ((node as HTMLButtonElement).disabled) return null;
       return node;
+    };
+
+    const isField = (el: Element | null): HTMLElement | null => {
+      if (!el) return null;
+      const node = (el as HTMLElement).closest(
+        "input:not([type=submit]):not([type=button]):not([type=checkbox]):not([type=radio]), textarea"
+      ) as HTMLElement | null;
+      if (!node || node.hasAttribute("data-sound-off")) return null;
+      return node;
+    };
+
+    const pickClickSound = (node: HTMLElement): SoundType => {
+      const explicit = node.getAttribute("data-sound") as SoundType | null;
+      if (explicit) return explicit;
+      const role = node.getAttribute("role");
+      if (role === "tab" || role === "menuitem" || role === "option") return "soft";
+      if (node.matches(".neon-card, .glass, .glass-strong, [data-card]")) return "chime";
+      if (node.tagName === "A") return "soft";
+      if (node.tagName === "SUMMARY") return "open";
+      return "click";
     };
 
     const onClick = (e: MouseEvent) => {
       const node = isInteractive(e.target as Element);
       if (!node) return;
-      const kind = (node.getAttribute("data-sound") as SoundType | null) ?? "click";
-      playSound(kind);
+      playSound(pickClickSound(node));
     };
 
     const onOver = (e: MouseEvent) => {
@@ -142,11 +206,30 @@ export function useGlobalUiSounds() {
       playSound("hover");
     };
 
+    const onFocusIn = (e: FocusEvent) => {
+      const node = isField(e.target as Element);
+      if (!node) return;
+      playSound("soft");
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      const node = isField(e.target as Element);
+      if (!node) return;
+      // Ignore modifier-only keys
+      if (e.key.length === 1 || e.key === "Backspace" || e.key === "Enter" || e.key === " ") {
+        playSound("type");
+      }
+    };
+
     document.addEventListener("click", onClick, true);
     document.addEventListener("mouseover", onOver, true);
+    document.addEventListener("focusin", onFocusIn, true);
+    document.addEventListener("keydown", onKeyDown, true);
     return () => {
       document.removeEventListener("click", onClick, true);
       document.removeEventListener("mouseover", onOver, true);
+      document.removeEventListener("focusin", onFocusIn, true);
+      document.removeEventListener("keydown", onKeyDown, true);
     };
   }, []);
 
