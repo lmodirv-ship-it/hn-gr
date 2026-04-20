@@ -52,15 +52,16 @@ export function PortfolioGrid({ limit, showFilters = true }: Props) {
         {visible.map((p) => (
           <article
             key={p.id}
-            className="group overflow-hidden rounded-2xl border border-border bg-surface/60 transition-colors hover:border-primary/50"
+            className="glass group overflow-hidden rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:ring-glow"
           >
-            <div className="aspect-[16/10] overflow-hidden bg-muted">
+            <div className="relative aspect-[16/10] overflow-hidden bg-muted">
               <img
                 src={p.image}
                 alt={p.title}
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             </div>
             <div className="p-5">
               <div className="flex items-start justify-between gap-3">
