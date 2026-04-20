@@ -5,7 +5,17 @@ import { useCallback, useEffect, useRef } from "react";
  * No external audio files needed. All sounds are synthesized.
  */
 
-type SoundType = "click" | "hover" | "success" | "open" | "close" | "tick";
+type SoundType =
+  | "click"
+  | "hover"
+  | "success"
+  | "open"
+  | "close"
+  | "tick"
+  | "soft"
+  | "chime"
+  | "whoosh"
+  | "type";
 
 let sharedCtx: AudioContext | null = null;
 let muted = false;
