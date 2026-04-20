@@ -93,23 +93,42 @@ export function playSound(kind: SoundType) {
   if (muted) return;
   switch (kind) {
     case "click":
-      tone({ freq: 880, duration: 0.08, type: "triangle", gain: 0.06, sweepTo: 1320 });
+      // Premium glassy click — short metallic ping
+      tone({ freq: 1200, duration: 0.06, type: "triangle", gain: 0.05, sweepTo: 1800 });
+      setTimeout(() => tone({ freq: 2400, duration: 0.04, type: "sine", gain: 0.03 }), 15);
       break;
     case "hover":
-      tone({ freq: 1400, duration: 0.05, type: "sine", gain: 0.025 });
+      // Soft airy tick
+      tone({ freq: 1800, duration: 0.04, type: "sine", gain: 0.018 });
+      break;
+    case "soft":
+      tone({ freq: 700, duration: 0.05, type: "sine", gain: 0.025 });
       break;
     case "success":
-      tone({ freq: 660, duration: 0.1, type: "triangle", gain: 0.07 });
-      setTimeout(() => tone({ freq: 990, duration: 0.14, type: "triangle", gain: 0.07 }), 90);
+      // Pleasant rising chord
+      tone({ freq: 660, duration: 0.12, type: "triangle", gain: 0.06 });
+      setTimeout(() => tone({ freq: 880, duration: 0.14, type: "triangle", gain: 0.06 }), 90);
+      setTimeout(() => tone({ freq: 1320, duration: 0.18, type: "sine", gain: 0.05 }), 200);
+      break;
+    case "chime":
+      tone({ freq: 1320, duration: 0.18, type: "sine", gain: 0.05 });
+      setTimeout(() => tone({ freq: 1760, duration: 0.22, type: "sine", gain: 0.04 }), 80);
       break;
     case "open":
-      tone({ freq: 520, duration: 0.12, type: "sine", gain: 0.06, sweepTo: 880 });
+      // Whoosh up
+      tone({ freq: 380, duration: 0.18, type: "sine", gain: 0.05, sweepTo: 1100 });
       break;
     case "close":
-      tone({ freq: 880, duration: 0.12, type: "sine", gain: 0.06, sweepTo: 440 });
+      tone({ freq: 1100, duration: 0.16, type: "sine", gain: 0.05, sweepTo: 380 });
+      break;
+    case "whoosh":
+      tone({ freq: 220, duration: 0.22, type: "sawtooth", gain: 0.03, sweepTo: 880 });
+      break;
+    case "type":
+      tone({ freq: 1600 + Math.random() * 400, duration: 0.025, type: "square", gain: 0.015 });
       break;
     case "tick":
-      tone({ freq: 2000, duration: 0.03, type: "square", gain: 0.02 });
+      tone({ freq: 2200, duration: 0.03, type: "square", gain: 0.02 });
       break;
   }
 }
