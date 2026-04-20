@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { BackgroundFX } from "@/components/effects/BackgroundFX";
+import { SoundController } from "@/components/effects/SoundController";
 
 function NotFoundComponent() {
   return (
@@ -86,6 +87,7 @@ function RootComponent() {
       </main>
       <Footer />
       <ChatWidget />
+      <SoundController />
     </div>
   );
 }
