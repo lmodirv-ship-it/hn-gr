@@ -8,6 +8,9 @@ import { BackgroundFX } from "@/components/effects/BackgroundFX";
 import { SoundController } from "@/components/effects/SoundController";
 import { Toaster } from "@/components/ui/sonner";
 import { PageViewTracker } from "@/hooks/use-track-event";
+import { WhatsAppButton } from "@/components/growth/WhatsAppButton";
+import { StickyCTA } from "@/components/growth/StickyCTA";
+import { ExitIntentModal } from "@/components/growth/ExitIntentModal";
 
 function NotFoundComponent() {
   return (
@@ -59,6 +62,21 @@ export const Route = createRootRoute({
       { property: "og:description", content: "HN-groupe is a software and web solutions studio website showcasing services and projects." },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "HN-GROUPE",
+          url: "https://hn-gr.lovable.app",
+          logo: "https://hn-gr.lovable.app/favicon.ico",
+          description:
+            "Digital studio building websites, e-commerce stores, and custom SaaS platforms.",
+          sameAs: [],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -89,6 +107,9 @@ function RootComponent() {
       </main>
       <Footer />
       <ChatWidget />
+      <WhatsAppButton />
+      <StickyCTA />
+      <ExitIntentModal />
       <SoundController />
       <Toaster richColors position="top-center" />
       <PageViewTracker />
