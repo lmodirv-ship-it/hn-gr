@@ -1,64 +1,65 @@
 
-The user wants a full HN-groupe site. Note: this project uses TanStack Start (not Next.js), but I'll deliver the same functionality using the project's stack. Lovable AI Gateway will power the real chat (better than mock). Tailwind v4 is already set up.
+## خطة: تطوير HN-GROUPE الحالي (المرحلة التالية)
 
-## Plan
+بناءً على اختيارك للخيار **1** (تطوير الموقع الحالي)، إليك خطة الإطلاق الكاملة مقسمة على 4 محاور:
 
-### Design
-- Dark navy background with gold/orange accent (per request)
-- Update `src/styles.css` design tokens (dark default, gold accent), keep oklch
-- Modern, professional, responsive
+### 1) Admin Dashboard حقيقي
+- إنشاء جدول `user_roles` + enum `app_role` (admin/user) مع RLS آمنة (تجنب recursion عبر `has_role()` SECURITY DEFINER).
+- إضافة `lmodirv@gmail.com` كأدمن تلقائياً عبر trigger على `auth.users`.
+- ترقية `src/routes/admin.tsx` (موجود) ليصبح لوحة كاملة بتبويبات:
+  - **Leads**: عرض كل `project_requests` (search/filter حسب نوع المشروع، الميزانية، الحالة) + تغيير الحالة (new/contacted/won/lost).
+  - **Users**: قائمة المستخدمين من `profiles` + تعيين/إزالة صلاحية admin.
+  - **Chat logs**: محادثات `ChatWidget` المخزّنة لتحليل نية الزوار.
+  - **Analytics**: KPIs (عدد الزوار، leads جدد، conversion rate، أكثر الخدمات طلباً) — مخططات بـ Recharts.
+- حماية المسار: `beforeLoad` يتحقق من `has_role(uid, 'admin')`، وإلا redirect إلى `/`.
 
-### Routes (TanStack Start file-based routing)
-- `src/routes/__root.tsx` — add Header + Footer + floating ChatWidget on every page
-- `src/routes/index.tsx` — Home (Hero, About, Services preview, Highlighted projects, How it works)
-- `src/routes/services.tsx` — Detailed services
-- `src/routes/portfolio.tsx` — Grid + client-side filters
-- `src/routes/start-project.tsx` — Project request form (reads optional query params for prefill)
+### 2) تتبع داخلي (Internal Analytics)
+- جدول `analytics_events` (event_name, user_id, session_id, path, metadata jsonb, created_at).
+- Hook `useTrackEvent()` + tracker تلقائي للأحداث الأساسية:
+  `page_view`, `cta_click`, `chat_open`, `chat_message_sent`, `lead_submitted`, `idea_generated`, `signup`, `signin`.
+- عرض النتائج داخل تبويب Analytics في الأدمن (جاهز للترقية لاحقاً إلى Google Analytics بإضافة Measurement ID).
 
-Each route gets its own `head()` metadata.
+### 3) تنظيف وتحضير الإطلاق (Launch Polish)
+- إزالة أي بيانات وهمية متبقية في `data/projects.ts` و `TestimonialsSection` واستبدالها بمحتوى حقيقي قابل للتعديل من الأدمن لاحقاً.
+- إضافة قسم **Mission** واضح في `HeroSection` يوضح هدف الموقع.
+- إضافة `robots.txt` + `sitemap.xml` ديناميكي.
+- meta tags محسّنة لكل route (services, portfolio, idea-generator).
 
-### Components (`src/components/`)
-- `layout/Header.tsx` — logo, nav links, "Start your project" CTA
-- `layout/Footer.tsx`
-- `home/HeroSection.tsx`, `home/AboutSection.tsx`, `home/HowItWorks.tsx`
-- `services/ServicesSection.tsx` (reused on home + services)
-- `portfolio/PortfolioGrid.tsx` with filter buttons
-- `forms/StartProjectForm.tsx`
-- `chat/ChatWidget.tsx` — floating bubble, expands to panel, quick suggestions, renders structured AI replies + "Use this to start a project" button (navigates to `/start-project` with query params)
+### 4) Viral / Growth Hooks
+- زر **Share** على بطاقات portfolio.
+- صفحة شكر بعد إرسال lead فيها CTA لمشاركة الموقع.
+- Toast notifications احترافية بصوت نجاح عند:
+  - تسجيل الدخول
+  - إرسال نموذج Start Project
+  - توليد فكرة من AI
 
-### Data
-- `src/data/projects.ts` — static portfolio (6–8 projects with categories: website / ecommerce / platform)
-- `src/data/services.ts` — services list
+---
 
-### Server functions (TanStack Start `createServerFn`, replaces Next.js API routes)
-- `src/server/chat.ts` — `sendChatMessage` server fn calling Lovable AI Gateway (`google/gemini-2.5-flash`, free) with system prompt instructing it to return JSON `{ projectType, suggestedPages, suggestedTechStack, shortSummary }`. Parses & returns structured object.
-- `src/server/projectRequests.ts` — `submitProjectRequest` server fn; stores in memory (module-level array) and logs. Returns success.
+### الملفات التي ستُعدَّل / تُنشأ
+**جديد:**
+- `supabase/migrations/*` — `app_role` enum, `user_roles`, `has_role()`, `analytics_events`, trigger للأدمن.
+- `src/hooks/use-track-event.tsx`
+- `src/hooks/use-admin.tsx`
+- `src/components/admin/{LeadsTab,UsersTab,AnalyticsTab,ChatLogsTab}.tsx`
+- `src/routes/_admin.tsx` (layout guard)
+- `src/components/home/MissionSection.tsx`
+- `public/robots.txt`, `src/routes/sitemap[.]xml.tsx`
 
-### AI integration
-- Use Lovable AI Gateway (no key needed — uses `LOVABLE_API_KEY` env). Endpoint: `https://ai.gateway.lovable.dev/v1/chat/completions`. System prompt enforces JSON response schema. Fallback to keyword-based mock if API fails.
+**معدّل:**
+- `src/routes/admin.tsx` — استبدال بالـ Dashboard الكامل
+- `src/routes/__root.tsx` — تركيب tracker تلقائي
+- `src/components/home/HeroSection.tsx` — إضافة Mission CTA
+- `src/components/forms/StartProjectForm.tsx` — track + redirect للشكر
+- `src/components/chat/ChatWidget.tsx` — track فتح/إرسال
 
-### Tech / language
-- Site copy in English; brand stays "HN-groupe"
-- Stack: TanStack Start + React 19 + Tailwind v4 + TypeScript (project's existing stack — equivalent capability to the requested Next.js)
-- No new heavy deps needed; lucide-react already available for icons
+### الأمان
+- جميع الجداول الجديدة بـ RLS:
+  - `user_roles`: قراءة فقط للمستخدم لأدواره؛ admin فقط للكتابة.
+  - `analytics_events`: insert مفتوح (للزوار)، select للأدمن فقط.
+  - `project_requests`: select/update للأدمن فقط، insert مفتوح (موجود).
+- لا تخزين أدوار في `profiles` — جدول منفصل عبر `has_role()`.
 
-### File structure
-```text
-src/
-  routes/  __root.tsx, index.tsx, services.tsx, portfolio.tsx, start-project.tsx
-  components/
-    layout/   Header.tsx, Footer.tsx
-    home/     HeroSection.tsx, AboutSection.tsx, HowItWorks.tsx
-    services/ ServicesSection.tsx
-    portfolio/PortfolioGrid.tsx
-    forms/    StartProjectForm.tsx
-    chat/     ChatWidget.tsx
-  data/      projects.ts, services.ts
-  server/    chat.ts, projectRequests.ts
-  styles.css (updated tokens)
-```
-
-### Notes for user
-- Project framework is TanStack Start, not Next.js — same capabilities (SSR, file routing, server functions). Delivering the requested feature set on it.
-- The AI chat will be REAL (Lovable AI Gateway, free tier) instead of mocked, with a keyword fallback.
-- Project requests stored in-memory for now — ready to upgrade to Lovable Cloud DB later.
+### ملاحظات
+- لن أحذف أي مكوّن موجود — فقط أطوّر وأضيف.
+- بعد الموافقة، سأنفذ كل شيء بالترتيب: Migration → Admin → Tracking → Polish.
+- إذا أردت لاحقاً ربط Google Analytics الحقيقي، فقط أعطني `G-XXXXXXXXXX`.
