@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StartProjectRouteImport } from './routes/start-project'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as IdeaGeneratorRouteImport } from './routes/idea-generator'
@@ -21,6 +22,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const StartProjectRoute = StartProjectRouteImport.update({
   id: '/start-project',
   path: '/start-project',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-project': typeof StartProjectRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-project': typeof StartProjectRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-project': typeof StartProjectRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/idea-generator'
     | '/portfolio'
     | '/services'
+    | '/sitemap.xml'
     | '/start-project'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/idea-generator'
     | '/portfolio'
     | '/services'
+    | '/sitemap.xml'
     | '/start-project'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/idea-generator'
     | '/portfolio'
     | '/services'
+    | '/sitemap.xml'
     | '/start-project'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   IdeaGeneratorRoute: typeof IdeaGeneratorRoute
   PortfolioRoute: typeof PortfolioRoute
   ServicesRoute: typeof ServicesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StartProjectRoute: typeof StartProjectRoute
 }
 
@@ -141,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/start-project'
       fullPath: '/start-project'
       preLoaderRoute: typeof StartProjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -203,6 +223,7 @@ const rootRouteChildren: RootRouteChildren = {
   IdeaGeneratorRoute: IdeaGeneratorRoute,
   PortfolioRoute: PortfolioRoute,
   ServicesRoute: ServicesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StartProjectRoute: StartProjectRoute,
 }
 export const routeTree = rootRouteImport
