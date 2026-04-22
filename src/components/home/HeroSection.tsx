@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
+import { trackEvent } from "@/hooks/use-track-event";
 
 export function HeroSection() {
   return (
@@ -51,6 +52,7 @@ export function HeroSection() {
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               to="/start-project"
+              onClick={() => void trackEvent("cta_click", { cta: "hero_start_project" })}
               className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-md bg-[image:var(--gradient-gold)] px-7 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.03]"
             >
               <span className="relative z-10 inline-flex items-center gap-2">
