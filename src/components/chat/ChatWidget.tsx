@@ -108,7 +108,12 @@ export function ChatWidget() {
   return (
     <>
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          setOpen((v) => {
+            if (!v) void trackEvent("chat_open");
+            return !v;
+          });
+        }}
         aria-label={open ? "Close assistant" : "Open assistant"}
         className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-105"
       >

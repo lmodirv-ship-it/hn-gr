@@ -1,8 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { useSearch } from "@tanstack/react-router";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { trackEvent } from "@/hooks/use-track-event";
 
 const projectTypes = ["Website", "E-commerce", "Platform", "Custom software", "Other"] as const;
 const budgets = [
@@ -45,9 +47,15 @@ export function StartProjectForm() {
         description: String(fd.get("description") ?? ""),
       });
       if (err) throw err;
+      void trackEvent("lead_submitted", {
+        projectType: String(fd.get("projectType") ?? ""),
+        budget: String(fd.get("budget") ?? ""),
+      });
+      toast.success("Request received — we'll be in touch within 24h.");
       setSuccess(true);
     } catch (err) {
       console.error(err);
+      toast.error("Could not send your request. Please try again.");
       setError(
         err instanceof Error
           ? err.message
