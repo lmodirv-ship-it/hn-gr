@@ -38,6 +38,7 @@ function Home() {
     <>
       <HeroSection />
       <TrustedBySection />
+      <MissionSection />
       <AboutSection />
       <ServicesSection />
       <ProcessSection />
