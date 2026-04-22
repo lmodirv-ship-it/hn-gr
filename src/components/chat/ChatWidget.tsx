@@ -2,6 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { MessageCircle, X, Send, Loader2, Sparkles, ArrowRight } from "lucide-react";
 import { sendChatMessage, type ChatSuggestion } from "@/server/chat";
+import { trackEvent } from "@/hooks/use-track-event";
+import { supabase } from "@/integrations/supabase/client";
+
+function chatSessionId(): string {
+  if (typeof window === "undefined") return "ssr";
+  let id = sessionStorage.getItem("hn_chat_session");
+  if (!id) {
+    id = `c_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+    sessionStorage.setItem("hn_chat_session", id);
+  }
+  return id;
+}
 
 type Msg =
   | { role: "user"; content: string }
@@ -48,6 +60,10 @@ export function ChatWidget() {
     setInput("");
     setBusy(true);
 
+    const sid = chatSessionId();
+    void trackEvent("chat_message_sent", { length: trimmed.length });
+    void supabase.from("chat_logs").insert({ session_id: sid, role: "user", content: trimmed });
+
     try {
       const history = next
         .filter((m) => m.role === "user" || m.role === "assistant")
@@ -59,6 +75,10 @@ export function ChatWidget() {
         ...prev,
         { role: "assistant", content: suggestion.shortSummary, suggestion },
       ]);
+      void supabase
+        .from("chat_logs")
+        .insert({ session_id: sid, role: "assistant", content: suggestion.shortSummary });
+      void trackEvent("idea_generated", { projectType: suggestion.projectType });
     } catch (err) {
       console.error(err);
       setMessages((prev) => [
@@ -88,7 +108,12 @@ export function ChatWidget() {
   return (
     <>
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          setOpen((v) => {
+            if (!v) void trackEvent("chat_open");
+            return !v;
+          });
+        }}
         aria-label={open ? "Close assistant" : "Open assistant"}
         className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-105"
       >

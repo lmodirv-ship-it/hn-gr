@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { BackgroundFX } from "@/components/effects/BackgroundFX";
 import { SoundController } from "@/components/effects/SoundController";
+import { Toaster } from "@/components/ui/sonner";
+import { PageViewTracker } from "@/hooks/use-track-event";
 
 function NotFoundComponent() {
   return (
@@ -88,6 +90,8 @@ function RootComponent() {
       <Footer />
       <ChatWidget />
       <SoundController />
+      <Toaster richColors position="top-center" />
+      <PageViewTracker />
     </div>
   );
 }
