@@ -67,6 +67,16 @@ export function StartProjectForm() {
   };
 
   if (success) {
+    const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://hn-gr.lovable.app";
+    const onShare = async () => {
+      const data = { title: "HN-GROUPE", text: "I just started a project with HN-GROUPE.", url: shareUrl };
+      if (typeof navigator !== "undefined" && navigator.share) {
+        try { await navigator.share(data); } catch { /* dismissed */ }
+      } else if (typeof navigator !== "undefined") {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Link copied to clipboard");
+      }
+    };
     return (
       <div className="rounded-2xl border border-primary/40 bg-surface/60 p-10 text-center">
         <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/15 text-primary">
@@ -77,6 +87,12 @@ export function StartProjectForm() {
           Thanks! An HN-GROUPE expert will reach out within one business day.
           {user ? " Track progress from your dashboard." : " Sign up to track its progress."}
         </p>
+        <button
+          onClick={() => void onShare()}
+          className="mt-6 inline-flex h-10 items-center rounded-md bg-[image:var(--gradient-gold)] px-5 text-sm font-semibold text-primary-foreground"
+        >
+          Share HN-GROUPE
+        </button>
       </div>
     );
   }
