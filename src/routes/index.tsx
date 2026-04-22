@@ -10,6 +10,7 @@ import { PortfolioGrid } from "@/components/portfolio/PortfolioGrid";
 import { TechStackSection } from "@/components/home/TechStackSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { HowItWorks } from "@/components/home/HowItWorks";
+import { PricingSection } from "@/components/home/PricingSection";
 import { FAQSection } from "@/components/home/FAQSection";
 import { CTASection } from "@/components/home/CTASection";
 
@@ -69,6 +70,7 @@ function Home() {
       <TechStackSection />
       <TestimonialsSection />
       <HowItWorks />
+      <PricingSection />
       <FAQSection />
       <CTASection />
     </>
