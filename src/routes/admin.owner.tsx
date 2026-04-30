@@ -17,12 +17,28 @@ import {
   Mail,
   Clock,
   ShieldAlert,
+  LayoutDashboard,
+  Briefcase,
+  Image as ImageIcon,
+  MessageSquare,
+  BarChart3,
+  Languages,
+  Settings,
+  Gauge,
+  ExternalLink,
+  Globe,
+  Copy,
+  RefreshCw,
+  Rss,
+  Sparkles,
+  Wrench,
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/owner")({
   head: () => ({
