@@ -178,6 +178,27 @@ function AdminCareersPage() {
                       {a.message}
                     </p>
                   )}
+                  {a.cv_summary ? (
+                    <div className="mt-3 rounded-lg border border-primary/30 bg-primary/5 p-3 text-xs">
+                      <div className="mb-1 inline-flex items-center gap-1.5 font-semibold uppercase tracking-wider text-primary">
+                        <Sparkles className="h-3 w-3" /> AI summary
+                      </div>
+                      <p className="text-foreground/90">{a.cv_summary}</p>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => void summarize(a.id)}
+                      disabled={summarizing === a.id}
+                      className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary hover:bg-primary/20 disabled:opacity-60"
+                    >
+                      {summarizing === a.id ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        <Sparkles className="h-3 w-3" />
+                      )}
+                      AI summary
+                    </button>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <select
