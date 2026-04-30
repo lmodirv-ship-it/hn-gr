@@ -140,13 +140,13 @@ function ConnectorsPage() {
               onClick={() => setShowAdd(false)}
               className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted/30"
             >
-              Cancel
+              {tt("common.cancel")}
             </button>
             <button
               onClick={() => void create()}
               className="rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
             >
-              Create
+              {tt("common.create")}
             </button>
           </div>
         </div>
@@ -190,7 +190,7 @@ function ConnectorsPage() {
                       : "bg-muted/30 text-muted-foreground"
                   }`}
                 >
-                  {c.enabled ? "Active" : "Off"}
+                  {c.enabled ? tt("common.active") : tt("common.off")}
                 </span>
               </div>
               {c.description && (
@@ -213,7 +213,7 @@ function ConnectorsPage() {
                     className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-border px-2 py-1.5 text-xs hover:border-primary/40"
                   >
                     <Power className="h-3.5 w-3.5" />
-                    {c.enabled ? "Disable" : "Enable"}
+                    {c.enabled ? tt("common.disable") : tt("common.enable")}
                   </button>
                   <button
                     onClick={() => void remove(c.id)}
@@ -258,13 +258,13 @@ function Field({
 }
 
 function EmptyState() {
+  const tt = useAdminT();
   return (
     <div className="grid place-items-center rounded-2xl border border-dashed border-border py-16 text-center">
       <Plug className="mb-3 h-8 w-8 text-muted-foreground" />
-      <p className="text-sm font-medium">No connectors yet</p>
+      <p className="text-sm font-medium">{tt("connectors.emptyTitle")}</p>
       <p className="mt-1 max-w-md text-xs text-muted-foreground">
-        Add an external API to start integrating. Store secret values securely via your
-        backend secret manager and reference them by name here.
+        {tt("connectors.emptyBody")}
       </p>
     </div>
   );
