@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          action: string
+          actor_email: string | null
+          created_at: string
+          id: string
+          ip_address: string | null
+          metadata: Json
+          target_id: string | null
+          target_type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          target_id?: string | null
+          target_type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          target_id?: string | null
+          target_type?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       analytics_events: {
         Row: {
           created_at: string
@@ -44,6 +80,48 @@ export type Database = {
         }
         Relationships: []
       }
+      api_connectors: {
+        Row: {
+          base_url: string | null
+          config: Json
+          created_at: string
+          description: string | null
+          enabled: boolean
+          id: string
+          name: string
+          provider: string
+          secret_name: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          base_url?: string | null
+          config?: Json
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name: string
+          provider: string
+          secret_name?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          base_url?: string | null
+          config?: Json
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name?: string
+          provider?: string
+          secret_name?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       chat_logs: {
         Row: {
           content: string
@@ -68,6 +146,72 @@ export type Database = {
           role?: string
           session_id?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      mfa_settings: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          enrolled_at: string | null
+          last_verified_at: string | null
+          method: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          enrolled_at?: string | null
+          last_verified_at?: string | null
+          method?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          enrolled_at?: string | null
+          last_verified_at?: string | null
+          method?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      plugin_modules: {
+        Row: {
+          category: string | null
+          config: Json
+          created_at: string
+          description: string | null
+          enabled: boolean
+          id: string
+          key: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          config?: Json
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          config?: Json
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key?: string
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -289,7 +433,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "client"
+      app_role: "admin" | "client" | "super_admin"
       project_status:
         | "pending"
         | "in_review"
@@ -423,7 +567,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "client"],
+      app_role: ["admin", "client", "super_admin"],
       project_status: [
         "pending",
         "in_review",
