@@ -4,6 +4,7 @@ import { Loader2, Download, Trash2, Mail, Phone, UserPlus, Sparkles } from "luci
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { generateCvSummary } from "@/server/cvSummary";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 type Status = "new" | "in_review" | "shortlisted" | "interviewed" | "hired" | "rejected";
 
@@ -21,13 +22,13 @@ interface Application {
   created_at: string;
 }
 
-const STATUS_META: Record<Status, { label: string; cls: string }> = {
-  new: { label: "New", cls: "bg-primary/15 text-primary" },
-  in_review: { label: "In Review", cls: "bg-amber-500/15 text-amber-300" },
-  shortlisted: { label: "Shortlisted", cls: "bg-violet-500/15 text-violet-300" },
-  interviewed: { label: "Interviewed", cls: "bg-cyan-500/15 text-cyan-300" },
-  hired: { label: "Hired", cls: "bg-emerald-500/15 text-emerald-300" },
-  rejected: { label: "Rejected", cls: "bg-destructive/15 text-destructive" },
+const STATUS_META: Record<Status, { labelKey: `status.${Status}`; cls: string }> = {
+  new: { labelKey: "status.new", cls: "bg-primary/15 text-primary" },
+  in_review: { labelKey: "status.in_review", cls: "bg-amber-500/15 text-amber-300" },
+  shortlisted: { labelKey: "status.shortlisted", cls: "bg-violet-500/15 text-violet-300" },
+  interviewed: { labelKey: "status.interviewed", cls: "bg-cyan-500/15 text-cyan-300" },
+  hired: { labelKey: "status.hired", cls: "bg-emerald-500/15 text-emerald-300" },
+  rejected: { labelKey: "status.rejected", cls: "bg-destructive/15 text-destructive" },
 };
 
 export const Route = createFileRoute("/admin/careers")({
@@ -35,6 +36,7 @@ export const Route = createFileRoute("/admin/careers")({
 });
 
 function AdminCareersPage() {
+  const tt = useAdminT();
   const [items, setItems] = useState<Application[] | null>(null);
   const [filter, setFilter] = useState<Status | "all">("all");
   const [summarizing, setSummarizing] = useState<string | null>(null);
@@ -46,9 +48,9 @@ function AdminCareersPage() {
       setItems((prev) =>
         (prev ?? []).map((a) => (a.id === id ? { ...a, cv_summary: summary } : a)),
       );
-      toast.success("AI summary generated");
+      toast.success(tt("careers.toast.summary"));
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Failed to generate summary";
+      const msg = e instanceof Error ? e.message : tt("careers.toast.summaryFail");
       toast.error(msg);
     } finally {
       setSummarizing(null);
@@ -82,20 +84,20 @@ function AdminCareersPage() {
   const updateStatus = async (id: string, status: Status) => {
     const { error } = await supabase.from("job_applications").update({ status }).eq("id", id);
     if (error) return toast.error(error.message);
-    toast.success("Status updated");
+    toast.success(tt("careers.toast.status"));
   };
 
   const remove = async (id: string, cv_path: string | null) => {
-    if (!confirm("Delete this application?")) return;
+    if (!confirm(tt("careers.confirm.delete"))) return;
     if (cv_path) await supabase.storage.from("cvs").remove([cv_path]);
     const { error } = await supabase.from("job_applications").delete().eq("id", id);
     if (error) return toast.error(error.message);
-    toast.success("Deleted");
+    toast.success(tt("careers.toast.deleted"));
   };
 
   const downloadCv = async (cv_path: string) => {
     const { data, error } = await supabase.storage.from("cvs").createSignedUrl(cv_path, 60);
-    if (error || !data) return toast.error(error?.message ?? "Failed");
+    if (error || !data) return toast.error(error?.message ?? tt("careers.downloadFail"));
     window.open(data.signedUrl, "_blank");
   };
 
