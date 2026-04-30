@@ -27,6 +27,21 @@ function SecurityPage() {
   } | null>(null);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pwBusy, setPwBusy] = useState(false);
+
+  const changePassword = async () => {
+    if (newPassword.length < 8) return toast.error("كلمة السر يجب أن تكون 8 أحرف على الأقل");
+    if (newPassword !== confirmPassword) return toast.error("كلمتا السر غير متطابقتين");
+    setPwBusy(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setPwBusy(false);
+    if (error) return toast.error(error.message);
+    toast.success("تم تغيير كلمة السر بنجاح");
+    setNewPassword("");
+    setConfirmPassword("");
+  };
 
   const refresh = useCallback(async () => {
     const { data, error } = await supabase.auth.mfa.listFactors();
