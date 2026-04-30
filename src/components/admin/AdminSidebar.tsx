@@ -18,8 +18,10 @@ import {
   FileText,
   UserPlus,
   Languages,
+  Crown,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Sidebar,
   SidebarContent,
@@ -41,15 +43,17 @@ interface NavItem {
   icon: typeof Briefcase;
   exact?: boolean;
   badgeKey?: "leads" | "chat" | "applications";
+  ownerOnly?: boolean;
 }
 
 const main: NavItem[] = [
   { titleKey: "admin.nav.overview", url: "/admin", icon: LayoutDashboard, exact: true },
   { titleKey: "admin.nav.leads", url: "/admin/leads", icon: Briefcase, badgeKey: "leads" },
-  { titleKey: "admin.nav.users", url: "/admin/users", icon: Users },
+  { titleKey: "admin.nav.users", url: "/admin/users", icon: Users, ownerOnly: true },
   { titleKey: "admin.nav.analytics", url: "/admin/analytics", icon: BarChart3 },
   { titleKey: "admin.nav.chat", url: "/admin/chat", icon: MessageSquare, badgeKey: "chat" },
 ];
+
 
 const content: NavItem[] = [
   { titleKey: "admin.nav.services", url: "/admin/services", icon: Wrench },
@@ -58,22 +62,25 @@ const content: NavItem[] = [
   { titleKey: "admin.nav.careers", url: "/admin/careers", icon: UserPlus, badgeKey: "applications" },
 ];
 
+// All platform items are owner-only (API hub, plugins, audit, security).
 const platform: NavItem[] = [
-  { titleKey: "admin.nav.connectors", url: "/admin/connectors", icon: Plug },
-  { titleKey: "admin.nav.plugins", url: "/admin/plugins", icon: Puzzle },
-  { titleKey: "admin.nav.monitoring", url: "/admin/monitoring", icon: Gauge },
-  { titleKey: "admin.nav.activity", url: "/admin/activity", icon: Activity },
-  { titleKey: "admin.nav.security", url: "/admin/security", icon: ShieldCheck },
+  { titleKey: "admin.nav.owner", url: "/admin/owner", icon: Crown, ownerOnly: true },
+  { titleKey: "admin.nav.connectors", url: "/admin/connectors", icon: Plug, ownerOnly: true },
+  { titleKey: "admin.nav.plugins", url: "/admin/plugins", icon: Puzzle, ownerOnly: true },
+  { titleKey: "admin.nav.monitoring", url: "/admin/monitoring", icon: Gauge, ownerOnly: true },
+  { titleKey: "admin.nav.activity", url: "/admin/activity", icon: Activity, ownerOnly: true },
+  { titleKey: "admin.nav.security", url: "/admin/security", icon: ShieldCheck, ownerOnly: true },
 ];
 
 const system: NavItem[] = [
   { titleKey: "admin.nav.translations", url: "/admin/translations", icon: Languages },
-  { titleKey: "admin.nav.settings", url: "/admin/settings", icon: Settings },
+  { titleKey: "admin.nav.settings", url: "/admin/settings", icon: Settings, ownerOnly: true },
 ];
 
 export function AdminSidebar() {
   const { t } = useTranslation();
   const { state } = useSidebar();
+  const { isSuperAdmin } = useAuth();
   const collapsed = state === "collapsed";
   const path = useRouterState({ select: (r) => r.location.pathname });
   const [badges, setBadges] = useState<{ leads: number; chat: number; applications: number }>({
@@ -105,7 +112,10 @@ export function AdminSidebar() {
   const isActive = (url: string, exact?: boolean) =>
     exact ? path === url : path === url || path.startsWith(url + "/");
 
-  const renderGroup = (label: string, items: NavItem[]) => (
+  const renderGroup = (label: string, items: NavItem[]) => {
+    const visible = items.filter((it) => !it.ownerOnly || isSuperAdmin);
+    if (visible.length === 0) return null;
+    return (
     <SidebarGroup>
       {!collapsed && (
         <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
@@ -114,7 +124,7 @@ export function AdminSidebar() {
       )}
       <SidebarGroupContent>
         <SidebarMenu className="gap-1">
-          {items.map((item) => {
+          {visible.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.url, item.exact);
             const badge = item.badgeKey ? badges[item.badgeKey] : 0;
@@ -189,7 +199,8 @@ export function AdminSidebar() {
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  );
+    );
+  };
 
   return (
     <Sidebar

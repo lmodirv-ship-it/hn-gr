@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { OwnerOnly } from "@/components/admin/OwnerOnly";
 import { useEffect, useState } from "react";
 import {
   Activity,
@@ -23,7 +24,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin/monitoring")({
-  component: MonitoringPage,
+  component: () => (<OwnerOnly><MonitoringPage /></OwnerOnly>),
 });
 
 interface Sample {

@@ -35,6 +35,7 @@ import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminSecurityRouteImport } from './routes/admin.security'
 import { Route as AdminPortfolioRouteImport } from './routes/admin.portfolio'
 import { Route as AdminPluginsRouteImport } from './routes/admin.plugins'
+import { Route as AdminOwnerRouteImport } from './routes/admin.owner'
 import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminConnectorsRouteImport } from './routes/admin.connectors'
@@ -175,6 +176,11 @@ const AdminPluginsRoute = AdminPluginsRouteImport.update({
   path: '/plugins',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminOwnerRoute = AdminOwnerRouteImport.update({
+  id: '/owner',
+  path: '/owner',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMonitoringRoute = AdminMonitoringRouteImport.update({
   id: '/monitoring',
   path: '/monitoring',
@@ -247,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/owner': typeof AdminOwnerRoute
   '/admin/plugins': typeof AdminPluginsRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/security': typeof AdminSecurityRoute
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/owner': typeof AdminOwnerRoute
   '/admin/plugins': typeof AdminPluginsRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/security': typeof AdminSecurityRoute
@@ -321,6 +329,7 @@ export interface FileRoutesById {
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/owner': typeof AdminOwnerRoute
   '/admin/plugins': typeof AdminPluginsRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/security': typeof AdminSecurityRoute
@@ -360,6 +369,7 @@ export interface FileRouteTypes {
     | '/admin/connectors'
     | '/admin/leads'
     | '/admin/monitoring'
+    | '/admin/owner'
     | '/admin/plugins'
     | '/admin/portfolio'
     | '/admin/security'
@@ -396,6 +406,7 @@ export interface FileRouteTypes {
     | '/admin/connectors'
     | '/admin/leads'
     | '/admin/monitoring'
+    | '/admin/owner'
     | '/admin/plugins'
     | '/admin/portfolio'
     | '/admin/security'
@@ -433,6 +444,7 @@ export interface FileRouteTypes {
     | '/admin/connectors'
     | '/admin/leads'
     | '/admin/monitoring'
+    | '/admin/owner'
     | '/admin/plugins'
     | '/admin/portfolio'
     | '/admin/security'
@@ -649,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPluginsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/owner': {
+      id: '/admin/owner'
+      path: '/owner'
+      fullPath: '/admin/owner'
+      preLoaderRoute: typeof AdminOwnerRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/monitoring': {
       id: '/admin/monitoring'
       path: '/monitoring'
@@ -736,6 +755,7 @@ interface AdminRouteChildren {
   AdminConnectorsRoute: typeof AdminConnectorsRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   AdminMonitoringRoute: typeof AdminMonitoringRoute
+  AdminOwnerRoute: typeof AdminOwnerRoute
   AdminPluginsRoute: typeof AdminPluginsRoute
   AdminPortfolioRoute: typeof AdminPortfolioRoute
   AdminSecurityRoute: typeof AdminSecurityRoute
@@ -755,6 +775,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminConnectorsRoute: AdminConnectorsRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   AdminMonitoringRoute: AdminMonitoringRoute,
+  AdminOwnerRoute: AdminOwnerRoute,
   AdminPluginsRoute: AdminPluginsRoute,
   AdminPortfolioRoute: AdminPortfolioRoute,
   AdminSecurityRoute: AdminSecurityRoute,
