@@ -69,12 +69,21 @@ export function Header() {
               Sign in
             </Link>
           )}
-          <Link
-            to="/start-project"
-            className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
-          >
-            Start your project
-          </Link>
+          {isAdmin ? (
+            <Link
+              to="/admin"
+              className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
+            >
+              Admin panel
+            </Link>
+          ) : (
+            <Link
+              to="/start-project"
+              className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
+            >
+              Start your project
+            </Link>
+          )}
         </div>
 
         <button
