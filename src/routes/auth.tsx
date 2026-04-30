@@ -23,10 +23,20 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [magicSent, setMagicSent] = useState(false);
+  const [rememberedEmail, setRememberedEmail] = useState("");
+  const [remember, setRemember] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = window.localStorage.getItem("hn_remember_email");
+      if (saved) setRememberedEmail(saved);
+    }
+  }, []);
 
   useEffect(() => {
     if (!authLoading && user) void navigate({ to: "/dashboard" });
   }, [user, authLoading, navigate]);
+
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,6 +48,13 @@ function AuthPage() {
     const fullName = String(fd.get("full_name") ?? "").trim();
 
     try {
+      if (typeof window !== "undefined") {
+        if (remember && email) {
+          window.localStorage.setItem("hn_remember_email", email);
+        } else if (!remember) {
+          window.localStorage.removeItem("hn_remember_email");
+        }
+      }
       if (mode === "magic") {
         const { error: err } = await supabase.auth.signInWithOtp({
           email,
@@ -121,7 +138,15 @@ function AuthPage() {
               </Field>
             )}
             <Field label="Email">
-              <input name="email" type="email" required autoComplete="email" className={inputCls} />
+              <input
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                defaultValue={rememberedEmail}
+                key={rememberedEmail}
+                className={inputCls}
+              />
             </Field>
             {mode !== "magic" && (
               <Field label="Password">
@@ -135,6 +160,22 @@ function AuthPage() {
                 />
               </Field>
             )}
+
+            <label className="flex items-center gap-2 text-xs text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => {
+                  setRemember(e.target.checked);
+                  if (!e.target.checked && typeof window !== "undefined") {
+                    window.localStorage.removeItem("hn_remember_email");
+                    setRememberedEmail("");
+                  }
+                }}
+                className="h-4 w-4 rounded border-border accent-primary"
+              />
+              Remember my email on this device
+            </label>
 
             {error && (
               <p className="rounded-md border border-destructive/40 bg-destructive/10 p-2.5 text-sm text-destructive">
