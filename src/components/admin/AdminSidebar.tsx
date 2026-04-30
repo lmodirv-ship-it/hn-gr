@@ -80,6 +80,7 @@ const system: NavItem[] = [
 export function AdminSidebar() {
   const { t } = useTranslation();
   const { state } = useSidebar();
+  const { isSuperAdmin } = useAuth();
   const collapsed = state === "collapsed";
   const path = useRouterState({ select: (r) => r.location.pathname });
   const [badges, setBadges] = useState<{ leads: number; chat: number; applications: number }>({
@@ -111,7 +112,10 @@ export function AdminSidebar() {
   const isActive = (url: string, exact?: boolean) =>
     exact ? path === url : path === url || path.startsWith(url + "/");
 
-  const renderGroup = (label: string, items: NavItem[]) => (
+  const renderGroup = (label: string, items: NavItem[]) => {
+    const visible = items.filter((it) => !it.ownerOnly || isSuperAdmin);
+    if (visible.length === 0) return null;
+    return (
     <SidebarGroup>
       {!collapsed && (
         <SidebarGroupLabel className="px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
