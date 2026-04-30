@@ -73,10 +73,13 @@ function PluginsPage() {
         </p>
       </header>
 
-      {Object.entries(groups).map(([cat, list]) => (
+      {Object.entries(groups).map(([cat, list]) => {
+        const catKey = `plugins.category.${cat}` as const;
+        const catLabel = (tt as any)(catKey) === catKey ? cat : (tt as any)(catKey);
+        return (
         <section key={cat} className="space-y-3">
           <h2 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            {cat}
+            {catLabel}
           </h2>
           <div className="grid gap-3 md:grid-cols-2">
             {list.map((p) => (
@@ -113,7 +116,8 @@ function PluginsPage() {
             ))}
           </div>
         </section>
-      ))}
+        );
+      })}
     </div>
   );
 }
