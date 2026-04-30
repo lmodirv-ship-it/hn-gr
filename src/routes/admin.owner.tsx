@@ -124,7 +124,8 @@ function OwnerCenter() {
         .order("created_at", { ascending: false })
         .limit(8),
     ]).then(([app, pub, drf, ld, adm, con, pl, ev, fl, rec]) => {
-      setStats({
+      setStats((prev) => ({
+        ...prev,
         newApplications: app.count ?? 0,
         publishedPosts: pub.count ?? 0,
         draftPosts: drf.count ?? 0,
@@ -134,7 +135,7 @@ function OwnerCenter() {
         plugins: pl.count ?? 0,
         events24h: ev.count ?? 0,
         failedLogins24h: fl.count ?? 0,
-      });
+      }));
       setRecent((rec.data as ActivityRow[]) ?? []);
       setStatsLoading(false);
     });
