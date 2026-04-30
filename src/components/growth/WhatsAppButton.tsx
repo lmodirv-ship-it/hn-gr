@@ -1,16 +1,47 @@
+import { useEffect, useState } from "react";
 import { trackEvent } from "@/hooks/use-track-event";
+import { supabase } from "@/integrations/supabase/client";
 
-const PHONE = "212668546358";
-const MSG = "Hi HN-GROUPE 👋, I'd like to discuss a project.";
+const FALLBACK_PHONE = "212668546358";
+const MSG = "Hi HN-GROUPE, I would like to discuss a project.";
+
+function normalizePhone(raw: string): string {
+  const digits = raw.replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("00")) return digits.slice(2);
+  if (digits.startsWith("0")) return "212" + digits.slice(1); // Morocco default
+  return digits;
+}
 
 export function WhatsAppButton() {
-  const href = `https://api.whatsapp.com/send?phone=${PHONE}&text=${encodeURIComponent(MSG)}&type=phone_number&app_absent=0`;
+  const [phone, setPhone] = useState<string>(FALLBACK_PHONE);
+
+  useEffect(() => {
+    let cancelled = false;
+    void supabase
+      .from("site_settings")
+      .select("value")
+      .eq("key", "contact")
+      .maybeSingle()
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        const raw = (data.value as Record<string, string> | null)?.whatsapp ?? "";
+        const norm = normalizePhone(raw);
+        if (norm) setPhone(norm);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const href = `https://wa.me/${phone}?text=${encodeURIComponent(MSG)}`;
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => void trackEvent("whatsapp_click", { source: "floating" })}
+      onClick={() => void trackEvent("whatsapp_click", { source: "floating", phone })}
       aria-label="Chat on WhatsApp"
       className="fixed bottom-24 right-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/40 transition-transform hover:scale-110 sm:bottom-28 sm:right-6"
     >
