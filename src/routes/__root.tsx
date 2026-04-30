@@ -70,8 +70,8 @@ export const Route = createRootRoute({
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "HN-GROUPE",
-          url: "https://hn-gr.lovable.app",
-          logo: "https://hn-gr.lovable.app/favicon.ico",
+          url: "https://www.groupe-hn.com",
+          logo: "https://www.groupe-hn.com/favicon.ico",
           description:
             "Digital studio building websites, e-commerce stores, and custom SaaS platforms.",
           sameAs: [],
