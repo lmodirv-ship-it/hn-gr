@@ -5,6 +5,7 @@ import { Plug, Plus, Trash2, Power, KeyRound, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 interface Connector {
   id: string;
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/admin/connectors")({
 });
 
 function ConnectorsPage() {
+  const tt = useAdminT();
   const { isSuperAdmin } = useAuth();
   const [items, setItems] = useState<Connector[] | null>(null);
   const [showAdd, setShowAdd] = useState(false);
@@ -49,7 +51,7 @@ function ConnectorsPage() {
 
   const create = async () => {
     if (!form.name || !form.provider) {
-      toast.error("Name and provider are required");
+      toast.error(tt("connectors.required"));
       return;
     }
     const { error } = await supabase.from("api_connectors").insert({
@@ -61,7 +63,7 @@ function ConnectorsPage() {
       status: "configured",
     });
     if (error) return toast.error(error.message);
-    toast.success("Connector created");
+    toast.success(tt("connectors.created"));
     setShowAdd(false);
     setForm({ name: "", provider: "", base_url: "", description: "", secret_name: "" });
     void load();
@@ -79,7 +81,7 @@ function ConnectorsPage() {
   const remove = async (id: string) => {
     const { error } = await supabase.from("api_connectors").delete().eq("id", id);
     if (error) return toast.error(error.message);
-    toast.success("Connector deleted");
+    toast.success(tt("connectors.deleted"));
     void load();
   };
 
