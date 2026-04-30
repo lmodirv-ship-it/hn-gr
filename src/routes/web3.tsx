@@ -127,7 +127,7 @@ function Hero() {
 
           {/* CTAs */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link to="/contact" className="neon-btn">
+            <Link to="/start-project" className="neon-btn">
               <Wallet className="h-4 w-4" />
               Start a project
               <ArrowRight className="h-4 w-4" />
@@ -588,7 +588,7 @@ function CTA() {
             within 48h.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link to="/contact" className="neon-btn">
+            <Link to="/start-project" className="neon-btn">
               <Wallet className="h-4 w-4" /> Connect with us
               <ArrowRight className="h-4 w-4" />
             </Link>
