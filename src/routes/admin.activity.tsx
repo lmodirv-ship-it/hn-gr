@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { OwnerOnly } from "@/components/admin/OwnerOnly";
 import { useEffect, useState } from "react";
 import { Loader2, Activity, Filter } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,7 +17,7 @@ interface Log {
 }
 
 export const Route = createFileRoute("/admin/activity")({
-  component: ActivityPage,
+  component: () => (<OwnerOnly><ActivityPage /></OwnerOnly>),
 });
 
 function ActivityPage() {

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { OwnerOnly } from "@/components/admin/OwnerOnly";
 import { useEffect, useState } from "react";
 import { Plug, Plus, Trash2, Power, KeyRound, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -18,7 +19,7 @@ interface Connector {
 }
 
 export const Route = createFileRoute("/admin/connectors")({
-  component: ConnectorsPage,
+  component: () => (<OwnerOnly><ConnectorsPage /></OwnerOnly>),
 });
 
 function ConnectorsPage() {

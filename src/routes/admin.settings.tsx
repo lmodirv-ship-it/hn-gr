@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { OwnerOnly } from "@/components/admin/OwnerOnly";
 import { useEffect, useState } from "react";
 import { Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin/settings")({
-  component: SettingsAdmin,
+  component: () => (<OwnerOnly><SettingsAdmin /></OwnerOnly>),
 });
 
 type SettingsMap = Record<string, Record<string, string>>;

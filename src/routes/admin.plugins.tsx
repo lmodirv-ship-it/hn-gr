@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { OwnerOnly } from "@/components/admin/OwnerOnly";
 import { useEffect, useState } from "react";
 import { Loader2, Puzzle } from "lucide-react";
 import { toast } from "sonner";
@@ -15,7 +16,7 @@ interface PluginModule {
 }
 
 export const Route = createFileRoute("/admin/plugins")({
-  component: PluginsPage,
+  component: () => (<OwnerOnly><PluginsPage /></OwnerOnly>),
 });
 
 function PluginsPage() {
