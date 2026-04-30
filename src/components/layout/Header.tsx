@@ -46,6 +46,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
+          <LiveStats />
           <LanguageSwitcher />
           {user ? (
             <>
