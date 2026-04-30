@@ -36,6 +36,7 @@ import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminConnectorsRouteImport } from './routes/admin.connectors'
 import { Route as AdminChatRouteImport } from './routes/admin.chat'
+import { Route as AdminCareersRouteImport } from './routes/admin.careers'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 
@@ -174,6 +175,11 @@ const AdminChatRoute = AdminChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCareersRoute = AdminCareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -204,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByTo {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -266,6 +274,7 @@ export interface FileRoutesById {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -299,6 +308,7 @@ export interface FileRouteTypes {
     | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
+    | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
     | '/admin/leads'
@@ -329,6 +339,7 @@ export interface FileRouteTypes {
     | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
+    | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
     | '/admin/leads'
@@ -360,6 +371,7 @@ export interface FileRouteTypes {
     | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
+    | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
     | '/admin/leads'
@@ -583,6 +595,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminChatRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/careers': {
+      id: '/admin/careers'
+      path: '/careers'
+      fullPath: '/admin/careers'
+      preLoaderRoute: typeof AdminCareersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/analytics': {
       id: '/admin/analytics'
       path: '/analytics'
@@ -603,6 +622,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminCareersRoute: typeof AdminCareersRoute
   AdminChatRoute: typeof AdminChatRoute
   AdminConnectorsRoute: typeof AdminConnectorsRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
@@ -619,6 +639,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminCareersRoute: AdminCareersRoute,
   AdminChatRoute: AdminChatRoute,
   AdminConnectorsRoute: AdminConnectorsRoute,
   AdminLeadsRoute: AdminLeadsRoute,
