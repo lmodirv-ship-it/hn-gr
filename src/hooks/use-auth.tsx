@@ -2,46 +2,59 @@ import { useEffect, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
+type Role = "admin" | "client" | null;
+
+async function fetchRole(userId: string): Promise<Role> {
+  const { data, error } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (error) {
+    console.error("[useAuth] role fetch error:", error);
+    return null;
+  }
+  return (data?.role as Role) ?? null;
+}
+
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<"admin" | "client" | null>(null);
+  const [role, setRole] = useState<Role>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
+    let mounted = true;
+
+    const applySession = async (s: Session | null) => {
+      if (!mounted) return;
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        // Defer role fetch to avoid deadlocks
-        setTimeout(() => {
-          void supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", s.user.id)
-            .maybeSingle()
-            .then(({ data }) => setRole((data?.role as "admin" | "client") ?? null));
-        }, 0);
+        const r = await fetchRole(s.user.id);
+        if (!mounted) return;
+        setRole(r);
       } else {
         setRole(null);
       }
+      if (mounted) setLoading(false);
+    };
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
+      // Defer async work outside the listener to avoid deadlocks
+      setTimeout(() => {
+        void applySession(s);
+      }, 0);
     });
 
     void supabase.auth.getSession().then(({ data: { session: s } }) => {
-      setSession(s);
-      setUser(s?.user ?? null);
-      setLoading(false);
-      if (s?.user) {
-        void supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", s.user.id)
-          .maybeSingle()
-          .then(({ data }) => setRole((data?.role as "admin" | "client") ?? null));
-      }
+      void applySession(s);
     });
 
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   return {
