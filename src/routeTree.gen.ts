@@ -20,6 +20,7 @@ import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as IdeaGeneratorRouteImport } from './routes/idea-generator'
 import { Route as EcommerceRouteImport } from './routes/ecommerce'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as BookCallRouteImport } from './routes/book-call'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -91,6 +92,11 @@ const EcommerceRoute = EcommerceRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookCallRoute = BookCallRouteImport.update({
@@ -184,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
+  '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
@@ -213,6 +220,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
+  '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
@@ -244,6 +252,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
+  '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/book-call'
+    | '/careers'
     | '/dashboard'
     | '/ecommerce'
     | '/idea-generator'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/book-call'
+    | '/careers'
     | '/dashboard'
     | '/ecommerce'
     | '/idea-generator'
@@ -335,6 +346,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/book-call'
+    | '/careers'
     | '/dashboard'
     | '/ecommerce'
     | '/idea-generator'
@@ -366,6 +378,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   BookCallRoute: typeof BookCallRoute
+  CareersRoute: typeof CareersRoute
   DashboardRoute: typeof DashboardRoute
   EcommerceRoute: typeof EcommerceRoute
   IdeaGeneratorRoute: typeof IdeaGeneratorRoute
@@ -456,6 +469,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book-call': {
@@ -619,6 +639,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   BookCallRoute: BookCallRoute,
+  CareersRoute: CareersRoute,
   DashboardRoute: DashboardRoute,
   EcommerceRoute: EcommerceRoute,
   IdeaGeneratorRoute: IdeaGeneratorRoute,
