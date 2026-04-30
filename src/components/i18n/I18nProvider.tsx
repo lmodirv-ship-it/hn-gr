@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { i18n, applyDocumentDirection, loadDbOverrides, getStoredLang, changeLanguage, type Lang } from "@/lib/i18n";
 
