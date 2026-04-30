@@ -222,10 +222,10 @@ export function AdminSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-1.5 py-2">
-        {renderGroup("Main", main)}
-        {renderGroup("Content", content)}
-        {renderGroup("Platform", platform)}
-        {renderGroup("System", system)}
+        {renderGroup(t("admin.group.main"), main)}
+        {renderGroup(t("admin.group.content"), content)}
+        {renderGroup(t("admin.group.platform"), platform)}
+        {renderGroup(t("admin.group.system"), system)}
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border/60 p-2">
