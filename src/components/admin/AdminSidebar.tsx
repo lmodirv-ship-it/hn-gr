@@ -163,7 +163,7 @@ export function AdminSidebar() {
                             active ? "font-medium text-foreground" : "text-muted-foreground group-hover:text-foreground"
                           }`}
                         >
-                          {item.title}
+                          {t(item.titleKey)}
                         </span>
                         {badge > 0 && (
                           <span
