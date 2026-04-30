@@ -138,7 +138,15 @@ function AuthPage() {
               </Field>
             )}
             <Field label="Email">
-              <input name="email" type="email" required autoComplete="email" className={inputCls} />
+              <input
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                defaultValue={rememberedEmail}
+                key={rememberedEmail}
+                className={inputCls}
+              />
             </Field>
             {mode !== "magic" && (
               <Field label="Password">
@@ -152,6 +160,22 @@ function AuthPage() {
                 />
               </Field>
             )}
+
+            <label className="flex items-center gap-2 text-xs text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => {
+                  setRemember(e.target.checked);
+                  if (!e.target.checked && typeof window !== "undefined") {
+                    window.localStorage.removeItem("hn_remember_email");
+                    setRememberedEmail("");
+                  }
+                }}
+                className="h-4 w-4 rounded border-border accent-primary"
+              />
+              Remember my email on this device
+            </label>
 
             {error && (
               <p className="rounded-md border border-destructive/40 bg-destructive/10 p-2.5 text-sm text-destructive">
