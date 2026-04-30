@@ -4,7 +4,7 @@ const PHONE = "212668546358";
 const MSG = "Hi HN-GROUPE 👋, I'd like to discuss a project.";
 
 export function WhatsAppButton() {
-  const href = `https://wa.me/${PHONE}?text=${encodeURIComponent(MSG)}`;
+  const href = `https://api.whatsapp.com/send?phone=${PHONE}&text=${encodeURIComponent(MSG)}&type=phone_number&app_absent=0`;
   return (
     <a
       href={href}
