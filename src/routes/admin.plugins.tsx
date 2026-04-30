@@ -116,7 +116,8 @@ function PluginsPage() {
             ))}
           </div>
         </section>
-      ))}
+        );
+      })}
     </div>
   );
 }
