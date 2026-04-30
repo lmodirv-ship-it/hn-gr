@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Loader2, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 interface ChatRow {
   id: string;
@@ -11,6 +12,7 @@ interface ChatRow {
 }
 
 export function ChatLogsTab() {
+  const tt = useAdminT();
   const [items, setItems] = useState<ChatRow[] | null>(null);
   const [openSession, setOpenSession] = useState<string | null>(null);
 
@@ -66,7 +68,7 @@ export function ChatLogsTab() {
   if (sessions.length === 0) {
     return (
       <p className="rounded-2xl border border-dashed border-border bg-surface/40 px-6 py-16 text-center text-sm text-muted-foreground">
-        No chat conversations yet.
+        {tt("chat.empty")}
       </p>
     );
   }
@@ -83,7 +85,7 @@ export function ChatLogsTab() {
             <div className="flex items-center justify-between">
               <span className="inline-flex items-center gap-1.5 text-xs text-primary">
                 <MessageSquare className="h-3.5 w-3.5" />
-                {s.count} msg
+                {s.count} {tt("chat.msg")}
               </span>
               <span className="text-xs text-muted-foreground">
                 {new Date(s.lastAt).toLocaleString()}
@@ -107,12 +109,12 @@ export function ChatLogsTab() {
             className="flex h-[80vh] w-full max-w-2xl flex-col rounded-2xl border border-border bg-surface"
           >
             <div className="flex items-center justify-between border-b border-border px-5 py-3">
-              <p className="font-display text-sm font-semibold">Conversation</p>
+              <p className="font-display text-sm font-semibold">{tt("chat.conversation")}</p>
               <button
                 onClick={() => setOpenSession(null)}
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
-                Close
+                {tt("common.close")}
               </button>
             </div>
             <div className="flex-1 space-y-3 overflow-y-auto p-5">
