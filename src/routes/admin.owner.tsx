@@ -156,11 +156,11 @@ function OwnerCenter() {
   ] as const;
 
   const sovereign = [
-    { title: t("admin.nav.users"), desc: "Add or remove sub-admins", icon: Users, to: "/admin/users", stat: stats.admins, label: "admins" },
-    { title: t("admin.nav.connectors"), desc: "API keys & webhooks", icon: Plug, to: "/admin/connectors", stat: stats.connectors, label: "connectors" },
-    { title: t("admin.nav.plugins"), desc: "Modular feature toggles", icon: Puzzle, to: "/admin/plugins", stat: stats.plugins, label: "modules" },
-    { title: t("admin.nav.activity"), desc: "Forensic audit trail", icon: Activity, to: "/admin/activity", stat: stats.events24h, label: "events / 24h" },
-    { title: t("admin.nav.security"), desc: "MFA & 2FA management", icon: ShieldCheck, to: "/admin/security", stat: null, label: "TOTP" },
+    { title: t("admin.nav.users"), desc: t("owner.tile.users.desc"), icon: Users, to: "/admin/users", stat: stats.admins, label: t("owner.tile.users.label") },
+    { title: t("admin.nav.connectors"), desc: t("owner.tile.connectors.desc"), icon: Plug, to: "/admin/connectors", stat: stats.connectors, label: t("owner.tile.connectors.label") },
+    { title: t("admin.nav.plugins"), desc: t("owner.tile.plugins.desc"), icon: Puzzle, to: "/admin/plugins", stat: stats.plugins, label: t("owner.tile.plugins.label") },
+    { title: t("admin.nav.activity"), desc: t("owner.tile.activity.desc"), icon: Activity, to: "/admin/activity", stat: stats.events24h, label: t("owner.tile.activity.label") },
+    { title: t("admin.nav.security"), desc: t("owner.tile.security.desc"), icon: ShieldCheck, to: "/admin/security", stat: null, label: t("owner.tile.security.label") },
   ] as const;
 
   return (
@@ -183,12 +183,12 @@ function OwnerCenter() {
                 {t("owner.title", "Owner Command Center")}
               </h1>
               <Badge variant="outline" className="border-primary/40 text-primary">
-                <Lock className="mr-1 h-3 w-3" /> Sovereign
+                <Lock className="mr-1 h-3 w-3" /> {t("owner.badge.sovereign")}
               </Badge>
             </div>
             <p className="mt-1 text-sm text-muted-foreground">
               {t("owner.subtitle", "Restricted to the verified owner of")}{" "}
-              <strong>www.hn-groupe.com</strong> · <span className="font-mono text-xs">{user?.email}</span>
+              <strong>www.groupe-hn.com</strong> · <span className="font-mono text-xs">{user?.email}</span>
             </p>
           </div>
           <div className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs text-amber-200">
