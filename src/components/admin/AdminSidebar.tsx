@@ -36,6 +36,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 interface NavItem {
   titleKey: string;
@@ -79,6 +80,7 @@ const system: NavItem[] = [
 
 export function AdminSidebar() {
   const { t } = useTranslation();
+  const tt = useAdminT();
   const { state } = useSidebar();
   const { isSuperAdmin } = useAuth();
   const collapsed = state === "collapsed";
@@ -225,7 +227,7 @@ export function AdminSidebar() {
                 HN-GROUPE
               </p>
               <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                Control center
+                {tt("sidebar.controlCenter")}
               </p>
             </div>
           )}
@@ -245,12 +247,12 @@ export function AdminSidebar() {
             <div className="flex items-center justify-between">
               <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_oklch(0.7_0.18_150)]" />
-                All systems normal
+                {tt("sidebar.systemsNormal")}
               </span>
               <span className="text-[10px] text-muted-foreground">v1.0</span>
             </div>
             <p className="mt-1 text-[10px] text-muted-foreground">
-              Database online · Realtime active
+              {tt("sidebar.databaseRealtime")}
             </p>
           </div>
         ) : (

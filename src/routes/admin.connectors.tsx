@@ -5,6 +5,7 @@ import { Plug, Plus, Trash2, Power, KeyRound, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 interface Connector {
   id: string;
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/admin/connectors")({
 });
 
 function ConnectorsPage() {
+  const tt = useAdminT();
   const { isSuperAdmin } = useAuth();
   const [items, setItems] = useState<Connector[] | null>(null);
   const [showAdd, setShowAdd] = useState(false);
@@ -49,7 +51,7 @@ function ConnectorsPage() {
 
   const create = async () => {
     if (!form.name || !form.provider) {
-      toast.error("Name and provider are required");
+      toast.error(tt("connectors.required"));
       return;
     }
     const { error } = await supabase.from("api_connectors").insert({
@@ -61,7 +63,7 @@ function ConnectorsPage() {
       status: "configured",
     });
     if (error) return toast.error(error.message);
-    toast.success("Connector created");
+    toast.success(tt("connectors.created"));
     setShowAdd(false);
     setForm({ name: "", provider: "", base_url: "", description: "", secret_name: "" });
     void load();
@@ -79,7 +81,7 @@ function ConnectorsPage() {
   const remove = async (id: string) => {
     const { error } = await supabase.from("api_connectors").delete().eq("id", id);
     if (error) return toast.error(error.message);
-    toast.success("Connector deleted");
+    toast.success(tt("connectors.deleted"));
     void load();
   };
 
@@ -87,10 +89,10 @@ function ConnectorsPage() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-primary">Master</p>
-          <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">API Connectors</h1>
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">{tt("section.master")}</p>
+          <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">{tt("connectors.title")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Centralized hub for external APIs, keys and endpoints. Modular by design.
+            {tt("connectors.subtitle")}
           </p>
         </div>
         {isSuperAdmin && (
@@ -98,7 +100,7 @@ function ConnectorsPage() {
             onClick={() => setShowAdd((v) => !v)}
             className="inline-flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/15 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/25"
           >
-            <Plus className="h-4 w-4" /> New connector
+            <Plus className="h-4 w-4" /> {tt("connectors.new")}
           </button>
         )}
       </header>
@@ -106,28 +108,28 @@ function ConnectorsPage() {
       {showAdd && (
         <div className="rounded-2xl border border-border bg-surface/40 p-5 backdrop-blur">
           <div className="grid gap-3 sm:grid-cols-2">
-            <Field label="Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
+            <Field label={tt("connectors.name")} value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
             <Field
-              label="Provider"
+              label={tt("connectors.provider")}
               value={form.provider}
               onChange={(v) => setForm({ ...form, provider: v })}
               placeholder="e.g. stripe, openai"
             />
             <Field
-              label="Base URL"
+              label={tt("connectors.baseUrl")}
               value={form.base_url}
               onChange={(v) => setForm({ ...form, base_url: v })}
               placeholder="https://api.example.com"
             />
             <Field
-              label="Secret name"
+              label={tt("connectors.secretName")}
               value={form.secret_name}
               onChange={(v) => setForm({ ...form, secret_name: v })}
               placeholder="STRIPE_SECRET_KEY"
             />
             <div className="sm:col-span-2">
               <Field
-                label="Description"
+                label={tt("connectors.description")}
                 value={form.description}
                 onChange={(v) => setForm({ ...form, description: v })}
               />
@@ -138,13 +140,13 @@ function ConnectorsPage() {
               onClick={() => setShowAdd(false)}
               className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted/30"
             >
-              Cancel
+              {tt("common.cancel")}
             </button>
             <button
               onClick={() => void create()}
               className="rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
             >
-              Create
+              {tt("common.create")}
             </button>
           </div>
         </div>
@@ -188,7 +190,7 @@ function ConnectorsPage() {
                       : "bg-muted/30 text-muted-foreground"
                   }`}
                 >
-                  {c.enabled ? "Active" : "Off"}
+                  {c.enabled ? tt("common.active") : tt("common.off")}
                 </span>
               </div>
               {c.description && (
@@ -211,7 +213,7 @@ function ConnectorsPage() {
                     className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-border px-2 py-1.5 text-xs hover:border-primary/40"
                   >
                     <Power className="h-3.5 w-3.5" />
-                    {c.enabled ? "Disable" : "Enable"}
+                    {c.enabled ? tt("common.disable") : tt("common.enable")}
                   </button>
                   <button
                     onClick={() => void remove(c.id)}
@@ -256,13 +258,13 @@ function Field({
 }
 
 function EmptyState() {
+  const tt = useAdminT();
   return (
     <div className="grid place-items-center rounded-2xl border border-dashed border-border py-16 text-center">
       <Plug className="mb-3 h-8 w-8 text-muted-foreground" />
-      <p className="text-sm font-medium">No connectors yet</p>
+      <p className="text-sm font-medium">{tt("connectors.emptyTitle")}</p>
       <p className="mt-1 max-w-md text-xs text-muted-foreground">
-        Add an external API to start integrating. Store secret values securely via your
-        backend secret manager and reference them by name here.
+        {tt("connectors.emptyBody")}
       </p>
     </div>
   );

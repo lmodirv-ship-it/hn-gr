@@ -12,6 +12,7 @@ import {
   Bar,
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 interface EventRow {
   event_name: string;
@@ -26,6 +27,7 @@ interface LeadRow {
 }
 
 export function AnalyticsTab() {
+  const tt = useAdminT();
   const [events, setEvents] = useState<EventRow[] | null>(null);
   const [leads, setLeads] = useState<LeadRow[]>([]);
 
@@ -120,25 +122,25 @@ export function AnalyticsTab() {
   return (
     <div className="space-y-8">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Kpi icon={<Eye className="h-5 w-5" />} label="Sessions (30d)" value={stats.sessions} />
+        <Kpi icon={<Eye className="h-5 w-5" />} label={tt("analytics.sessions")} value={stats.sessions} />
         <Kpi
           icon={<MousePointerClick className="h-5 w-5" />}
-          label="Page views"
+          label={tt("analytics.pageViews")}
           value={stats.pageViews}
         />
         <Kpi
           icon={<MessageCircle className="h-5 w-5" />}
-          label="Chat opens"
+          label={tt("analytics.chatOpens")}
           value={stats.chatOpens}
         />
         <Kpi
           icon={<Send className="h-5 w-5" />}
-          label={`Conversion (${stats.leadCount} leads)`}
+          label={tt("analytics.conversion", { count: stats.leadCount })}
           value={`${stats.conv}%`}
         />
       </div>
 
-      <Card title="Last 14 days — page views & leads">
+      <Card title={tt("analytics.last14")}>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={stats.timeline}>
@@ -179,9 +181,9 @@ export function AnalyticsTab() {
       </Card>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card title="Top pages">
+        <Card title={tt("analytics.topPages")}>
           {stats.topPages.length === 0 ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">No data yet.</p>
+            <p className="py-8 text-center text-sm text-muted-foreground">{tt("common.noData")}</p>
           ) : (
             <ul className="space-y-2">
               {stats.topPages.map((p) => (
@@ -194,9 +196,9 @@ export function AnalyticsTab() {
           )}
         </Card>
 
-        <Card title="Most requested services">
+        <Card title={tt("analytics.services")}>
           {stats.services.length === 0 ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">No leads yet.</p>
+            <p className="py-8 text-center text-sm text-muted-foreground">{tt("common.noLeads")}</p>
           ) : (
             <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
@@ -221,7 +223,7 @@ export function AnalyticsTab() {
       </div>
 
       <p className="text-xs text-muted-foreground">
-        Internal tracking — ready to plug into Google Analytics later by sending the same events to{" "}
+        {tt("analytics.note")} {" "}
         <code className="rounded bg-background/40 px-1">gtag()</code>.
       </p>
     </div>

@@ -5,6 +5,7 @@ import { Loader2, Puzzle } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 interface PluginModule {
   id: string;
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/admin/plugins")({
 });
 
 function PluginsPage() {
+  const tt = useAdminT();
   const { isSuperAdmin } = useAuth();
   const [items, setItems] = useState<PluginModule[] | null>(null);
 
@@ -43,7 +45,7 @@ function PluginsPage() {
       .update({ enabled: !p.enabled })
       .eq("id", p.id);
     if (error) return toast.error(error.message);
-    toast.success(`${p.name} ${!p.enabled ? "enabled" : "disabled"}`);
+    toast.success(`${p.name} ${!p.enabled ? tt("common.enabled") : tt("common.disabled")}`);
     void load();
   };
 
@@ -64,10 +66,10 @@ function PluginsPage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-wider text-primary">Master</p>
-        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">Plugin Manager</h1>
+        <p className="text-xs font-semibold uppercase tracking-wider text-primary">{tt("section.master")}</p>
+        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">{tt("plugins.title")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Toggle features and modules across the platform. Built for scale.
+          {tt("plugins.subtitle")}
         </p>
       </header>
 

@@ -22,6 +22,7 @@ import {
   YAxis,
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 export const Route = createFileRoute("/admin/monitoring")({
   component: () => (<OwnerOnly><MonitoringPage /></OwnerOnly>),
@@ -50,6 +51,7 @@ function genSeries(): Sample[] {
 }
 
 function MonitoringPage() {
+  const tt = useAdminT();
   const [series, setSeries] = useState<Sample[]>(() => genSeries());
   const [counts, setCounts] = useState({ events: 0, leads: 0, chat: 0 });
 
@@ -86,22 +88,22 @@ function MonitoringPage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-wider text-primary">Master</p>
-        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">System Monitoring</h1>
+        <p className="text-xs font-semibold uppercase tracking-wider text-primary">{tt("section.master")}</p>
+        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">{tt("monitoring.title")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Real-time pulse of server health, traffic and infrastructure.
+          {tt("monitoring.subtitle")}
         </p>
       </header>
 
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard icon={<Cpu className="h-4 w-4" />} label="CPU" value={`${Math.round(last.cpu)}%`} hue="cyan" />
-        <StatCard icon={<HardDrive className="h-4 w-4" />} label="Memory" value={`${Math.round(last.mem)}%`} hue="violet" />
-        <StatCard icon={<Wifi className="h-4 w-4" />} label="Req/sec" value={`${Math.round(last.rps)}`} hue="emerald" />
-        <StatCard icon={<Gauge className="h-4 w-4" />} label="Latency" value={`${Math.round(last.latency)}ms`} hue="amber" />
+        <StatCard icon={<HardDrive className="h-4 w-4" />} label={tt("monitoring.memory")} value={`${Math.round(last.mem)}%`} hue="violet" />
+        <StatCard icon={<Wifi className="h-4 w-4" />} label={tt("monitoring.reqSec")} value={`${Math.round(last.rps)}`} hue="emerald" />
+        <StatCard icon={<Gauge className="h-4 w-4" />} label={tt("monitoring.latency")} value={`${Math.round(last.latency)}ms`} hue="amber" />
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <ChartCard title="Server Load" subtitle="CPU & Memory · 30 min">
+        <ChartCard title={tt("monitoring.serverLoad")} subtitle={tt("monitoring.serverLoadSub")}>
           <ResponsiveContainer width="100%" height={240}>
             <AreaChart data={series}>
               <defs>
@@ -131,7 +133,7 @@ function MonitoringPage() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Traffic" subtitle="Requests/sec · Latency">
+        <ChartCard title={tt("monitoring.traffic")} subtitle={tt("monitoring.trafficSub")}>
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={series}>
               <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in oklab, var(--border) 60%, transparent)" />
@@ -153,9 +155,9 @@ function MonitoringPage() {
       </section>
 
       <section className="grid gap-3 sm:grid-cols-3">
-        <Service icon={<Database className="h-4 w-4" />} name="Database" status="healthy" detail={`${counts.events.toLocaleString()} events`} />
-        <Service icon={<Activity className="h-4 w-4" />} name="Realtime" status="healthy" detail={`${counts.chat.toLocaleString()} chat logs`} />
-        <Service icon={<ServerCrash className="h-4 w-4" />} name="API" status="healthy" detail={`${counts.leads.toLocaleString()} leads`} />
+        <Service icon={<Database className="h-4 w-4" />} name={tt("monitoring.database")} status="healthy" detail={`${counts.events.toLocaleString()} ${tt("monitoring.events")}`} />
+        <Service icon={<Activity className="h-4 w-4" />} name={tt("monitoring.realtime")} status="healthy" detail={`${counts.chat.toLocaleString()} ${tt("monitoring.chatLogs")}`} />
+        <Service icon={<ServerCrash className="h-4 w-4" />} name={tt("monitoring.api")} status="healthy" detail={`${counts.leads.toLocaleString()} ${tt("monitoring.leads")}`} />
       </section>
     </div>
   );
@@ -193,6 +195,7 @@ function ChartCard({
   subtitle: string;
   children: React.ReactNode;
 }) {
+  const tt = useAdminT();
   return (
     <div className="rounded-2xl border border-border bg-surface/40 p-5 backdrop-blur">
       <div className="mb-3 flex items-end justify-between">
@@ -202,7 +205,7 @@ function ChartCard({
         </div>
         <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-          Live
+          {tt("common.live")}
         </span>
       </div>
       {children}
@@ -221,6 +224,7 @@ function Service({
   status: "healthy" | "degraded" | "down";
   detail: string;
 }) {
+  const tt = useAdminT();
   const color =
     status === "healthy"
       ? "text-emerald-300 bg-emerald-500/15"
@@ -239,7 +243,7 @@ function Service({
         </div>
       </div>
       <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${color}`}>
-        {status}
+        {tt(`status.${status}` as Parameters<typeof tt>[0])}
       </span>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Loader2, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 const STATUSES = ["pending", "in_review", "active", "completed", "cancelled"] as const;
 type Status = (typeof STATUSES)[number];
@@ -18,6 +19,7 @@ interface Lead {
 }
 
 export function LeadsTab() {
+  const tt = useAdminT();
   const [items, setItems] = useState<Lead[] | null>(null);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<Status | "all">("all");
@@ -68,7 +70,7 @@ export function LeadsTab() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search name, email, description…"
+            placeholder={tt("leads.search")}
             className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-3 text-sm outline-none focus:border-primary"
           />
         </div>
@@ -77,9 +79,9 @@ export function LeadsTab() {
           onChange={(e) => setStatus(e.target.value as Status | "all")}
           className="rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
         >
-          <option value="all">All statuses</option>
+          <option value="all">{tt("leads.allStatuses")}</option>
           {STATUSES.map((s) => (
-            <option key={s}>{s}</option>
+            <option key={s} value={s}>{tt(`status.${s}` as Parameters<typeof tt>[0])}</option>
           ))}
         </select>
         <select
@@ -87,7 +89,7 @@ export function LeadsTab() {
           onChange={(e) => setType(e.target.value)}
           className="rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
         >
-          <option value="all">All types</option>
+          <option value="all">{tt("leads.allTypes")}</option>
           {types.map((t) => (
             <option key={t}>{t}</option>
           ))}
@@ -100,18 +102,18 @@ export function LeadsTab() {
         </div>
       ) : filtered.length === 0 ? (
         <p className="mt-6 rounded-2xl border border-dashed border-border bg-surface/40 px-6 py-16 text-center text-sm text-muted-foreground">
-          No matching leads.
+          {tt("leads.empty")}
         </p>
       ) : (
         <div className="mt-6 overflow-x-auto rounded-2xl border border-border">
           <table className="w-full text-sm">
             <thead className="bg-surface/60 text-left text-xs uppercase tracking-wider text-muted-foreground">
               <tr>
-                <th className="px-4 py-3">Client</th>
-                <th className="px-4 py-3">Type</th>
-                <th className="px-4 py-3">Budget</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">{tt("leads.client")}</th>
+                <th className="px-4 py-3">{tt("leads.type")}</th>
+                <th className="px-4 py-3">{tt("leads.budget")}</th>
+                <th className="px-4 py-3">{tt("leads.date")}</th>
+                <th className="px-4 py-3">{tt("leads.status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -138,7 +140,7 @@ export function LeadsTab() {
                     >
                       {STATUSES.map((s) => (
                         <option key={s} value={s}>
-                          {s.replace("_", " ")}
+                          {tt(`status.${s}` as Parameters<typeof tt>[0])}
                         </option>
                       ))}
                     </select>
@@ -159,17 +161,17 @@ export function LeadsTab() {
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-lg rounded-2xl border border-border bg-surface p-6"
           >
-            <p className="text-xs uppercase tracking-wider text-primary">Lead detail</p>
+            <p className="text-xs uppercase tracking-wider text-primary">{tt("leads.detail")}</p>
             <h3 className="mt-1 font-display text-xl font-bold">{open.full_name}</h3>
             <div className="mt-3 grid gap-2 text-sm">
-              <Row label="Email" value={open.email} />
-              <Row label="Phone" value={open.phone ?? "—"} />
-              <Row label="Type" value={open.project_type} />
-              <Row label="Budget" value={open.budget ?? "—"} />
-              <Row label="Date" value={new Date(open.created_at).toLocaleString()} />
+              <Row label={tt("leads.email")} value={open.email} />
+              <Row label={tt("leads.phone")} value={open.phone ?? "—"} />
+              <Row label={tt("leads.type")} value={open.project_type} />
+              <Row label={tt("leads.budget")} value={open.budget ?? "—"} />
+              <Row label={tt("leads.date")} value={new Date(open.created_at).toLocaleString()} />
             </div>
             <p className="mt-4 text-xs uppercase tracking-wider text-muted-foreground">
-              Description
+              {tt("leads.description")}
             </p>
             <p className="mt-1 whitespace-pre-wrap rounded-md border border-border bg-background/40 p-3 text-sm">
               {open.description}
@@ -179,7 +181,7 @@ export function LeadsTab() {
                 onClick={() => setOpen(null)}
                 className="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-background/40"
               >
-                Close
+                {tt("common.close")}
               </button>
             </div>
           </div>

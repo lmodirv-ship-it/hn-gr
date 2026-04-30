@@ -3,6 +3,7 @@ import { Loader2, Shield, ShieldOff, Crown } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 interface ProfileRow {
   id: string;
@@ -16,6 +17,7 @@ interface RoleRow {
 }
 
 export function UsersTab() {
+  const tt = useAdminT();
   const { isSuperAdmin } = useAuth();
   const [profiles, setProfiles] = useState<ProfileRow[] | null>(null);
   const [roles, setRoles] = useState<RoleRow[]>([]);
@@ -41,7 +43,7 @@ export function UsersTab() {
 
   const toggleAdmin = async (uid: string) => {
     if (isSuper(uid)) {
-      toast.error("Super admin cannot be modified");
+      toast.error(tt("users.superLocked"));
       return;
     }
     if (isAdmin(uid)) {
@@ -51,11 +53,11 @@ export function UsersTab() {
         .eq("user_id", uid)
         .eq("role", "admin");
       if (error) return toast.error(error.message);
-      toast.success("Admin removed");
+      toast.success(tt("users.adminRemoved"));
     } else {
       const { error } = await supabase.from("user_roles").insert({ user_id: uid, role: "admin" });
       if (error) return toast.error(error.message);
-      toast.success("Admin granted");
+      toast.success(tt("users.adminGranted"));
     }
     void load();
   };
@@ -73,9 +75,9 @@ export function UsersTab() {
       <table className="w-full text-sm">
         <thead className="bg-surface/60 text-left text-xs uppercase tracking-wider text-muted-foreground">
           <tr>
-            <th className="px-4 py-3">User</th>
-            <th className="px-4 py-3">Joined</th>
-            <th className="px-4 py-3">Role</th>
+            <th className="px-4 py-3">{tt("users.user")}</th>
+            <th className="px-4 py-3">{tt("users.joined")}</th>
+            <th className="px-4 py-3">{tt("users.role")}</th>
             <th className="px-4 py-3" />
           </tr>
         </thead>
@@ -98,22 +100,22 @@ export function UsersTab() {
                 <td className="px-4 py-3">
                   {sup ? (
                     <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-semibold text-amber-300">
-                      super admin
+                      {tt("role.super_admin")}
                     </span>
                   ) : admin ? (
                     <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-xs text-primary">
-                      admin
+                      {tt("role.admin")}
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 rounded-full bg-background/40 px-2 py-0.5 text-xs text-muted-foreground">
-                      client
+                      {tt("role.client")}
                     </span>
                   )}
                 </td>
                 <td className="px-4 py-3 text-right">
                   {sup ? (
                     <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Shield className="h-3.5 w-3.5" /> Protected
+                      <Shield className="h-3.5 w-3.5" /> {tt("users.protected")}
                     </span>
                   ) : (
                     <button
@@ -123,11 +125,11 @@ export function UsersTab() {
                     >
                       {admin ? (
                         <>
-                          <ShieldOff className="h-3.5 w-3.5" /> Remove admin
+                          <ShieldOff className="h-3.5 w-3.5" /> {tt("users.removeAdmin")}
                         </>
                       ) : (
                         <>
-                          <Shield className="h-3.5 w-3.5" /> Make admin
+                          <Shield className="h-3.5 w-3.5" /> {tt("users.makeAdmin")}
                         </>
                       )}
                     </button>

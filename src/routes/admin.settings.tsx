@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT, type AdminTextKey } from "@/lib/i18n/adminText";
 
 export const Route = createFileRoute("/admin/settings")({
   component: () => (<OwnerOnly><SettingsAdmin /></OwnerOnly>),
@@ -11,39 +12,40 @@ export const Route = createFileRoute("/admin/settings")({
 
 type SettingsMap = Record<string, Record<string, string>>;
 
-const SCHEMA: { key: string; label: string; fields: { name: string; label: string; type?: string }[] }[] = [
+const SCHEMA: { key: string; labelKey: AdminTextKey; fields: { name: string; labelKey: AdminTextKey; type?: string }[] }[] = [
   {
     key: "contact",
-    label: "Contact",
+    labelKey: "settings.contact",
     fields: [
-      { name: "email", label: "Email", type: "email" },
-      { name: "phone", label: "Phone" },
-      { name: "whatsapp", label: "WhatsApp link" },
-      { name: "calendly", label: "Calendly link" },
+      { name: "email", labelKey: "settings.email", type: "email" },
+      { name: "phone", labelKey: "settings.phone" },
+      { name: "whatsapp", labelKey: "settings.whatsapp" },
+      { name: "calendly", labelKey: "settings.calendly" },
     ],
   },
   {
     key: "seo",
-    label: "SEO defaults",
+    labelKey: "settings.seo",
     fields: [
-      { name: "title", label: "Default title" },
-      { name: "description", label: "Meta description" },
-      { name: "ogImage", label: "OG image URL" },
+      { name: "title", labelKey: "settings.defaultTitle" },
+      { name: "description", labelKey: "settings.metaDescription" },
+      { name: "ogImage", labelKey: "settings.ogImage" },
     ],
   },
   {
     key: "social",
-    label: "Social links",
+    labelKey: "settings.social",
     fields: [
-      { name: "instagram", label: "Instagram" },
-      { name: "linkedin", label: "LinkedIn" },
-      { name: "twitter", label: "Twitter / X" },
-      { name: "facebook", label: "Facebook" },
+      { name: "instagram", labelKey: "settings.instagram" as AdminTextKey },
+      { name: "linkedin", labelKey: "settings.linkedin" as AdminTextKey },
+      { name: "twitter", labelKey: "settings.twitter" as AdminTextKey },
+      { name: "facebook", labelKey: "settings.facebook" as AdminTextKey },
     ],
   },
 ];
 
 function SettingsAdmin() {
+  const tt = useAdminT();
   const [data, setData] = useState<SettingsMap | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
 
@@ -75,7 +77,7 @@ function SettingsAdmin() {
       .upsert({ key: groupKey, value: data[groupKey] });
     setSaving(null);
     if (error) toast.error(error.message);
-    else toast.success(`${groupKey} settings saved`);
+    else toast.success(tt("settings.saved", { group: groupKey }));
   };
 
   if (!data) {
@@ -89,22 +91,22 @@ function SettingsAdmin() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-wider text-primary">Admin</p>
-        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">Site settings</h1>
+        <p className="text-xs font-semibold uppercase tracking-wider text-primary">{tt("section.admin")}</p>
+        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">{tt("settings.title")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          General configuration used across the site (contact, SEO, social).
+          {tt("settings.subtitle")}
         </p>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-2">
         {SCHEMA.map((group) => (
           <div key={group.key} className="rounded-2xl border border-border bg-surface/40 p-5">
-            <h3 className="font-display text-sm font-semibold">{group.label}</h3>
+            <h3 className="font-display text-sm font-semibold">{tt(group.labelKey)}</h3>
             <div className="mt-4 space-y-3">
               {group.fields.map((f) => (
                 <label key={f.name} className="block">
                   <span className="mb-1 block text-[11px] uppercase tracking-wider text-muted-foreground">
-                    {f.label}
+                    {tt(f.labelKey)}
                   </span>
                   <input
                     type={f.type ?? "text"}
@@ -126,7 +128,7 @@ function SettingsAdmin() {
                 ) : (
                   <Save className="h-3.5 w-3.5" />
                 )}
-                Save {group.label.toLowerCase()}
+                {tt("settings.saveGroup", { group: tt(group.labelKey) })}
               </button>
             </div>
           </div>
