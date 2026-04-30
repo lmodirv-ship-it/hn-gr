@@ -7,13 +7,19 @@ export function Footer() {
   const { t } = useTranslation();
   const phoneHref = buildTelHref(DEFAULT_CONTACT.phone);
   const whatsappHref = buildWhatsAppUrl(DEFAULT_CONTACT.whatsapp);
+  const handleNewsletter = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const email = String(new FormData(event.currentTarget).get("email") ?? "").trim();
+    if (!email) return;
+    window.location.href = `mailto:${DEFAULT_CONTACT.email}?subject=${encodeURIComponent("Newsletter subscription")}&body=${encodeURIComponent(`Please subscribe this email: ${email}`)}`;
+  };
   return (
     <footer className="relative mt-24 border-t border-white/5 bg-background/40 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="glass mb-14 flex flex-col items-center justify-between gap-6 rounded-2xl p-8 md:flex-row">
           <div><h3 className="font-display text-2xl font-bold">{t("footer.newsletter.title")}</h3><p className="mt-1 text-sm text-muted-foreground">{t("footer.newsletter.description")}</p></div>
-          <form onSubmit={(e) => e.preventDefault()} className="flex w-full max-w-md items-center gap-2">
-            <input type="email" required placeholder={t("footer.newsletter.placeholder")} className="flex-1 rounded-md border border-border bg-background/60 px-4 py-2.5 text-sm outline-none backdrop-blur focus:border-primary" />
+          <form onSubmit={handleNewsletter} className="flex w-full max-w-md items-center gap-2">
+            <input name="email" type="email" required placeholder={t("footer.newsletter.placeholder")} className="flex-1 rounded-md border border-border bg-background/60 px-4 py-2.5 text-sm outline-none backdrop-blur focus:border-primary" />
             <button type="submit" className="inline-flex h-10 items-center gap-2 rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)]">{t("footer.newsletter.submit")}<Send className="h-4 w-4" /></button>
           </form>
         </div>
