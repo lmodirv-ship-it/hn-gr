@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { OwnerOnly } from "@/components/admin/OwnerOnly";
 import { useEffect, useState, useCallback } from "react";
-import { Shield, ShieldCheck, KeyRound, Loader2, Smartphone, Trash2 } from "lucide-react";
+import { Shield, ShieldCheck, KeyRound, Loader2, Smartphone, Trash2, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -27,6 +27,21 @@ function SecurityPage() {
   } | null>(null);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pwBusy, setPwBusy] = useState(false);
+
+  const changePassword = async () => {
+    if (newPassword.length < 8) return toast.error("كلمة السر يجب أن تكون 8 أحرف على الأقل");
+    if (newPassword !== confirmPassword) return toast.error("كلمتا السر غير متطابقتين");
+    setPwBusy(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setPwBusy(false);
+    if (error) return toast.error(error.message);
+    toast.success("تم تغيير كلمة السر بنجاح");
+    setNewPassword("");
+    setConfirmPassword("");
+  };
 
   const refresh = useCallback(async () => {
     const { data, error } = await supabase.auth.mfa.listFactors();
@@ -118,6 +133,53 @@ function SecurityPage() {
           Two-factor authentication (TOTP), role hierarchy and access controls.
         </p>
       </header>
+
+      {/* Change password — owner */}
+      <section className="rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur">
+        <div className="flex items-start gap-4">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary">
+            <Lock className="h-6 w-6" />
+          </span>
+          <div className="flex-1">
+            <h2 className="font-medium">تغيير كلمة السر / Change password</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              قم بتحديث كلمة السر لحساب المالك ({user?.email}). يجب أن تكون 8 أحرف على الأقل.
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 max-w-xl">
+              <div>
+                <label className="text-xs text-muted-foreground">كلمة السر الجديدة</label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground">تأكيد كلمة السر</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+                />
+              </div>
+            </div>
+            <button
+              onClick={() => void changePassword()}
+              disabled={pwBusy || !newPassword || !confirmPassword}
+              className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
+            >
+              {pwBusy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <KeyRound className="h-3.5 w-3.5" />}
+              تحديث كلمة السر
+            </button>
+          </div>
+        </div>
+      </section>
 
       <section className="rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur">
         <div className="flex items-start gap-4">
