@@ -40,6 +40,7 @@ import { Route as AdminCareersRouteImport } from './routes/admin.careers'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
+import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
 
 const Web3Route = Web3RouteImport.update({
   id: '/web3',
@@ -196,6 +197,11 @@ const AdminActivityRoute = AdminActivityRouteImport.update({
   path: '/activity',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminBlogRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -216,7 +222,7 @@ export interface FileRoutesByFullPath {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
-  '/admin/blog': typeof AdminBlogRoute
+  '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -248,7 +255,7 @@ export interface FileRoutesByTo {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
-  '/admin/blog': typeof AdminBlogRoute
+  '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
@@ -261,6 +268,7 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -282,7 +290,7 @@ export interface FileRoutesById {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
-  '/admin/blog': typeof AdminBlogRoute
+  '/admin/blog': typeof AdminBlogRouteWithChildren
   '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
@@ -295,6 +303,7 @@ export interface FileRoutesById {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -330,6 +339,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/users'
     | '/admin/'
+    | '/admin/blog/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -362,6 +372,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/users'
     | '/admin'
+    | '/admin/blog/$id'
   id:
     | '__root__'
     | '/'
@@ -395,6 +406,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/users'
     | '/admin/'
+    | '/admin/blog/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -635,13 +647,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/blog/$id': {
+      id: '/admin/blog/$id'
+      path: '/$id'
+      fullPath: '/admin/blog/$id'
+      preLoaderRoute: typeof AdminBlogIdRouteImport
+      parentRoute: typeof AdminBlogRoute
+    }
   }
 }
+
+interface AdminBlogRouteChildren {
+  AdminBlogIdRoute: typeof AdminBlogIdRoute
+}
+
+const AdminBlogRouteChildren: AdminBlogRouteChildren = {
+  AdminBlogIdRoute: AdminBlogIdRoute,
+}
+
+const AdminBlogRouteWithChildren = AdminBlogRoute._addFileChildren(
+  AdminBlogRouteChildren,
+)
 
 interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
-  AdminBlogRoute: typeof AdminBlogRoute
+  AdminBlogRoute: typeof AdminBlogRouteWithChildren
   AdminCareersRoute: typeof AdminCareersRoute
   AdminChatRoute: typeof AdminChatRoute
   AdminConnectorsRoute: typeof AdminConnectorsRoute
@@ -659,7 +690,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
-  AdminBlogRoute: AdminBlogRoute,
+  AdminBlogRoute: AdminBlogRouteWithChildren,
   AdminCareersRoute: AdminCareersRoute,
   AdminChatRoute: AdminChatRoute,
   AdminConnectorsRoute: AdminConnectorsRoute,
