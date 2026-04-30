@@ -1,9 +1,11 @@
-import { createFileRoute, Outlet, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Loader2, LogOut } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminBackground } from "@/components/admin/AdminBackground";
+import { AdminTopbar } from "@/components/admin/AdminTopbar";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -18,7 +20,7 @@ export const Route = createFileRoute("/admin")({
 
 function AdminLayout() {
   const navigate = useNavigate();
-  const { user, loading: authLoading, isAdmin, role, signOut } = useAuth();
+  const { user, loading: authLoading, isAdmin, role } = useAuth();
 
   useEffect(() => {
     if (authLoading) return;
@@ -28,40 +30,27 @@ function AdminLayout() {
 
   if (authLoading || !isAdmin) {
     return (
-      <div className="grid min-h-[60vh] place-items-center">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </div>
+      <>
+        <AdminBackground />
+        <div className="grid min-h-screen place-items-center">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Booting control center
+            </p>
+          </div>
+        </div>
+      </>
     );
   }
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background">
+      <AdminBackground />
+      <div className="relative flex min-h-screen w-full">
         <AdminSidebar />
-        <div className="flex flex-1 flex-col">
-          <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-2 border-b border-border bg-background/80 px-4 backdrop-blur">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger />
-              <span className="hidden text-sm text-muted-foreground sm:inline">
-                Control center
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Link
-                to="/dashboard"
-                className="hidden rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground sm:inline-block"
-              >
-                My dashboard
-              </Link>
-              <button
-                onClick={() => void signOut()}
-                className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground"
-              >
-                <LogOut className="h-3.5 w-3.5" />
-                Sign out
-              </button>
-            </div>
-          </header>
+        <div className="flex min-w-0 flex-1 flex-col">
+          <AdminTopbar />
           <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
             <Outlet />
           </main>

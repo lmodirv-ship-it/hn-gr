@@ -144,17 +144,17 @@ export function AnalyticsTab() {
             <AreaChart data={stats.timeline}>
               <defs>
                 <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="oklch(var(--primary))" stopOpacity={0.6} />
-                  <stop offset="95%" stopColor="oklch(var(--primary))" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.6} />
+                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="oklch(var(--border))" />
-              <XAxis dataKey="date" stroke="oklch(var(--muted-foreground))" fontSize={11} />
-              <YAxis stroke="oklch(var(--muted-foreground))" fontSize={11} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <XAxis dataKey="date" stroke="var(--muted-foreground)" fontSize={11} />
+              <YAxis stroke="var(--muted-foreground)" fontSize={11} />
               <Tooltip
                 contentStyle={{
-                  background: "oklch(var(--surface))",
-                  border: "1px solid oklch(var(--border))",
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
                   borderRadius: 8,
                   fontSize: 12,
                 }}
@@ -162,14 +162,14 @@ export function AnalyticsTab() {
               <Area
                 type="monotone"
                 dataKey="views"
-                stroke="oklch(var(--primary))"
+                stroke="var(--primary)"
                 fill="url(#g1)"
                 strokeWidth={2}
               />
               <Area
                 type="monotone"
                 dataKey="leads"
-                stroke="oklch(var(--accent, var(--primary)))"
+                stroke="var(--accent)"
                 fillOpacity={0}
                 strokeWidth={2}
               />
@@ -201,18 +201,18 @@ export function AnalyticsTab() {
             <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={stats.services}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="oklch(var(--border))" />
-                  <XAxis dataKey="name" stroke="oklch(var(--muted-foreground))" fontSize={11} />
-                  <YAxis stroke="oklch(var(--muted-foreground))" fontSize={11} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis dataKey="name" stroke="var(--muted-foreground)" fontSize={11} />
+                  <YAxis stroke="var(--muted-foreground)" fontSize={11} />
                   <Tooltip
                     contentStyle={{
-                      background: "oklch(var(--surface))",
-                      border: "1px solid oklch(var(--border))",
+                      background: "var(--surface)",
+                      border: "1px solid var(--border)",
                       borderRadius: 8,
                       fontSize: 12,
                     }}
                   />
-                  <Bar dataKey="count" fill="oklch(var(--primary))" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="count" fill="var(--primary)" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

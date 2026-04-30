@@ -173,7 +173,7 @@ function PortfolioAdmin() {
           ))}
         </div>
       )}
-      <style>{`.inp{width:100%;border-radius:0.5rem;border:1px solid oklch(var(--border));background:oklch(var(--background));padding:0.5rem 0.75rem;font-size:0.875rem;outline:none}.inp:focus{border-color:oklch(var(--primary))}`}</style>
+      <style>{`.inp{width:100%;border-radius:0.5rem;border:1px solid var(--border);background:var(--background);padding:0.5rem 0.75rem;font-size:0.875rem;outline:none}.inp:focus{border-color:var(--primary)}`}</style>
     </div>
   );
 }
