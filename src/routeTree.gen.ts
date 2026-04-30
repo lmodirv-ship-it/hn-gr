@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as Web3RouteImport } from './routes/web3'
 import { Route as WebDesignRouteImport } from './routes/web-design'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as StartProjectRouteImport } from './routes/start-project'
@@ -37,6 +38,11 @@ import { Route as AdminChatRouteImport } from './routes/admin.chat'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 
+const Web3Route = Web3RouteImport.update({
+  id: '/web3',
+  path: '/web3',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WebDesignRoute = WebDesignRouteImport.update({
   id: '/web-design',
   path: '/web-design',
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/chat': typeof AdminChatRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/chat': typeof AdminChatRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/chat': typeof AdminChatRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
     | '/admin/chat'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
     | '/admin/chat'
@@ -334,6 +345,7 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
     | '/admin/chat'
@@ -364,10 +376,18 @@ export interface RootRouteChildren {
   StartProjectRoute: typeof StartProjectRoute
   ThankYouRoute: typeof ThankYouRoute
   WebDesignRoute: typeof WebDesignRoute
+  Web3Route: typeof Web3Route
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/web3': {
+      id: '/web3'
+      path: '/web3'
+      fullPath: '/web3'
+      preLoaderRoute: typeof Web3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/web-design': {
       id: '/web-design'
       path: '/web-design'
@@ -609,6 +629,7 @@ const rootRouteChildren: RootRouteChildren = {
   StartProjectRoute: StartProjectRoute,
   ThankYouRoute: ThankYouRoute,
   WebDesignRoute: WebDesignRoute,
+  Web3Route: Web3Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
