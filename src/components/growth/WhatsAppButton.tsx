@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
 import { trackEvent } from "@/hooks/use-track-event";
 import { supabase } from "@/integrations/supabase/client";
-
-const FALLBACK_PHONE = "212668546358";
-const MSG = "Hi HN-GROUPE, I would like to discuss a project.";
-
-function normalizePhone(raw: string): string {
-  const digits = raw.replace(/\D/g, "");
-  if (!digits) return "";
-  if (digits.startsWith("00")) return digits.slice(2);
-  if (digits.startsWith("0")) return "212" + digits.slice(1); // Morocco default
-  return digits;
-}
+import { DEFAULT_CONTACT, buildWhatsAppUrl, normalizePhone } from "@/lib/contact-links";
 
 export function WhatsAppButton() {
-  const [phone, setPhone] = useState<string>(FALLBACK_PHONE);
+  const [phone, setPhone] = useState<string>(DEFAULT_CONTACT.whatsapp);
 
   useEffect(() => {
     let cancelled = false;
@@ -25,7 +15,8 @@ export function WhatsAppButton() {
       .maybeSingle()
       .then(({ data }) => {
         if (cancelled || !data) return;
-        const raw = (data.value as Record<string, string> | null)?.whatsapp ?? "";
+        const contact = data.value as Record<string, string> | null;
+        const raw = contact?.whatsapp || contact?.phone || "";
         const norm = normalizePhone(raw);
         if (norm) setPhone(norm);
       });
@@ -34,7 +25,7 @@ export function WhatsAppButton() {
     };
   }, []);
 
-  const href = `https://wa.me/${phone}?text=${encodeURIComponent(MSG)}`;
+  const href = buildWhatsAppUrl(phone);
 
   return (
     <a
