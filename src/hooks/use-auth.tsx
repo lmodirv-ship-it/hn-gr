@@ -3,6 +3,7 @@ import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
 type Role = "admin" | "client" | "super_admin";
+const OWNER_EMAIL = "lmdorv@gmail.com";
 
 async function fetchRoles(userId: string): Promise<Role[]> {
   const { data, error } = await supabase
@@ -55,7 +56,8 @@ export function useAuth() {
     };
   }, []);
 
-  const isSuperAdmin = roles.includes("super_admin");
+  const isOwnerEmail = user?.email?.toLowerCase() === OWNER_EMAIL;
+  const isSuperAdmin = roles.includes("super_admin") || isOwnerEmail;
   const isAdmin = isSuperAdmin || roles.includes("admin");
   const role: Role | null = isSuperAdmin
     ? "super_admin"
