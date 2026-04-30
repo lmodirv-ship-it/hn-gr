@@ -389,6 +389,99 @@ function OwnerCenter() {
         </Card>
       </div>
 
+      {/* Quick Actions — owner shortcuts */}
+      <Card className="border-border/60">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+            <Sparkles className="h-4 w-4 text-primary" />
+            {t("owner.quickActions", "Quick actions")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <a href={SITE_URL} target="_blank" rel="noopener noreferrer">
+              <Globe className="mr-1.5 h-3.5 w-3.5" />
+              {t("owner.qa.openSite", "Open site")}
+              <ExternalLink className="ml-1 h-3 w-3 opacity-60" />
+            </a>
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => copy(SITE_URL, t("owner.qa.siteUrl", "Site URL"))}>
+            <Copy className="mr-1.5 h-3.5 w-3.5" />
+            {t("owner.qa.copyUrl", "Copy site URL")}
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <a href={`${SITE_URL}/sitemap.xml`} target="_blank" rel="noopener noreferrer">
+              <FileText className="mr-1.5 h-3.5 w-3.5" />
+              {t("owner.qa.sitemap", "Sitemap")}
+            </a>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/admin/blog">
+              <Rss className="mr-1.5 h-3.5 w-3.5" />
+              {t("owner.qa.newPost", "New post")}
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/admin/services">
+              <Wrench className="mr-1.5 h-3.5 w-3.5" />
+              {t("owner.qa.editServices", "Edit services")}
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/admin/settings">
+              <Settings className="mr-1.5 h-3.5 w-3.5" />
+              {t("owner.qa.siteSettings", "Site settings")}
+            </Link>
+          </Button>
+          <Button variant="ghost" size="sm" onClick={refreshStats} className="ml-auto">
+            <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
+            {t("owner.qa.refresh", "Refresh stats")}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Full sitemap of admin pages */}
+      <Card className="border-border/60">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+            <LayoutDashboard className="h-4 w-4 text-primary" />
+            {t("owner.allPages", "All admin pages")}
+          </CardTitle>
+          <p className="text-xs text-muted-foreground">
+            {t("owner.allPagesDesc", "Direct access to every section of the dashboard.")}
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          {adminSections.map((section) => (
+            <div key={section.group}>
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {section.group}
+              </p>
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                {section.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      className="group flex items-start gap-3 rounded-lg border border-border/50 p-3 transition-all hover:border-primary/40 hover:bg-primary/5"
+                    >
+                      <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary/10 text-primary transition-transform group-hover:scale-110">
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium">{item.title}</p>
+                        <p className="truncate text-xs text-muted-foreground">{item.desc}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
       {/* Owner protection notice */}
       <Card className="border-emerald-500/20 bg-emerald-500/5">
         <CardContent className="flex flex-wrap items-center gap-3 p-4 text-sm">
