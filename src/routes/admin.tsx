@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminBackground } from "@/components/admin/AdminBackground";
 import { AdminTopbar } from "@/components/admin/AdminTopbar";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/admin")({
 });
 
 function AdminLayout() {
+  const tt = useAdminT();
   const navigate = useNavigate();
   const { user, loading: authLoading, isAdmin, role } = useAuth();
 
@@ -36,7 +38,7 @@ function AdminLayout() {
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Booting control center
+              {tt("loading.booting")}
             </p>
           </div>
         </div>
