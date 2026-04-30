@@ -124,7 +124,7 @@ export function AdminSidebar() {
       )}
       <SidebarGroupContent>
         <SidebarMenu className="gap-1">
-          {items.map((item) => {
+          {visible.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.url, item.exact);
             const badge = item.badgeKey ? badges[item.badgeKey] : 0;
@@ -199,7 +199,8 @@ export function AdminSidebar() {
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  );
+    );
+  };
 
   return (
     <Sidebar
