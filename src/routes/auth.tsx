@@ -80,7 +80,17 @@ function AuthPage() {
       }
       void navigate({ to: "/dashboard" });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Authentication failed");
+      const msg = err instanceof Error ? err.message : "Authentication failed";
+      setError(msg);
+      // Log failed sign-in attempts to the activity log (security audit trail).
+      if (mode === "signin" && email) {
+        void supabase.from("activity_logs").insert({
+          actor_email: email,
+          action: "auth.signin_failed",
+          target_type: "auth",
+          metadata: { reason: msg, mode },
+        });
+      }
     } finally {
       setBusy(false);
     }
