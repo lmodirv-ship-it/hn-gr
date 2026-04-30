@@ -67,6 +67,7 @@ export function AdminTopbar() {
 
       <div className="flex items-center gap-2">
         <CommandPalette />
+        <LanguageSwitcher variant="compact" />
 
         <span className="hidden items-center gap-2 rounded-full border border-border/60 bg-surface/40 px-3 py-1 text-[11px] tabular-nums text-muted-foreground md:inline-flex">
           <span className="relative flex h-1.5 w-1.5">
@@ -90,14 +91,14 @@ export function AdminTopbar() {
           className="hidden h-8 items-center gap-1.5 rounded-md border border-border/60 bg-surface/40 px-2.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground md:inline-flex"
         >
           <ExternalLink className="h-3.5 w-3.5" />
-          View site
+          {t("admin.topbar.viewSite")}
         </a>
 
         <Link
           to="/dashboard"
           className="hidden h-8 items-center rounded-md border border-border/60 bg-surface/40 px-2.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground lg:inline-flex"
         >
-          My dashboard
+          {t("admin.topbar.myDashboard")}
         </Link>
 
         <div className="flex items-center gap-2 rounded-full border border-border/60 bg-surface/40 py-1 pl-1 pr-2">
