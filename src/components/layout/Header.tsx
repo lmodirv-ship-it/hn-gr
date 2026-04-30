@@ -1,19 +1,22 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/use-auth";
-
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/services", label: "Services" },
-  { to: "/portfolio", label: "Portfolio" },
-  { to: "/book-call", label: "Book a call" },
-] as const;
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 export function Header() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
+
+  const links = [
+    { to: "/", label: t("nav.home"), exact: true },
+    { to: "/services", label: t("nav.services") },
+    { to: "/portfolio", label: t("nav.portfolio") },
+    { to: "/book-call", label: t("nav.bookCall") },
+  ] as const;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-background/60 backdrop-blur-2xl backdrop-saturate-150">
@@ -34,7 +37,7 @@ export function Header() {
               to={l.to}
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
               activeProps={{ className: "text-foreground font-medium" }}
-              activeOptions={{ exact: l.to === "/" }}
+              activeOptions={{ exact: l.exact }}
             >
               {l.label}
             </Link>
@@ -42,6 +45,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
+          <LanguageSwitcher />
           {user ? (
             <>
               <Link
@@ -49,14 +53,14 @@ export function Header() {
                 className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border px-3 text-sm text-muted-foreground hover:text-foreground"
               >
                 <LayoutDashboard className="h-4 w-4" />
-                Dashboard
+                {t("nav.dashboard")}
               </Link>
               <button
                 onClick={() => {
                   void signOut().then(() => navigate({ to: "/" }));
                 }}
                 className="grid h-9 w-9 place-items-center rounded-md border border-border text-muted-foreground hover:text-foreground"
-                aria-label="Sign out"
+                aria-label={t("nav.signOut")}
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -66,7 +70,7 @@ export function Header() {
               to="/auth"
               className="inline-flex h-9 items-center rounded-md border border-border px-3 text-sm text-muted-foreground hover:text-foreground"
             >
-              Sign in
+              {t("nav.signIn")}
             </Link>
           )}
           {isAdmin ? (
@@ -74,25 +78,28 @@ export function Header() {
               to="/admin"
               className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
             >
-              Admin panel
+              {t("nav.adminPanel")}
             </Link>
           ) : (
             <Link
               to="/start-project"
               className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
             >
-              Start your project
+              {t("nav.startProject")}
             </Link>
           )}
         </div>
 
-        <button
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-          className="grid h-9 w-9 place-items-center rounded-md border border-border md:hidden"
-        >
-          {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <LanguageSwitcher variant="compact" />
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle menu"
+            className="grid h-9 w-9 place-items-center rounded-md border border-border"
+          >
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -105,7 +112,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
                 activeProps={{ className: "bg-secondary text-foreground" }}
-                activeOptions={{ exact: l.to === "/" }}
+                activeOptions={{ exact: l.exact }}
               >
                 {l.label}
               </Link>
@@ -116,7 +123,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
               >
-                Dashboard
+                {t("nav.dashboard")}
               </Link>
             ) : (
               <Link
@@ -124,7 +131,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
               >
-                Sign in
+                {t("nav.signIn")}
               </Link>
             )}
             {isAdmin ? (
@@ -133,7 +140,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
               >
-                Admin panel
+                {t("nav.adminPanel")}
               </Link>
             ) : (
               <Link
@@ -141,7 +148,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
               >
-                Start your project
+                {t("nav.startProject")}
               </Link>
             )}
           </div>
