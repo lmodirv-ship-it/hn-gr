@@ -106,6 +106,12 @@ export function PricingSection() {
             >
               Start with {t.name}
             </Link>
+            <Link
+              to={t.learnMore}
+              className="mt-2 text-center text-xs text-muted-foreground hover:text-primary"
+            >
+              Learn more →
+            </Link>
           </div>
         ))}
       </div>
