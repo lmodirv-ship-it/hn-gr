@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import type { FormEvent } from "react";
 import { Linkedin, Mail, Send, MapPin, Phone, MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_CONTACT, buildTelHref, buildWhatsAppUrl } from "@/lib/contact-links";
@@ -7,7 +8,7 @@ export function Footer() {
   const { t } = useTranslation();
   const phoneHref = buildTelHref(DEFAULT_CONTACT.phone);
   const whatsappHref = buildWhatsAppUrl(DEFAULT_CONTACT.whatsapp);
-  const handleNewsletter = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleNewsletter = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = String(new FormData(event.currentTarget).get("email") ?? "").trim();
     if (!email) return;
