@@ -4,7 +4,7 @@ import { Calendar, Clock, MessageSquare } from "lucide-react";
 import { trackEvent } from "@/hooks/use-track-event";
 
 // TODO: replace with your real Calendly link
-const CALENDLY_URL = "https://calendly.com/your-handle/intro-call";
+const CALENDLY_URL = "https://calendly.com/hngroupe";
 
 export const Route = createFileRoute("/book-call")({
   head: () => ({
