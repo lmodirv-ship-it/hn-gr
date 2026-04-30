@@ -4,6 +4,7 @@ import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/use-auth";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { LiveStats } from "@/components/layout/LiveStats";
 
 export function Header() {
   const { t } = useTranslation();
