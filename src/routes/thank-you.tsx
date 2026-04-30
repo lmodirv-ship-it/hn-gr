@@ -51,7 +51,7 @@ function ThankYouPage() {
       </div>
 
       <p className="mt-10 text-xs text-muted-foreground">
-        Tip: add <span className="text-foreground">hello@hn-groupe.com</span> to your contacts so our reply doesn't land in spam.
+        Tip: add <span className="text-foreground">lmodirv@gmail.com</span> to your contacts so our reply doesn't land in spam.
       </p>
     </div>
   );

@@ -1,6 +1,6 @@
 import { trackEvent } from "@/hooks/use-track-event";
 
-const PHONE = "212600000000"; // TODO: replace with real WhatsApp number
+const PHONE = "212668546358";
 const MSG = "Hi HN-GROUPE 👋, I'd like to discuss a project.";
 
 export function WhatsAppButton() {

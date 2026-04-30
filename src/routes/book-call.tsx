@@ -69,7 +69,7 @@ function BookCallPage() {
       </div>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
-        Can't find a time? <a href="mailto:hello@hn-groupe.com" className="text-primary underline">Email us</a> directly.
+        Can't find a time? <a href="mailto:lmodirv@gmail.com" className="text-primary underline">Email us</a> directly.
       </p>
     </div>
   );

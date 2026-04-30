@@ -93,7 +93,7 @@ export function Footer() {
             <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <Mail className="mt-0.5 h-4 w-4 text-primary" />
-                <span>hello@hn-groupe.com</span>
+                <a href="mailto:lmodirv@gmail.com" className="hover:text-primary">lmodirv@gmail.com</a>
               </li>
               <li className="flex items-start gap-2">
                 <Phone className="mt-0.5 h-4 w-4 text-primary" />
