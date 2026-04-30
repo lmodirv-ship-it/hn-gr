@@ -27,6 +27,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
@@ -133,6 +134,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
+} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -218,7 +224,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -241,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
 }
@@ -252,7 +259,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -275,6 +282,7 @@ export interface FileRoutesByTo {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
 }
@@ -288,7 +296,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -311,6 +319,7 @@ export interface FileRoutesById {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
 }
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
+    | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -382,6 +392,7 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
+    | '/insights/$slug'
     | '/admin'
     | '/admin/blog/$id'
   id:
@@ -417,6 +428,7 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
+    | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
   fileRoutesById: FileRoutesById
@@ -430,7 +442,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   EcommerceRoute: typeof EcommerceRoute
   IdeaGeneratorRoute: typeof IdeaGeneratorRoute
-  InsightsRoute: typeof InsightsRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
   PortfolioRoute: typeof PortfolioRoute
   SaasRoute: typeof SaasRoute
   ServicesRoute: typeof ServicesRoute
@@ -568,6 +580,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
     }
     '/admin/users': {
       id: '/admin/users'
@@ -727,6 +746,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
@@ -736,7 +767,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   EcommerceRoute: EcommerceRoute,
   IdeaGeneratorRoute: IdeaGeneratorRoute,
-  InsightsRoute: InsightsRoute,
+  InsightsRoute: InsightsRouteWithChildren,
   PortfolioRoute: PortfolioRoute,
   SaasRoute: SaasRoute,
   ServicesRoute: ServicesRoute,
