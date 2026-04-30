@@ -379,6 +379,16 @@ const adminText = {
     "translations.exists": "المفتاح موجود مسبقاً",
     "translations.saved": "تم الحفظ",
     "translations.empty": "لا توجد مفاتيح تطابق البحث.",
+    "plugins.category.general": "عام",
+    "plugins.category.communication": "التواصل",
+    "plugins.category.analytics": "التحليلات",
+    "plugins.category.content": "المحتوى",
+    "plugins.category.commerce": "التجارة",
+    "plugins.category.security": "الأمان",
+    "plugins.category.integration": "التكاملات",
+    "plugins.category.ai": "الذكاء الاصطناعي",
+    "plugins.category.marketing": "التسويق",
+    "plugins.category.automation": "الأتمتة",
   },
 } as const;
 
