@@ -54,13 +54,6 @@ const main: NavItem[] = [
   { titleKey: "admin.nav.chat", url: "/admin/chat", icon: MessageSquare, badgeKey: "chat" },
 ];
 
-const main: NavItem[] = [
-  { titleKey: "admin.nav.overview", url: "/admin", icon: LayoutDashboard, exact: true },
-  { titleKey: "admin.nav.leads", url: "/admin/leads", icon: Briefcase, badgeKey: "leads" },
-  { titleKey: "admin.nav.users", url: "/admin/users", icon: Users },
-  { titleKey: "admin.nav.analytics", url: "/admin/analytics", icon: BarChart3 },
-  { titleKey: "admin.nav.chat", url: "/admin/chat", icon: MessageSquare, badgeKey: "chat" },
-];
 
 const content: NavItem[] = [
   { titleKey: "admin.nav.services", url: "/admin/services", icon: Wrench },
