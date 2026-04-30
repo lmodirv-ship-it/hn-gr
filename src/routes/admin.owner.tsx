@@ -334,7 +334,7 @@ function OwnerCenter() {
           <span className="flex-1">
             <strong>{t("owner.protection.title", "Hardcoded protection active.")}</strong>{" "}
             {t("owner.protection.body", "The owner account")}{" "}
-            <code className="rounded bg-background/60 px-1.5 py-0.5 text-xs">lmodirv@gmail.com</code>{" "}
+            <code className="rounded bg-background/60 px-1.5 py-0.5 text-xs">lmdorv@gmail.com</code>{" "}
             {t(
               "owner.protection.tail",
               "cannot be deleted, modified, or demoted by any other user — enforced at the database trigger level.",
