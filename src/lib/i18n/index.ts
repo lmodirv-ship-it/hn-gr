@@ -33,6 +33,15 @@ if (!i18n.isInitialized) {
     interpolation: { escapeValue: false },
     returnNull: false,
   });
+} else {
+  // Re-merge seed bundles on every module evaluation so HMR / new keys
+  // added in code are always present at runtime (deep merge, overwrite).
+  for (const lang of SUPPORTED_LANGS) {
+    const bundle = (seedResources as Record<string, { translation: Record<string, string> }>)[lang];
+    if (bundle?.translation) {
+      i18n.addResourceBundle(lang, "translation", bundle.translation, true, true);
+    }
+  }
 }
 
 export function applyDocumentDirection(lang: Lang) {
