@@ -195,6 +195,7 @@ function ChartCard({
   subtitle: string;
   children: React.ReactNode;
 }) {
+  const tt = useAdminT();
   return (
     <div className="rounded-2xl border border-border bg-surface/40 p-5 backdrop-blur">
       <div className="mb-3 flex items-end justify-between">
@@ -204,7 +205,7 @@ function ChartCard({
         </div>
         <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-          Live
+          {tt("common.live")}
         </span>
       </div>
       {children}
@@ -223,6 +224,7 @@ function Service({
   status: "healthy" | "degraded" | "down";
   detail: string;
 }) {
+  const tt = useAdminT();
   const color =
     status === "healthy"
       ? "text-emerald-300 bg-emerald-500/15"
@@ -241,7 +243,7 @@ function Service({
         </div>
       </div>
       <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${color}`}>
-        {status}
+        {tt(`status.${status}` as Parameters<typeof tt>[0])}
       </span>
     </div>
   );
