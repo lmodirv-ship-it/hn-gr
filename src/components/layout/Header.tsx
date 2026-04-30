@@ -127,13 +127,23 @@ export function Header() {
                 Sign in
               </Link>
             )}
-            <Link
-              to="/start-project"
-              onClick={() => setOpen(false)}
-              className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
-            >
-              Start your project
-            </Link>
+            {isAdmin ? (
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
+              >
+                Admin panel
+              </Link>
+            ) : (
+              <Link
+                to="/start-project"
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
+              >
+                Start your project
+              </Link>
+            )}
           </div>
         </div>
       )}
