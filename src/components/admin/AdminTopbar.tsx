@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { LogOut, Bell, ChevronRight, ExternalLink } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CommandPalette } from "./CommandPalette";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { useAuth } from "@/hooks/use-auth";
 
 const LABELS: Record<string, string> = {
@@ -17,6 +19,7 @@ const LABELS: Record<string, string> = {
 };
 
 export function AdminTopbar() {
+  const { t } = useTranslation();
   const { user, signOut } = useAuth();
   const path = useRouterState({ select: (r) => r.location.pathname });
   const segments = path.split("/").filter(Boolean);
