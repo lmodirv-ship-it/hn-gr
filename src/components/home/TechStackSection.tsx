@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 const stack = [
-  { name: "React", category: "Frontend" }, { name: "TypeScript", category: "Language" }, { name: "TanStack", category: "Routing" }, { name: "Tailwind", category: "Styling" }, { name: "Lovable Cloud", category: "Backend" }, { name: "PostgreSQL", category: "Database" }, { name: "Stripe", category: "Payments" }, { name: "Vercel", category: "Hosting" }, { name: "OpenAI", category: "AI" }, { name: "Cloudflare", category: "Edge" }, { name: "Figma", category: "Design" }, { name: "Framer Motion", category: "Motion" },
+  { name: "React", category: "Frontend" }, { name: "TypeScript", category: "Language" }, { name: "TanStack", category: "Routing" }, { name: "Tailwind", category: "Styling" }, { name: "Supabase", category: "Backend" }, { name: "PostgreSQL", category: "Database" }, { name: "Stripe", category: "Payments" }, { name: "Vercel", category: "Hosting" }, { name: "OpenAI", category: "AI" }, { name: "Cloudflare", category: "Edge" }, { name: "Figma", category: "Design" }, { name: "Framer Motion", category: "Motion" },
 ];
 
 export function TechStackSection() {
