@@ -25,9 +25,10 @@ export function getStoredLang(): Lang {
 }
 
 if (!i18n.isInitialized) {
-  void i18n.use(initReactI18next).init({
+  // Synchronous init so the first render uses the seed bundles.
+  i18n.use(initReactI18next).init({
     resources: seedResources as unknown as Record<string, { translation: Record<string, string> }>,
-    lng: detectInitialLang(),
+    lng: "en",
     fallbackLng: "en",
     supportedLngs: [...SUPPORTED_LANGS],
     interpolation: { escapeValue: false },
@@ -41,9 +42,6 @@ if (!i18n.isInitialized) {
     if (bundle?.translation) {
       i18n.addResourceBundle(lang, "translation", bundle.translation, true, true);
     }
-  }
-  if (typeof window !== "undefined" && i18n.language !== "en") {
-    void i18n.changeLanguage("en");
   }
 }
 
