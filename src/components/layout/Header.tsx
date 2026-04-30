@@ -7,8 +7,7 @@ const links = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
   { to: "/portfolio", label: "Portfolio" },
-  { to: "/idea-generator", label: "AI Ideas" },
-  { to: "/start-project", label: "Contact" },
+  { to: "/book-call", label: "Book a call" },
 ] as const;
 
 export function Header() {
