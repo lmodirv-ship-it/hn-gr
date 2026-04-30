@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { i18n, applyDocumentDirection, loadDbOverrides, getStoredLang, changeLanguage, type Lang } from "@/lib/i18n";
 
@@ -14,33 +14,40 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
  */
 export function I18nDirectionEffect() {
   const { i18n: i } = useTranslation();
-  const [hydrated, setHydrated] = useState(false);
 
-  // Mark hydration complete after first paint.
+  // Apply stored language only AFTER hydration is fully complete.
+  // We wait for two animation frames + a small delay to guarantee React
+  // has finished hydration reconciliation before swapping any text.
   useEffect(() => {
-    setHydrated(true);
-  }, []);
-
-  // Once hydrated, apply the stored language preference after the browser has painted
-  // the server-rendered English tree. This prevents text swaps during hydration.
-  useEffect(() => {
-    if (!hydrated) return;
-    const timer = window.setTimeout(() => {
+    let cancelled = false;
+    const apply = () => {
+      if (cancelled) return;
       const stored = getStoredLang();
       if (stored !== i.language) {
         void changeLanguage(stored);
       } else {
         applyDocumentDirection(i.language as Lang);
       }
-    }, 0);
-    return () => window.clearTimeout(timer);
+    };
+    // Double-RAF ensures hydration commit has flushed
+    const raf1 = requestAnimationFrame(() => {
+      const raf2 = requestAnimationFrame(() => {
+        // Extra timeout for safety on slow devices
+        setTimeout(apply, 50);
+      });
+      // store inner raf for cleanup via closure
+      (apply as any)._raf2 = raf2;
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf1);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hydrated]);
+  }, []);
 
   useEffect(() => {
-    if (!hydrated) return;
     applyDocumentDirection(i.language as Lang);
-  }, [i.language, hydrated]);
+  }, [i.language]);
 
   useEffect(() => {
     void loadDbOverrides();

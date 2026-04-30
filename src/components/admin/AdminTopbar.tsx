@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LogOut, Bell, ChevronRight, ExternalLink } from "lucide-react";
+import { LogOut, ChevronRight, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CommandPalette } from "./CommandPalette";
+import { NotificationsBell } from "./NotificationsBell";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -77,12 +78,7 @@ export function AdminTopbar() {
           {now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
         </span>
 
-        <button
-          aria-label="Notifications"
-          className="hidden h-8 w-8 items-center justify-center rounded-md border border-border/60 bg-surface/40 text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground sm:inline-flex"
-        >
-          <Bell className="h-4 w-4" />
-        </button>
+        <NotificationsBell />
 
         <a
           href="/"
