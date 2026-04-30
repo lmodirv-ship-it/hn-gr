@@ -11,6 +11,7 @@ import { PageViewTracker } from "@/hooks/use-track-event";
 import { WhatsAppButton } from "@/components/growth/WhatsAppButton";
 import { StickyCTA } from "@/components/growth/StickyCTA";
 import { ExitIntentModal } from "@/components/growth/ExitIntentModal";
+import { I18nProvider, I18nDirectionEffect } from "@/components/i18n/I18nProvider";
 
 function NotFoundComponent() {
   return (
@@ -85,11 +86,11 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <Scripts />
       </body>
@@ -103,29 +104,35 @@ function RootComponent() {
 
   if (isAdmin) {
     return (
-      <div className="relative min-h-screen">
-        <Outlet />
-        <Toaster richColors position="top-center" />
-        <PageViewTracker />
-      </div>
+      <I18nProvider>
+        <I18nDirectionEffect />
+        <div className="relative min-h-screen">
+          <Outlet />
+          <Toaster richColors position="top-center" />
+          <PageViewTracker />
+        </div>
+      </I18nProvider>
     );
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col">
-      <BackgroundFX />
-      <Header />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-      <ChatWidget />
-      <WhatsAppButton />
-      <StickyCTA />
-      <ExitIntentModal />
-      <SoundController />
-      <Toaster richColors position="top-center" />
-      <PageViewTracker />
-    </div>
+    <I18nProvider>
+      <I18nDirectionEffect />
+      <div className="relative flex min-h-screen flex-col">
+        <BackgroundFX />
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+        <ChatWidget />
+        <WhatsAppButton />
+        <StickyCTA />
+        <ExitIntentModal />
+        <SoundController />
+        <Toaster richColors position="top-center" />
+        <PageViewTracker />
+      </div>
+    </I18nProvider>
   );
 }

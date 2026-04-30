@@ -17,7 +17,9 @@ import {
   Gauge,
   FileText,
   UserPlus,
+  Languages,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
   Sidebar,
   SidebarContent,
@@ -34,7 +36,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 
 interface NavItem {
-  title: string;
+  titleKey: string;
   url: string;
   icon: typeof Briefcase;
   exact?: boolean;
@@ -42,31 +44,35 @@ interface NavItem {
 }
 
 const main: NavItem[] = [
-  { title: "Overview", url: "/admin", icon: LayoutDashboard, exact: true },
-  { title: "Leads", url: "/admin/leads", icon: Briefcase, badgeKey: "leads" },
-  { title: "Users", url: "/admin/users", icon: Users },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
-  { title: "Chat logs", url: "/admin/chat", icon: MessageSquare, badgeKey: "chat" },
+  { titleKey: "admin.nav.overview", url: "/admin", icon: LayoutDashboard, exact: true },
+  { titleKey: "admin.nav.leads", url: "/admin/leads", icon: Briefcase, badgeKey: "leads" },
+  { titleKey: "admin.nav.users", url: "/admin/users", icon: Users },
+  { titleKey: "admin.nav.analytics", url: "/admin/analytics", icon: BarChart3 },
+  { titleKey: "admin.nav.chat", url: "/admin/chat", icon: MessageSquare, badgeKey: "chat" },
 ];
 
 const content: NavItem[] = [
-  { title: "Services", url: "/admin/services", icon: Wrench },
-  { title: "Portfolio", url: "/admin/portfolio", icon: ImageIcon },
-  { title: "Blog", url: "/admin/blog", icon: FileText },
-  { title: "Careers", url: "/admin/careers", icon: UserPlus, badgeKey: "applications" },
+  { titleKey: "admin.nav.services", url: "/admin/services", icon: Wrench },
+  { titleKey: "admin.nav.portfolio", url: "/admin/portfolio", icon: ImageIcon },
+  { titleKey: "admin.nav.blog", url: "/admin/blog", icon: FileText },
+  { titleKey: "admin.nav.careers", url: "/admin/careers", icon: UserPlus, badgeKey: "applications" },
 ];
 
 const platform: NavItem[] = [
-  { title: "API Connectors", url: "/admin/connectors", icon: Plug },
-  { title: "Plugins", url: "/admin/plugins", icon: Puzzle },
-  { title: "Monitoring", url: "/admin/monitoring", icon: Gauge },
-  { title: "Activity", url: "/admin/activity", icon: Activity },
-  { title: "Security", url: "/admin/security", icon: ShieldCheck },
+  { titleKey: "admin.nav.connectors", url: "/admin/connectors", icon: Plug },
+  { titleKey: "admin.nav.plugins", url: "/admin/plugins", icon: Puzzle },
+  { titleKey: "admin.nav.monitoring", url: "/admin/monitoring", icon: Gauge },
+  { titleKey: "admin.nav.activity", url: "/admin/activity", icon: Activity },
+  { titleKey: "admin.nav.security", url: "/admin/security", icon: ShieldCheck },
 ];
 
-const system: NavItem[] = [{ title: "Settings", url: "/admin/settings", icon: Settings }];
+const system: NavItem[] = [
+  { titleKey: "admin.nav.translations", url: "/admin/translations", icon: Languages },
+  { titleKey: "admin.nav.settings", url: "/admin/settings", icon: Settings },
+];
 
 export function AdminSidebar() {
+  const { t } = useTranslation();
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const path = useRouterState({ select: (r) => r.location.pathname });
@@ -157,7 +163,7 @@ export function AdminSidebar() {
                             active ? "font-medium text-foreground" : "text-muted-foreground group-hover:text-foreground"
                           }`}
                         >
-                          {item.title}
+                          {t(item.titleKey)}
                         </span>
                         {badge > 0 && (
                           <span
@@ -216,10 +222,10 @@ export function AdminSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-1.5 py-2">
-        {renderGroup("Main", main)}
-        {renderGroup("Content", content)}
-        {renderGroup("Platform", platform)}
-        {renderGroup("System", system)}
+        {renderGroup(t("admin.group.main"), main)}
+        {renderGroup(t("admin.group.content"), content)}
+        {renderGroup(t("admin.group.platform"), platform)}
+        {renderGroup(t("admin.group.system"), system)}
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border/60 p-2">

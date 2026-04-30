@@ -70,7 +70,7 @@ export const Route = createFileRoute("/insights/$slug")({
         { name: "keywords", content: (post.tags ?? []).join(", ") },
         { name: "author", content: post.author_name ?? "HN-GROUPE" },
         { property: "article:published_time", content: post.published_at ?? "" },
-        ...((post.tags ?? []).map((t) => ({ property: "article:tag", content: t }))),
+        ...((post.tags ?? []).map((t: string) => ({ property: "article:tag", content: t }))),
         ...(post.category ? [{ property: "article:section", content: post.category }] : []),
         // Open Graph
         { property: "og:type", content: "article" },
@@ -150,7 +150,7 @@ function PostPage() {
 
       {post.tags.length > 0 && (
         <div className="mt-10 flex flex-wrap gap-2 border-t border-border pt-6">
-          {post.tags.map((t) => (
+          {post.tags.map((t: string) => (
             <span
               key={t}
               className="rounded-full bg-muted/40 px-3 py-1 text-xs text-muted-foreground"
