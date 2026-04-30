@@ -124,6 +124,7 @@ export const seedResources = {
       "admin.nav.portfolio": "الأعمال",
       "admin.nav.blog": "المدونة",
       "admin.nav.careers": "التوظيف",
+      "admin.nav.owner": "مركز قيادة المالك",
       "admin.nav.connectors": "روابط API",
       "admin.nav.plugins": "الإضافات",
       "admin.nav.monitoring": "المراقبة",
