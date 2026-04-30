@@ -62,6 +62,7 @@ export const seedResources = {
       "admin.nav.portfolio": "Portfolio",
       "admin.nav.blog": "Blog",
       "admin.nav.careers": "Careers",
+      "admin.nav.owner": "Owner Center",
       "admin.nav.connectors": "API Connectors",
       "admin.nav.plugins": "Plugins",
       "admin.nav.monitoring": "Monitoring",
