@@ -23,10 +23,20 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [magicSent, setMagicSent] = useState(false);
+  const [rememberedEmail, setRememberedEmail] = useState("");
+  const [remember, setRemember] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = window.localStorage.getItem("hn_remember_email");
+      if (saved) setRememberedEmail(saved);
+    }
+  }, []);
 
   useEffect(() => {
     if (!authLoading && user) void navigate({ to: "/dashboard" });
   }, [user, authLoading, navigate]);
+
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
