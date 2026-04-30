@@ -193,8 +193,8 @@ export const seedResources = {
       "footer.aiIdeas": "AI Ideas",
       "footer.clientLogin": "Client login",
       "footer.location": "Remote · Casablanca · Paris",
-      "footer.copyright": "© {{year}} HN-GROUPE. Crafted with obsession.",
-      "footer.built": "Built to last.",
+      "footer.copyright": "© {{year}} HN-GROUPE. All rights reserved.",
+      "footer.built": "Created by Groupe-HN",
 
       // Sections
       "section.about": "About Us",
@@ -457,8 +457,8 @@ export const seedResources = {
       "footer.aiIdeas": "أفكار AI",
       "footer.clientLogin": "دخول العميل",
       "footer.location": "عن بُعد · الدار البيضاء · باريس",
-      "footer.copyright": "© {{year}} HN-GROUPE. صُنع بشغف.",
-      "footer.built": "مبني ليدوم.",
+      "footer.copyright": "© {{year}} HN-GROUPE. جميع الحقوق محفوظة.",
+      "footer.built": "Created by Groupe-HN",
 
       "section.about": "من نحن",
       "section.services": "خدماتنا",
