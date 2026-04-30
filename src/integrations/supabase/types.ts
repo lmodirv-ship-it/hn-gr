@@ -122,6 +122,57 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_posts: {
+        Row: {
+          author_id: string | null
+          author_name: string | null
+          category: string | null
+          content: string
+          cover_url: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          published_at: string | null
+          slug: string
+          status: Database["public"]["Enums"]["post_status"]
+          tags: Json
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          author_name?: string | null
+          category?: string | null
+          content?: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published_at?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["post_status"]
+          tags?: Json
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          author_name?: string | null
+          category?: string | null
+          content?: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published_at?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["post_status"]
+          tags?: Json
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       chat_logs: {
         Row: {
           content: string
@@ -146,6 +197,48 @@ export type Database = {
           role?: string
           session_id?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      job_applications: {
+        Row: {
+          created_at: string
+          cv_path: string | null
+          email: string
+          full_name: string
+          id: string
+          message: string | null
+          notes: string | null
+          phone: string | null
+          specialty: string
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          cv_path?: string | null
+          email: string
+          full_name: string
+          id?: string
+          message?: string | null
+          notes?: string | null
+          phone?: string | null
+          specialty: string
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          cv_path?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+          notes?: string | null
+          phone?: string | null
+          specialty?: string
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
         }
         Relationships: []
       }
@@ -434,6 +527,14 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "client" | "super_admin"
+      application_status:
+        | "new"
+        | "in_review"
+        | "shortlisted"
+        | "interviewed"
+        | "hired"
+        | "rejected"
+      post_status: "draft" | "published" | "scheduled"
       project_status:
         | "pending"
         | "in_review"
@@ -568,6 +669,15 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "client", "super_admin"],
+      application_status: [
+        "new",
+        "in_review",
+        "shortlisted",
+        "interviewed",
+        "hired",
+        "rejected",
+      ],
+      post_status: ["draft", "published", "scheduled"],
       project_status: [
         "pending",
         "in_review",

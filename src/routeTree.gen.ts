@@ -17,14 +17,17 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SaasRouteImport } from './routes/saas'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as IdeaGeneratorRouteImport } from './routes/idea-generator'
 import { Route as EcommerceRouteImport } from './routes/ecommerce'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as BookCallRouteImport } from './routes/book-call'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
@@ -35,8 +38,11 @@ import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminConnectorsRouteImport } from './routes/admin.connectors'
 import { Route as AdminChatRouteImport } from './routes/admin.chat'
+import { Route as AdminCareersRouteImport } from './routes/admin.careers'
+import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
+import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
 
 const Web3Route = Web3RouteImport.update({
   id: '/web3',
@@ -78,6 +84,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IdeaGeneratorRoute = IdeaGeneratorRouteImport.update({
   id: '/idea-generator',
   path: '/idea-generator',
@@ -91,6 +102,11 @@ const EcommerceRoute = EcommerceRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookCallRoute = BookCallRouteImport.update({
@@ -117,6 +133,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -168,6 +189,16 @@ const AdminChatRoute = AdminChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCareersRoute = AdminCareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogRoute = AdminBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -178,15 +209,22 @@ const AdminActivityRoute = AdminActivityRouteImport.update({
   path: '/activity',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminBlogRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
+  '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -197,6 +235,8 @@ export interface FileRoutesByFullPath {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/blog': typeof AdminBlogRouteWithChildren
+  '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -207,15 +247,19 @@ export interface FileRoutesByFullPath {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
+  '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -226,6 +270,8 @@ export interface FileRoutesByTo {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/blog': typeof AdminBlogRouteWithChildren
+  '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -236,7 +282,9 @@ export interface FileRoutesByTo {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -244,9 +292,11 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
+  '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -257,6 +307,8 @@ export interface FileRoutesById {
   '/web3': typeof Web3Route
   '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/blog': typeof AdminBlogRouteWithChildren
+  '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -267,7 +319,9 @@ export interface FileRoutesById {
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -276,9 +330,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/book-call'
+    | '/careers'
     | '/dashboard'
     | '/ecommerce'
     | '/idea-generator'
+    | '/insights'
     | '/portfolio'
     | '/saas'
     | '/services'
@@ -289,6 +345,8 @@ export interface FileRouteTypes {
     | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
+    | '/admin/blog'
+    | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
     | '/admin/leads'
@@ -299,15 +357,19 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
+    | '/insights/$slug'
     | '/admin/'
+    | '/admin/blog/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/book-call'
+    | '/careers'
     | '/dashboard'
     | '/ecommerce'
     | '/idea-generator'
+    | '/insights'
     | '/portfolio'
     | '/saas'
     | '/services'
@@ -318,6 +380,8 @@ export interface FileRouteTypes {
     | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
+    | '/admin/blog'
+    | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
     | '/admin/leads'
@@ -328,16 +392,20 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
+    | '/insights/$slug'
     | '/admin'
+    | '/admin/blog/$id'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/auth'
     | '/book-call'
+    | '/careers'
     | '/dashboard'
     | '/ecommerce'
     | '/idea-generator'
+    | '/insights'
     | '/portfolio'
     | '/saas'
     | '/services'
@@ -348,6 +416,8 @@ export interface FileRouteTypes {
     | '/web3'
     | '/admin/activity'
     | '/admin/analytics'
+    | '/admin/blog'
+    | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
     | '/admin/leads'
@@ -358,7 +428,9 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
+    | '/insights/$slug'
     | '/admin/'
+    | '/admin/blog/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -366,9 +438,11 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   BookCallRoute: typeof BookCallRoute
+  CareersRoute: typeof CareersRoute
   DashboardRoute: typeof DashboardRoute
   EcommerceRoute: typeof EcommerceRoute
   IdeaGeneratorRoute: typeof IdeaGeneratorRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
   PortfolioRoute: typeof PortfolioRoute
   SaasRoute: typeof SaasRoute
   ServicesRoute: typeof ServicesRoute
@@ -437,6 +511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/idea-generator': {
       id: '/idea-generator'
       path: '/idea-generator'
@@ -456,6 +537,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book-call': {
@@ -492,6 +580,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
     }
     '/admin/users': {
       id: '/admin/users'
@@ -563,6 +658,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminChatRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/careers': {
+      id: '/admin/careers'
+      path: '/careers'
+      fullPath: '/admin/careers'
+      preLoaderRoute: typeof AdminCareersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blog': {
+      id: '/admin/blog'
+      path: '/blog'
+      fullPath: '/admin/blog'
+      preLoaderRoute: typeof AdminBlogRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/analytics': {
       id: '/admin/analytics'
       path: '/analytics'
@@ -577,12 +686,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/blog/$id': {
+      id: '/admin/blog/$id'
+      path: '/$id'
+      fullPath: '/admin/blog/$id'
+      preLoaderRoute: typeof AdminBlogIdRouteImport
+      parentRoute: typeof AdminBlogRoute
+    }
   }
 }
+
+interface AdminBlogRouteChildren {
+  AdminBlogIdRoute: typeof AdminBlogIdRoute
+}
+
+const AdminBlogRouteChildren: AdminBlogRouteChildren = {
+  AdminBlogIdRoute: AdminBlogIdRoute,
+}
+
+const AdminBlogRouteWithChildren = AdminBlogRoute._addFileChildren(
+  AdminBlogRouteChildren,
+)
 
 interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminBlogRoute: typeof AdminBlogRouteWithChildren
+  AdminCareersRoute: typeof AdminCareersRoute
   AdminChatRoute: typeof AdminChatRoute
   AdminConnectorsRoute: typeof AdminConnectorsRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
@@ -599,6 +729,8 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminBlogRoute: AdminBlogRouteWithChildren,
+  AdminCareersRoute: AdminCareersRoute,
   AdminChatRoute: AdminChatRoute,
   AdminConnectorsRoute: AdminConnectorsRoute,
   AdminLeadsRoute: AdminLeadsRoute,
@@ -614,14 +746,28 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   BookCallRoute: BookCallRoute,
+  CareersRoute: CareersRoute,
   DashboardRoute: DashboardRoute,
   EcommerceRoute: EcommerceRoute,
   IdeaGeneratorRoute: IdeaGeneratorRoute,
+  InsightsRoute: InsightsRouteWithChildren,
   PortfolioRoute: PortfolioRoute,
   SaasRoute: SaasRoute,
   ServicesRoute: ServicesRoute,
