@@ -33,7 +33,6 @@ if (!i18n.isInitialized) {
     supportedLngs: [...SUPPORTED_LANGS],
     interpolation: { escapeValue: false },
     returnNull: false,
-    initImmediate: false,
   });
 } else {
   // Re-merge seed bundles on every module evaluation so HMR / new keys
