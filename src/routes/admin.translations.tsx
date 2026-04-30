@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Languages, Loader2, Save, Plus, Search } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { i18n, LANG_META, SUPPORTED_LANGS, seedResources, type Lang } from "@/lib/i18n";
+import { i18n, LANG_META, SUPPORTED_LANGS, type Lang } from "@/lib/i18n";
+import { seedResources } from "@/lib/i18n/resources";
 
 interface Row {
   key: string;
