@@ -18,8 +18,10 @@ import {
   FileText,
   UserPlus,
   Languages,
+  Crown,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Sidebar,
   SidebarContent,
@@ -41,7 +43,16 @@ interface NavItem {
   icon: typeof Briefcase;
   exact?: boolean;
   badgeKey?: "leads" | "chat" | "applications";
+  ownerOnly?: boolean;
 }
+
+const main: NavItem[] = [
+  { titleKey: "admin.nav.overview", url: "/admin", icon: LayoutDashboard, exact: true },
+  { titleKey: "admin.nav.leads", url: "/admin/leads", icon: Briefcase, badgeKey: "leads" },
+  { titleKey: "admin.nav.users", url: "/admin/users", icon: Users, ownerOnly: true },
+  { titleKey: "admin.nav.analytics", url: "/admin/analytics", icon: BarChart3 },
+  { titleKey: "admin.nav.chat", url: "/admin/chat", icon: MessageSquare, badgeKey: "chat" },
+];
 
 const main: NavItem[] = [
   { titleKey: "admin.nav.overview", url: "/admin", icon: LayoutDashboard, exact: true },
