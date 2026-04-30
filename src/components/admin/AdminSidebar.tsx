@@ -15,6 +15,8 @@ import {
   Activity,
   ShieldCheck,
   Gauge,
+  FileText,
+  UserPlus,
 } from "lucide-react";
 import {
   Sidebar,
