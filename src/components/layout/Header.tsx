@@ -11,12 +11,12 @@ export function Header() {
   const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
 
-  const links = [
+  const links: { to: "/" | "/services" | "/portfolio" | "/book-call"; label: string; exact?: boolean }[] = [
     { to: "/", label: t("nav.home"), exact: true },
     { to: "/services", label: t("nav.services") },
     { to: "/portfolio", label: t("nav.portfolio") },
     { to: "/book-call", label: t("nav.bookCall") },
-  ] as const;
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-background/60 backdrop-blur-2xl backdrop-saturate-150">
