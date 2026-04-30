@@ -61,7 +61,7 @@ export async function loadDbOverrides() {
     if (error || !data) return;
     for (const row of data as { key: string; lang: string; value: string }[]) {
       if (!(SUPPORTED_LANGS as readonly string[]).includes(row.lang)) continue;
-      i18n.addResource(row.lang, "translation", row.key, row.value, true, true);
+      i18n.addResource(row.lang, "translation", row.key, row.value);
     }
   } catch (e) {
     console.warn("[i18n] Failed to load DB overrides:", e);
