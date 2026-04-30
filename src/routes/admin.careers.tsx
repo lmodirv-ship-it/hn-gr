@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Loader2, Download, Trash2, Mail, Phone, UserPlus } from "lucide-react";
+import { Loader2, Download, Trash2, Mail, Phone, UserPlus, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { generateCvSummary } from "@/server/cvSummary";
 
 type Status = "new" | "in_review" | "shortlisted" | "interviewed" | "hired" | "rejected";
 
@@ -16,6 +17,7 @@ interface Application {
   cv_path: string | null;
   status: Status;
   notes: string | null;
+  cv_summary: string | null;
   created_at: string;
 }
 
@@ -35,6 +37,23 @@ export const Route = createFileRoute("/admin/careers")({
 function AdminCareersPage() {
   const [items, setItems] = useState<Application[] | null>(null);
   const [filter, setFilter] = useState<Status | "all">("all");
+  const [summarizing, setSummarizing] = useState<string | null>(null);
+
+  const summarize = async (id: string) => {
+    setSummarizing(id);
+    try {
+      const { summary } = await generateCvSummary({ data: { applicationId: id } });
+      setItems((prev) =>
+        (prev ?? []).map((a) => (a.id === id ? { ...a, cv_summary: summary } : a)),
+      );
+      toast.success("AI summary generated");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to generate summary";
+      toast.error(msg);
+    } finally {
+      setSummarizing(null);
+    }
+  };
 
   const load = async () => {
     const { data, error } = await supabase
@@ -158,6 +177,27 @@ function AdminCareersPage() {
                     <p className="mt-3 line-clamp-3 rounded-lg bg-background/40 p-3 text-xs text-muted-foreground">
                       {a.message}
                     </p>
+                  )}
+                  {a.cv_summary ? (
+                    <div className="mt-3 rounded-lg border border-primary/30 bg-primary/5 p-3 text-xs">
+                      <div className="mb-1 inline-flex items-center gap-1.5 font-semibold uppercase tracking-wider text-primary">
+                        <Sparkles className="h-3 w-3" /> AI summary
+                      </div>
+                      <p className="text-foreground/90">{a.cv_summary}</p>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => void summarize(a.id)}
+                      disabled={summarizing === a.id}
+                      className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary hover:bg-primary/20 disabled:opacity-60"
+                    >
+                      {summarizing === a.id ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        <Sparkles className="h-3 w-3" />
+                      )}
+                      AI summary
+                    </button>
                   )}
                 </div>
                 <div className="flex items-center gap-2">
