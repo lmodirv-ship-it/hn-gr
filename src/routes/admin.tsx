@@ -1,11 +1,9 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Loader2, Briefcase, Users, BarChart3, MessageSquare } from "lucide-react";
+import { createFileRoute, Outlet, useNavigate, Link } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Loader2, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { LeadsTab } from "@/components/admin/LeadsTab";
-import { UsersTab } from "@/components/admin/UsersTab";
-import { AnalyticsTab } from "@/components/admin/AnalyticsTab";
-import { ChatLogsTab } from "@/components/admin/ChatLogsTab";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -15,22 +13,12 @@ export const Route = createFileRoute("/admin")({
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
-  component: AdminPage,
+  component: AdminLayout,
 });
 
-type Tab = "leads" | "users" | "analytics" | "chat";
-
-const TABS: { id: Tab; label: string; icon: typeof Briefcase }[] = [
-  { id: "leads", label: "Leads", icon: Briefcase },
-  { id: "users", label: "Users", icon: Users },
-  { id: "analytics", label: "Analytics", icon: BarChart3 },
-  { id: "chat", label: "Chat logs", icon: MessageSquare },
-];
-
-function AdminPage() {
+function AdminLayout() {
   const navigate = useNavigate();
-  const { user, loading: authLoading, isAdmin, role } = useAuth();
-  const [tab, setTab] = useState<Tab>("leads");
+  const { user, loading: authLoading, isAdmin, role, signOut } = useAuth();
 
   useEffect(() => {
     if (authLoading) return;
@@ -47,50 +35,38 @@ function AdminPage() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-primary">Admin</p>
-          <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">Control center</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Manage leads, users, and monitor traffic in one place.
-          </p>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-background">
+        <AdminSidebar />
+        <div className="flex flex-1 flex-col">
+          <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-2 border-b border-border bg-background/80 px-4 backdrop-blur">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger />
+              <span className="hidden text-sm text-muted-foreground sm:inline">
+                Control center
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link
+                to="/dashboard"
+                className="hidden rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground sm:inline-block"
+              >
+                My dashboard
+              </Link>
+              <button
+                onClick={() => void signOut()}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                Sign out
+              </button>
+            </div>
+          </header>
+          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+            <Outlet />
+          </main>
         </div>
-        <Link
-          to="/dashboard"
-          className="inline-flex h-9 items-center rounded-md border border-border px-3 text-sm text-muted-foreground hover:text-foreground"
-        >
-          ← My dashboard
-        </Link>
       </div>
-
-      <div className="mt-8 flex flex-wrap gap-1 rounded-md border border-border bg-surface/40 p-1">
-        {TABS.map((t) => {
-          const Icon = t.icon;
-          const active = tab === t.id;
-          return (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              className={`inline-flex items-center gap-2 rounded px-3 py-2 text-sm transition-colors ${
-                active
-                  ? "bg-[image:var(--gradient-gold)] text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Icon className="h-4 w-4" />
-              {t.label}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-8">
-        {tab === "leads" && <LeadsTab />}
-        {tab === "users" && <UsersTab />}
-        {tab === "analytics" && <AnalyticsTab />}
-        {tab === "chat" && <ChatLogsTab />}
-      </div>
-    </section>
+    </SidebarProvider>
   );
 }
