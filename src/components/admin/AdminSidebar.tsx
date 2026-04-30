@@ -70,7 +70,11 @@ export function AdminSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const path = useRouterState({ select: (r) => r.location.pathname });
-  const [badges, setBadges] = useState<{ leads: number; chat: number }>({ leads: 0, chat: 0 });
+  const [badges, setBadges] = useState<{ leads: number; chat: number; applications: number }>({
+    leads: 0,
+    chat: 0,
+    applications: 0,
+  });
 
   useEffect(() => {
     const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
@@ -83,7 +87,13 @@ export function AdminSidebar() {
         .from("chat_logs")
         .select("id", { count: "exact", head: true })
         .gte("created_at", since),
-    ]).then(([l, c]) => setBadges({ leads: l.count ?? 0, chat: c.count ?? 0 }));
+      supabase
+        .from("job_applications")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "new"),
+    ]).then(([l, c, a]) =>
+      setBadges({ leads: l.count ?? 0, chat: c.count ?? 0, applications: a.count ?? 0 }),
+    );
   }, []);
 
   const isActive = (url: string, exact?: boolean) =>
