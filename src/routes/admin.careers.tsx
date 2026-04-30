@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Loader2, Download, Trash2, Mail, Phone, UserPlus } from "lucide-react";
+import { Loader2, Download, Trash2, Mail, Phone, UserPlus, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { generateCvSummary } from "@/server/cvSummary";
 
 type Status = "new" | "in_review" | "shortlisted" | "interviewed" | "hired" | "rejected";
 
@@ -16,6 +17,7 @@ interface Application {
   cv_path: string | null;
   status: Status;
   notes: string | null;
+  cv_summary: string | null;
   created_at: string;
 }
 
