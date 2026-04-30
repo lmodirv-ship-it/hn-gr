@@ -6,6 +6,12 @@ import { supabase } from "@/integrations/supabase/client";
 const STORAGE_KEY = "hn.lang";
 
 function detectInitialLang(): Lang {
+  // Always start with "en" on both server and client to avoid SSR hydration mismatches.
+  // The stored/browser preference is applied after mount via applyStoredLang().
+  return "en";
+}
+
+export function getStoredLang(): Lang {
   if (typeof window === "undefined") return "en";
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
