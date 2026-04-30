@@ -7,20 +7,31 @@ import { CommandPalette } from "./CommandPalette";
 import { NotificationsBell } from "./NotificationsBell";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { useAuth } from "@/hooks/use-auth";
+import { useAdminT } from "@/lib/i18n/adminText";
 
 const LABELS: Record<string, string> = {
-  admin: "Dashboard",
-  leads: "Leads",
-  users: "Users",
-  analytics: "Analytics",
-  chat: "Chat logs",
-  services: "Services",
-  portfolio: "Portfolio",
-  settings: "Settings",
+  admin: "breadcrumbs.dashboard",
+  leads: "breadcrumbs.leads",
+  users: "breadcrumbs.users",
+  analytics: "breadcrumbs.analytics",
+  chat: "breadcrumbs.chat",
+  services: "breadcrumbs.services",
+  portfolio: "breadcrumbs.portfolio",
+  blog: "breadcrumbs.blog",
+  careers: "breadcrumbs.careers",
+  owner: "breadcrumbs.owner",
+  connectors: "breadcrumbs.connectors",
+  plugins: "breadcrumbs.plugins",
+  monitoring: "breadcrumbs.monitoring",
+  activity: "breadcrumbs.activity",
+  security: "breadcrumbs.security",
+  translations: "breadcrumbs.translations",
+  settings: "breadcrumbs.settings",
 };
 
 export function AdminTopbar() {
   const { t } = useTranslation();
+  const tt = useAdminT();
   const { user, signOut } = useAuth();
   const path = useRouterState({ select: (r) => r.location.pathname });
   const segments = path.split("/").filter(Boolean);
@@ -58,7 +69,7 @@ export function AdminTopbar() {
                       : "text-muted-foreground"
                   }
                 >
-                  {LABELS[seg] ?? seg}
+                  {LABELS[seg] ? tt(LABELS[seg] as Parameters<typeof tt>[0]) : seg}
                 </span>
               </span>
             );
@@ -108,7 +119,7 @@ export function AdminTopbar() {
             {user?.email}
           </span>
           <button
-            aria-label="Sign out"
+            aria-label={tt("topbar.signOut")}
             onClick={() => void signOut()}
             className="text-muted-foreground hover:text-foreground"
           >
