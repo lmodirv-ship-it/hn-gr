@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LogOut, Bell, ChevronRight, ExternalLink } from "lucide-react";
+import { LogOut, ChevronRight, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CommandPalette } from "./CommandPalette";
+import { NotificationsBell } from "./NotificationsBell";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { useAuth } from "@/hooks/use-auth";
 
