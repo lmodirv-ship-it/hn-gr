@@ -69,25 +69,27 @@ export function NotificationsBell() {
       .channel("admin-notifications")
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "project_requests" }, (payload) => {
         const r = payload.new as any;
-        setItems((prev) => [{
+        const n: Notif = {
           id: `lead-${r.id}`,
           kind: "lead",
           title: r.full_name ?? "New lead",
           subtitle: r.project_type ?? "Project request",
           href: "/admin/leads",
           created_at: r.created_at,
-        }, ...prev].slice(0, 20));
+        };
+        setItems((prev) => [n, ...prev].slice(0, 20));
       })
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "job_applications" }, (payload) => {
         const r = payload.new as any;
-        setItems((prev) => [{
+        const n: Notif = {
           id: `cv-${r.id}`,
           kind: "cv",
           title: r.full_name ?? "New CV",
           subtitle: r.specialty ?? "Job application",
           href: "/admin/careers",
           created_at: r.created_at,
-        }, ...prev].slice(0, 20));
+        };
+        setItems((prev) => [n, ...prev].slice(0, 20));
       })
       .subscribe();
     return () => { void supabase.removeChannel(channel); };
