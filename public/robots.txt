@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /auth
 
-Sitemap: https://hn-gr.lovable.app/sitemap.xml
+Sitemap: https://www.groupe-hn.com/sitemap.xml
