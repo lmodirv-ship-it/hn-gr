@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { HeroSection } from "@/components/home/HeroSection";
 import { TrustedBySection } from "@/components/home/TrustedBySection";
 import { MissionSection } from "@/components/home/MissionSection";
@@ -35,6 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { t } = useTranslation();
   return (
     <>
       <HeroSection />
@@ -48,18 +50,18 @@ function Home() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-              Selected work
+              {t("portfolio.eyebrow")}
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">
-              Recent projects we're <span className="text-gradient-gold">proud of</span>.
+              {t("portfolio.title.before")} <span className="text-gradient-gold">{t("portfolio.title.highlight")}</span>.
             </h2>
           </div>
           <Link
             to="/portfolio"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
           >
-            View all
-            <ArrowRight className="h-4 w-4" />
+            {t("portfolio.viewAll")}
+            <ArrowRight className="h-4 w-4 rtl:rotate-180" />
           </Link>
         </div>
         <div className="mt-10">
