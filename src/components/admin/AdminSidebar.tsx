@@ -69,17 +69,19 @@ const content: NavItem[] = [
   { titleKey: "admin.nav.careers", url: "/admin/careers", icon: UserPlus, badgeKey: "applications" },
 ];
 
+// All platform items are owner-only (API hub, plugins, audit, security).
 const platform: NavItem[] = [
-  { titleKey: "admin.nav.connectors", url: "/admin/connectors", icon: Plug },
-  { titleKey: "admin.nav.plugins", url: "/admin/plugins", icon: Puzzle },
-  { titleKey: "admin.nav.monitoring", url: "/admin/monitoring", icon: Gauge },
-  { titleKey: "admin.nav.activity", url: "/admin/activity", icon: Activity },
-  { titleKey: "admin.nav.security", url: "/admin/security", icon: ShieldCheck },
+  { titleKey: "admin.nav.owner", url: "/admin/owner", icon: Crown, ownerOnly: true },
+  { titleKey: "admin.nav.connectors", url: "/admin/connectors", icon: Plug, ownerOnly: true },
+  { titleKey: "admin.nav.plugins", url: "/admin/plugins", icon: Puzzle, ownerOnly: true },
+  { titleKey: "admin.nav.monitoring", url: "/admin/monitoring", icon: Gauge, ownerOnly: true },
+  { titleKey: "admin.nav.activity", url: "/admin/activity", icon: Activity, ownerOnly: true },
+  { titleKey: "admin.nav.security", url: "/admin/security", icon: ShieldCheck, ownerOnly: true },
 ];
 
 const system: NavItem[] = [
   { titleKey: "admin.nav.translations", url: "/admin/translations", icon: Languages },
-  { titleKey: "admin.nav.settings", url: "/admin/settings", icon: Settings },
+  { titleKey: "admin.nav.settings", url: "/admin/settings", icon: Settings, ownerOnly: true },
 ];
 
 export function AdminSidebar() {
