@@ -69,22 +69,22 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-2">
-            <h4 className="text-sm font-semibold">Explore</h4>
+            <h4 className="text-sm font-semibold">Services</h4>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/" className="hover:text-foreground">Home</Link></li>
-              <li><Link to="/services" className="hover:text-foreground">Services</Link></li>
+              <li><Link to="/web-design" className="hover:text-foreground">Web design</Link></li>
+              <li><Link to="/ecommerce" className="hover:text-foreground">E-commerce</Link></li>
+              <li><Link to="/saas" className="hover:text-foreground">SaaS & platforms</Link></li>
               <li><Link to="/portfolio" className="hover:text-foreground">Portfolio</Link></li>
-              <li><Link to="/idea-generator" className="hover:text-foreground">AI Ideas</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-2">
             <h4 className="text-sm font-semibold">Company</h4>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+              <li><Link to="/book-call" className="hover:text-foreground">Book a call</Link></li>
               <li><Link to="/start-project" className="hover:text-foreground">Start a project</Link></li>
+              <li><Link to="/idea-generator" className="hover:text-foreground">AI Ideas</Link></li>
               <li><Link to="/auth" className="hover:text-foreground">Client login</Link></li>
-              <li><a href="#" className="hover:text-foreground">Privacy</a></li>
-              <li><a href="#" className="hover:text-foreground">Terms</a></li>
             </ul>
           </div>
 
