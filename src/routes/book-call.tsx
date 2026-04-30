@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Calendar, Clock, MessageSquare, Sparkles, Target, Crown } from "lucide-react";
 import { trackEvent } from "@/hooks/use-track-event";
+import { DEFAULT_CONTACT } from "@/lib/contact-links";
 
 type MeetingType = {
   id: string;
@@ -186,7 +187,7 @@ function BookCallPage() {
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
         Can't find a time?{" "}
-        <a href="mailto:lmdorv@gmail.com" className="text-primary underline">
+        <a href={`mailto:${DEFAULT_CONTACT.email}`} className="text-primary underline">
           Email us
         </a>{" "}
         directly.

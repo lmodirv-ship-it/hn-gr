@@ -35,6 +35,11 @@ if (!i18n.isInitialized) {
     returnNull: false,
   });
 } else {
+  // The client singleton can keep the previously selected language across HMR.
+  // Reset before hydration so the first client render always matches SSR.
+  if (typeof window !== "undefined" && i18n.language !== "en") {
+    void i18n.changeLanguage("en");
+  }
   // Re-merge seed bundles on every module evaluation so HMR / new keys
   // added in code are always present at runtime (deep merge, overwrite).
   for (const lang of SUPPORTED_LANGS) {

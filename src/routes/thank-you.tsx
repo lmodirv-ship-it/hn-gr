@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { CheckCircle2, Calendar, MessageCircle } from "lucide-react";
 import { trackEvent } from "@/hooks/use-track-event";
+import { DEFAULT_CONTACT } from "@/lib/contact-links";
 
 export const Route = createFileRoute("/thank-you")({
   head: () => ({
@@ -51,7 +52,7 @@ function ThankYouPage() {
       </div>
 
       <p className="mt-10 text-xs text-muted-foreground">
-        Tip: add <span className="text-foreground">lmdorv@gmail.com</span> to your contacts so our reply doesn't land in spam.
+        Tip: add <span className="text-foreground">{DEFAULT_CONTACT.email}</span> to your contacts so our reply doesn't land in spam.
       </p>
     </div>
   );
