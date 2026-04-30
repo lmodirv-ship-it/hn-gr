@@ -181,6 +181,50 @@ function OwnerCenter() {
     { title: t("admin.nav.security"), desc: t("owner.tile.security.desc"), icon: ShieldCheck, to: "/admin/security", stat: null, label: t("owner.tile.security.label") },
   ] as const;
 
+  // Full sitemap of admin sections — everything an owner needs in one place
+  const adminSections: { group: string; items: { title: string; to: string; icon: typeof Users; desc: string }[] }[] = [
+    {
+      group: t("owner.group.content", "Content & Marketing"),
+      items: [
+        { title: t("admin.nav.blog", "Blog"), to: "/admin/blog", icon: Rss, desc: t("owner.desc.blog", "Articles, drafts, SEO") },
+        { title: t("admin.nav.portfolio", "Portfolio"), to: "/admin/portfolio", icon: ImageIcon, desc: t("owner.desc.portfolio", "Showcase projects") },
+        { title: t("admin.nav.services", "Services"), to: "/admin/services", icon: Briefcase, desc: t("owner.desc.services", "Public offerings & pricing") },
+        { title: t("admin.nav.translations", "Translations"), to: "/admin/translations", icon: Languages, desc: t("owner.desc.translations", "AR / EN strings") },
+      ],
+    },
+    {
+      group: t("owner.group.business", "Business & Leads"),
+      items: [
+        { title: t("admin.nav.leads", "Leads"), to: "/admin/leads", icon: Mail, desc: t("owner.desc.leads", "Project inquiries") },
+        { title: t("admin.nav.careers", "Careers"), to: "/admin/careers", icon: Briefcase, desc: t("owner.desc.careers", "Applications & CVs") },
+        { title: t("admin.nav.chat", "Chat"), to: "/admin/chat", icon: MessageSquare, desc: t("owner.desc.chat", "AI assistant logs") },
+        { title: t("admin.nav.analytics", "Analytics"), to: "/admin/analytics", icon: BarChart3, desc: t("owner.desc.analytics", "Visits & funnel") },
+      ],
+    },
+    {
+      group: t("owner.group.system", "System & Operations"),
+      items: [
+        { title: t("admin.nav.dashboard", "Dashboard"), to: "/admin", icon: LayoutDashboard, desc: t("owner.desc.dashboard", "Overview") },
+        { title: t("admin.nav.monitoring", "Monitoring"), to: "/admin/monitoring", icon: Gauge, desc: t("owner.desc.monitoring", "Uptime & errors") },
+        { title: t("admin.nav.settings", "Settings"), to: "/admin/settings", icon: Settings, desc: t("owner.desc.settings", "SEO, contact, social") },
+        { title: t("owner.tile.database.title", "Database"), to: "/admin/database", icon: Database, desc: t("owner.tile.database.desc", "Tables & rows") },
+      ],
+    },
+  ];
+
+  const SITE_URL = "https://www.groupe-hn.com";
+
+  const refreshStats = () => window.location.reload();
+
+  const copy = async (text: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(`${label} ${t("owner.copied", "copied")}`);
+    } catch {
+      toast.error(t("owner.copyFailed", "Copy failed"));
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header banner */}
