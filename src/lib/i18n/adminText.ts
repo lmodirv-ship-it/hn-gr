@@ -368,7 +368,7 @@ export type AdminTextKey = keyof typeof adminText.en;
 
 export function getAdminText(key: AdminTextKey, language: string, vars?: Record<string, string | number>) {
   const lang = language.startsWith("ar") ? "ar" : "en";
-  let text = adminText[lang][key] ?? adminText.en[key] ?? key;
+  let text: string = adminText[lang][key] ?? adminText.en[key] ?? key;
   if (vars) {
     for (const [name, value] of Object.entries(vars)) {
       text = text.replaceAll(`{{${name}}}`, String(value));
