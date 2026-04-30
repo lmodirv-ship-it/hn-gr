@@ -37,6 +37,23 @@ export const Route = createFileRoute("/admin/careers")({
 function AdminCareersPage() {
   const [items, setItems] = useState<Application[] | null>(null);
   const [filter, setFilter] = useState<Status | "all">("all");
+  const [summarizing, setSummarizing] = useState<string | null>(null);
+
+  const summarize = async (id: string) => {
+    setSummarizing(id);
+    try {
+      const { summary } = await generateCvSummary({ data: { applicationId: id } });
+      setItems((prev) =>
+        (prev ?? []).map((a) => (a.id === id ? { ...a, cv_summary: summary } : a)),
+      );
+      toast.success("AI summary generated");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to generate summary";
+      toast.error(msg);
+    } finally {
+      setSummarizing(null);
+    }
+  };
 
   const load = async () => {
     const { data, error } = await supabase
