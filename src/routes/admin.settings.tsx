@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT, type AdminTextKey } from "@/lib/i18n/adminText";
 
 export const Route = createFileRoute("/admin/settings")({
   component: () => (<OwnerOnly><SettingsAdmin /></OwnerOnly>),
@@ -11,34 +12,34 @@ export const Route = createFileRoute("/admin/settings")({
 
 type SettingsMap = Record<string, Record<string, string>>;
 
-const SCHEMA: { key: string; label: string; fields: { name: string; label: string; type?: string }[] }[] = [
+const SCHEMA: { key: string; labelKey: AdminTextKey; fields: { name: string; labelKey: AdminTextKey; type?: string }[] }[] = [
   {
     key: "contact",
-    label: "Contact",
+    labelKey: "settings.contact",
     fields: [
-      { name: "email", label: "Email", type: "email" },
-      { name: "phone", label: "Phone" },
-      { name: "whatsapp", label: "WhatsApp link" },
-      { name: "calendly", label: "Calendly link" },
+      { name: "email", labelKey: "settings.email", type: "email" },
+      { name: "phone", labelKey: "settings.phone" },
+      { name: "whatsapp", labelKey: "settings.whatsapp" },
+      { name: "calendly", labelKey: "settings.calendly" },
     ],
   },
   {
     key: "seo",
-    label: "SEO defaults",
+    labelKey: "settings.seo",
     fields: [
-      { name: "title", label: "Default title" },
-      { name: "description", label: "Meta description" },
-      { name: "ogImage", label: "OG image URL" },
+      { name: "title", labelKey: "settings.defaultTitle" },
+      { name: "description", labelKey: "settings.metaDescription" },
+      { name: "ogImage", labelKey: "settings.ogImage" },
     ],
   },
   {
     key: "social",
-    label: "Social links",
+    labelKey: "settings.social",
     fields: [
-      { name: "instagram", label: "Instagram" },
-      { name: "linkedin", label: "LinkedIn" },
-      { name: "twitter", label: "Twitter / X" },
-      { name: "facebook", label: "Facebook" },
+      { name: "instagram", labelKey: "settings.instagram" as AdminTextKey },
+      { name: "linkedin", labelKey: "settings.linkedin" as AdminTextKey },
+      { name: "twitter", labelKey: "settings.twitter" as AdminTextKey },
+      { name: "facebook", labelKey: "settings.facebook" as AdminTextKey },
     ],
   },
 ];
