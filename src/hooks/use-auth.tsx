@@ -2,25 +2,24 @@ import { useEffect, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
-type Role = "admin" | "client" | null;
+type Role = "admin" | "client" | "super_admin";
 
-async function fetchRole(userId: string): Promise<Role> {
+async function fetchRoles(userId: string): Promise<Role[]> {
   const { data, error } = await supabase
     .from("user_roles")
     .select("role")
-    .eq("user_id", userId)
-    .maybeSingle();
+    .eq("user_id", userId);
   if (error) {
     console.error("[useAuth] role fetch error:", error);
-    return null;
+    return [];
   }
-  return (data?.role as Role) ?? null;
+  return (data ?? []).map((r) => r.role as Role);
 }
 
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<Role>(null);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,17 +30,16 @@ export function useAuth() {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        const r = await fetchRole(s.user.id);
+        const r = await fetchRoles(s.user.id);
         if (!mounted) return;
-        setRole(r);
+        setRoles(r);
       } else {
-        setRole(null);
+        setRoles([]);
       }
       if (mounted) setLoading(false);
     };
 
     const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
-      // Defer async work outside the listener to avoid deadlocks
       setTimeout(() => {
         void applySession(s);
       }, 0);
@@ -57,12 +55,22 @@ export function useAuth() {
     };
   }, []);
 
+  const isSuperAdmin = roles.includes("super_admin");
+  const isAdmin = isSuperAdmin || roles.includes("admin");
+  const role: Role | null = isSuperAdmin
+    ? "super_admin"
+    : isAdmin
+    ? "admin"
+    : roles[0] ?? null;
+
   return {
     session,
     user,
     role,
+    roles,
     loading,
-    isAdmin: role === "admin",
+    isAdmin,
+    isSuperAdmin,
     signOut: () => supabase.auth.signOut(),
   };
 }

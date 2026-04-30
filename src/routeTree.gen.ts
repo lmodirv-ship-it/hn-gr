@@ -27,10 +27,15 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminSecurityRouteImport } from './routes/admin.security'
 import { Route as AdminPortfolioRouteImport } from './routes/admin.portfolio'
+import { Route as AdminPluginsRouteImport } from './routes/admin.plugins'
+import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminConnectorsRouteImport } from './routes/admin.connectors'
 import { Route as AdminChatRouteImport } from './routes/admin.chat'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 
 const WebDesignRoute = WebDesignRouteImport.update({
   id: '/web-design',
@@ -122,14 +127,34 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSecurityRoute = AdminSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPluginsRoute = AdminPluginsRouteImport.update({
+  id: '/plugins',
+  path: '/plugins',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMonitoringRoute = AdminMonitoringRouteImport.update({
+  id: '/monitoring',
+  path: '/monitoring',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLeadsRoute = AdminLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConnectorsRoute = AdminConnectorsRouteImport.update({
+  id: '/connectors',
+  path: '/connectors',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminChatRoute = AdminChatRouteImport.update({
@@ -140,6 +165,11 @@ const AdminChatRoute = AdminChatRouteImport.update({
 const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -158,10 +188,15 @@ export interface FileRoutesByFullPath {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/plugins': typeof AdminPluginsRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/security': typeof AdminSecurityRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -181,10 +216,15 @@ export interface FileRoutesByTo {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/plugins': typeof AdminPluginsRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/security': typeof AdminSecurityRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -206,10 +246,15 @@ export interface FileRoutesById {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/connectors': typeof AdminConnectorsRoute
   '/admin/leads': typeof AdminLeadsRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/plugins': typeof AdminPluginsRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/security': typeof AdminSecurityRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -232,10 +277,15 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/admin/activity'
     | '/admin/analytics'
     | '/admin/chat'
+    | '/admin/connectors'
     | '/admin/leads'
+    | '/admin/monitoring'
+    | '/admin/plugins'
     | '/admin/portfolio'
+    | '/admin/security'
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
@@ -255,10 +305,15 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/admin/activity'
     | '/admin/analytics'
     | '/admin/chat'
+    | '/admin/connectors'
     | '/admin/leads'
+    | '/admin/monitoring'
+    | '/admin/plugins'
     | '/admin/portfolio'
+    | '/admin/security'
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
@@ -279,10 +334,15 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/admin/activity'
     | '/admin/analytics'
     | '/admin/chat'
+    | '/admin/connectors'
     | '/admin/leads'
+    | '/admin/monitoring'
+    | '/admin/plugins'
     | '/admin/portfolio'
+    | '/admin/security'
     | '/admin/services'
     | '/admin/settings'
     | '/admin/users'
@@ -434,6 +494,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/security': {
+      id: '/admin/security'
+      path: '/security'
+      fullPath: '/admin/security'
+      preLoaderRoute: typeof AdminSecurityRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/portfolio': {
       id: '/admin/portfolio'
       path: '/portfolio'
@@ -441,11 +508,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPortfolioRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/plugins': {
+      id: '/admin/plugins'
+      path: '/plugins'
+      fullPath: '/admin/plugins'
+      preLoaderRoute: typeof AdminPluginsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/monitoring': {
+      id: '/admin/monitoring'
+      path: '/monitoring'
+      fullPath: '/admin/monitoring'
+      preLoaderRoute: typeof AdminMonitoringRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/leads': {
       id: '/admin/leads'
       path: '/leads'
       fullPath: '/admin/leads'
       preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/connectors': {
+      id: '/admin/connectors'
+      path: '/connectors'
+      fullPath: '/admin/connectors'
+      preLoaderRoute: typeof AdminConnectorsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/chat': {
@@ -462,14 +550,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnalyticsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminActivityRoute: typeof AdminActivityRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminChatRoute: typeof AdminChatRoute
+  AdminConnectorsRoute: typeof AdminConnectorsRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
+  AdminMonitoringRoute: typeof AdminMonitoringRoute
+  AdminPluginsRoute: typeof AdminPluginsRoute
   AdminPortfolioRoute: typeof AdminPortfolioRoute
+  AdminSecurityRoute: typeof AdminSecurityRoute
   AdminServicesRoute: typeof AdminServicesRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -477,10 +577,15 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminActivityRoute: AdminActivityRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminChatRoute: AdminChatRoute,
+  AdminConnectorsRoute: AdminConnectorsRoute,
   AdminLeadsRoute: AdminLeadsRoute,
+  AdminMonitoringRoute: AdminMonitoringRoute,
+  AdminPluginsRoute: AdminPluginsRoute,
   AdminPortfolioRoute: AdminPortfolioRoute,
+  AdminSecurityRoute: AdminSecurityRoute,
   AdminServicesRoute: AdminServicesRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminUsersRoute: AdminUsersRoute,
