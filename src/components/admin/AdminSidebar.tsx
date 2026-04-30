@@ -38,7 +38,7 @@ interface NavItem {
   url: string;
   icon: typeof Briefcase;
   exact?: boolean;
-  badgeKey?: "leads" | "chat";
+  badgeKey?: "leads" | "chat" | "applications";
 }
 
 const main: NavItem[] = [
