@@ -8,6 +8,7 @@ import {
   Puzzle,
   Activity,
   Users,
+  Database,
   Lock,
   Loader2,
   AlertTriangle,
