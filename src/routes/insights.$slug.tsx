@@ -70,7 +70,7 @@ export const Route = createFileRoute("/insights/$slug")({
         { name: "keywords", content: (post.tags ?? []).join(", ") },
         { name: "author", content: post.author_name ?? "HN-GROUPE" },
         { property: "article:published_time", content: post.published_at ?? "" },
-        ...((post.tags ?? []).map((t) => ({ property: "article:tag", content: t }))),
+        ...((post.tags ?? []).map((t: string) => ({ property: "article:tag", content: t }))),
         ...(post.category ? [{ property: "article:section", content: post.category }] : []),
         // Open Graph
         { property: "og:type", content: "article" },
