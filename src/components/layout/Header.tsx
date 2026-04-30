@@ -12,7 +12,7 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   return (
