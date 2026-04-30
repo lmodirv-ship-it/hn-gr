@@ -42,6 +42,9 @@ if (!i18n.isInitialized) {
       i18n.addResourceBundle(lang, "translation", bundle.translation, true, true);
     }
   }
+  if (typeof window !== "undefined" && i18n.language !== "en") {
+    void i18n.changeLanguage("en");
+  }
 }
 
 export function applyDocumentDirection(lang: Lang) {
