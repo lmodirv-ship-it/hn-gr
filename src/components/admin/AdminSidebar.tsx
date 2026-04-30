@@ -72,6 +72,7 @@ const system: NavItem[] = [
 ];
 
 export function AdminSidebar() {
+  const { t } = useTranslation();
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const path = useRouterState({ select: (r) => r.location.pathname });
