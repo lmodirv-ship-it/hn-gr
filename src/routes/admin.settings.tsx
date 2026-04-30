@@ -77,7 +77,10 @@ function SettingsAdmin() {
       .upsert({ key: groupKey, value: data[groupKey] });
     setSaving(null);
     if (error) toast.error(error.message);
-    else toast.success(tt("settings.saved", { group: groupKey }));
+    else {
+      const groupLabelKey = SCHEMA.find((s) => s.key === groupKey)?.labelKey;
+      toast.success(tt("settings.saved", { group: groupLabelKey ? tt(groupLabelKey) : groupKey }));
+    }
   };
 
   if (!data) {
