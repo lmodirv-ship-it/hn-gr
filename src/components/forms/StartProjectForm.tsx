@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { useSearch } from "@tanstack/react-router";
+import { useSearch, useNavigate } from "@tanstack/react-router";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,6 +21,7 @@ export function StartProjectForm() {
     summary?: string;
   };
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -53,6 +54,7 @@ export function StartProjectForm() {
       });
       toast.success("Request received — we'll be in touch within 24h.");
       setSuccess(true);
+      void navigate({ to: "/thank-you" });
     } catch (err) {
       console.error(err);
       toast.error("Could not send your request. Please try again.");
