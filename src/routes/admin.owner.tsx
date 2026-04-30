@@ -60,6 +60,10 @@ interface Stats {
   plugins: number;
   events24h: number;
   failedLogins24h: number;
+  visitors24h: number;
+  visitorsTotal: number;
+  onlineNow: number;
+  registeredUsers: number;
 }
 
 interface ActivityRow {
@@ -84,6 +88,10 @@ function OwnerCenter() {
     plugins: 0,
     events24h: 0,
     failedLogins24h: 0,
+    visitors24h: 0,
+    visitorsTotal: 0,
+    onlineNow: 0,
+    registeredUsers: 0,
   });
   const [recent, setRecent] = useState<ActivityRow[]>([]);
   const [statsLoading, setStatsLoading] = useState(true);
