@@ -21,15 +21,19 @@ export function I18nDirectionEffect() {
     setHydrated(true);
   }, []);
 
-  // Once hydrated, apply the stored language preference.
+  // Once hydrated, apply the stored language preference after the browser has painted
+  // the server-rendered English tree. This prevents text swaps during hydration.
   useEffect(() => {
     if (!hydrated) return;
-    const stored = getStoredLang();
-    if (stored !== i.language) {
-      void changeLanguage(stored);
-    } else {
-      applyDocumentDirection(i.language as Lang);
-    }
+    const timer = window.setTimeout(() => {
+      const stored = getStoredLang();
+      if (stored !== i.language) {
+        void changeLanguage(stored);
+      } else {
+        applyDocumentDirection(i.language as Lang);
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hydrated]);
 
