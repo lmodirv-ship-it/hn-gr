@@ -1,6 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Loader2, Calendar, ArrowLeft } from "lucide-react";
+import { Calendar, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Post {
@@ -17,6 +16,83 @@ interface Post {
 }
 
 export const Route = createFileRoute("/insights/$slug")({
+  loader: async ({ params }) => {
+    const { data } = await supabase
+      .from("blog_posts")
+      .select(
+        "id,slug,title,excerpt,content,cover_url,category,tags,published_at,author_name",
+      )
+      .eq("slug", params.slug)
+      .eq("status", "published")
+      .maybeSingle();
+    if (!data) throw notFound();
+    return { post: data as Post };
+  },
+  head: ({ loaderData }) => {
+    const post = loaderData?.post;
+    if (!post) {
+      return {
+        meta: [
+          { title: "Post not found — HN-GROUPE" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
+    }
+    const title = `${post.title} — HN-GROUPE`;
+    const description =
+      (post.excerpt && post.excerpt.trim()) ||
+      post.content.replace(/[#*>`_\-!\[\]()]/g, "").trim().slice(0, 160);
+    const url = `https://www.groupe-hn.com/insights/${post.slug}`;
+
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: post.title,
+      description,
+      image: post.cover_url ? [post.cover_url] : undefined,
+      datePublished: post.published_at ?? undefined,
+      author: post.author_name
+        ? { "@type": "Person", name: post.author_name }
+        : { "@type": "Organization", name: "HN-GROUPE" },
+      publisher: {
+        "@type": "Organization",
+        name: "HN-GROUPE",
+      },
+      keywords: (post.tags ?? []).join(", "),
+      articleSection: post.category ?? undefined,
+      mainEntityOfPage: url,
+    };
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { name: "keywords", content: (post.tags ?? []).join(", ") },
+        { name: "author", content: post.author_name ?? "HN-GROUPE" },
+        { property: "article:published_time", content: post.published_at ?? "" },
+        ...((post.tags ?? []).map((t) => ({ property: "article:tag", content: t }))),
+        ...(post.category ? [{ property: "article:section", content: post.category }] : []),
+        // Open Graph
+        { property: "og:type", content: "article" },
+        { property: "og:title", content: post.title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+        ...(post.cover_url ? [{ property: "og:image", content: post.cover_url }] : []),
+        // Twitter
+        { name: "twitter:card", content: post.cover_url ? "summary_large_image" : "summary" },
+        { name: "twitter:title", content: post.title },
+        { name: "twitter:description", content: description },
+        ...(post.cover_url ? [{ name: "twitter:image", content: post.cover_url }] : []),
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(jsonLd),
+        },
+      ],
+    };
+  },
   component: PostPage,
   notFoundComponent: () => (
     <main className="mx-auto grid min-h-[60vh] max-w-2xl place-items-center px-4 text-center">
@@ -31,84 +107,60 @@ export const Route = createFileRoute("/insights/$slug")({
 });
 
 function PostPage() {
-  const { slug } = Route.useParams();
-  const [post, setPost] = useState<Post | null | undefined>(undefined);
-
-  useEffect(() => {
-    void supabase
-      .from("blog_posts")
-      .select("*")
-      .eq("slug", slug)
-      .eq("status", "published")
-      .maybeSingle()
-      .then(({ data }) => setPost((data as Post) ?? null));
-  }, [slug]);
-
-  if (post === undefined)
-    return (
-      <main className="grid min-h-[60vh] place-items-center">
-        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-      </main>
-    );
-  if (post === null) throw notFound();
+  const { post } = Route.useLoaderData();
 
   return (
-    <>
-      <head>
-        <title>{`${post.title} — HN-GROUPE`}</title>
-        <meta name="description" content={post.excerpt ?? post.title} />
-      </head>
-      <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <Link
-          to="/insights"
-          className="mb-6 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary"
-        >
-          <ArrowLeft className="h-3 w-3" /> All insights
-        </Link>
+    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <Link
+        to="/insights"
+        className="mb-6 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary"
+      >
+        <ArrowLeft className="h-3 w-3" /> All insights
+      </Link>
 
-        {post.category && (
-          <span className="inline-block rounded-full bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
-            {post.category}
+      {post.category && (
+        <span className="inline-block rounded-full bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+          {post.category}
+        </span>
+      )}
+      <h1 className="mt-4 font-display text-4xl font-bold leading-tight sm:text-5xl">
+        {post.title}
+      </h1>
+      <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+        {post.published_at && (
+          <span className="inline-flex items-center gap-1.5">
+            <Calendar className="h-3 w-3" />{" "}
+            {new Date(post.published_at).toLocaleDateString()}
           </span>
         )}
-        <h1 className="mt-4 font-display text-4xl font-bold leading-tight sm:text-5xl">
-          {post.title}
-        </h1>
-        <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-          {post.published_at && (
-            <span className="inline-flex items-center gap-1.5">
-              <Calendar className="h-3 w-3" /> {new Date(post.published_at).toLocaleDateString()}
+        {post.author_name && <span>by {post.author_name}</span>}
+      </div>
+
+      {post.cover_url && (
+        <img
+          src={post.cover_url}
+          alt={post.title}
+          className="mt-8 aspect-video w-full rounded-2xl border border-border object-cover"
+        />
+      )}
+
+      <article className="prose prose-invert mt-10 max-w-none">
+        <Markdown content={post.content} />
+      </article>
+
+      {post.tags.length > 0 && (
+        <div className="mt-10 flex flex-wrap gap-2 border-t border-border pt-6">
+          {post.tags.map((t) => (
+            <span
+              key={t}
+              className="rounded-full bg-muted/40 px-3 py-1 text-xs text-muted-foreground"
+            >
+              #{t}
             </span>
-          )}
-          {post.author_name && <span>by {post.author_name}</span>}
+          ))}
         </div>
-
-        {post.cover_url && (
-          <img
-            src={post.cover_url}
-            alt=""
-            className="mt-8 aspect-video w-full rounded-2xl border border-border object-cover"
-          />
-        )}
-
-        <article className="prose prose-invert mt-10 max-w-none">
-          <Markdown content={post.content} />
-        </article>
-
-        {post.tags.length > 0 && (
-          <div className="mt-10 flex flex-wrap gap-2 border-t border-border pt-6">
-            {post.tags.map((t) => (
-              <span
-                key={t}
-                className="rounded-full bg-muted/40 px-3 py-1 text-xs text-muted-foreground"
-              >
-                #{t}
-              </span>
-            ))}
-          </div>
-        )}
-      </main>
-    </>
+      )}
+    </main>
   );
 }
 
