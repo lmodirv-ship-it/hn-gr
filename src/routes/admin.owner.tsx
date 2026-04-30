@@ -158,6 +158,7 @@ function OwnerCenter() {
 
   const sovereign = [
     { title: t("admin.nav.users"), desc: t("owner.tile.users.desc"), icon: Users, to: "/admin/users", stat: stats.admins, label: t("owner.tile.users.label") },
+    { title: t("owner.tile.database.title", "Database"), desc: t("owner.tile.database.desc", "Inspect, count, truncate every table"), icon: Database, to: "/admin/database", stat: null, label: t("owner.tile.database.label", "15 tables · RLS protected") },
     { title: t("admin.nav.connectors"), desc: t("owner.tile.connectors.desc"), icon: Plug, to: "/admin/connectors", stat: stats.connectors, label: t("owner.tile.connectors.label") },
     { title: t("admin.nav.plugins"), desc: t("owner.tile.plugins.desc"), icon: Puzzle, to: "/admin/plugins", stat: stats.plugins, label: t("owner.tile.plugins.label") },
     { title: t("admin.nav.activity"), desc: t("owner.tile.activity.desc"), icon: Activity, to: "/admin/activity", stat: stats.events24h, label: t("owner.tile.activity.label") },
