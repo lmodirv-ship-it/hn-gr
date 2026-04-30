@@ -12,7 +12,7 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -69,12 +69,21 @@ export function Header() {
               Sign in
             </Link>
           )}
-          <Link
-            to="/start-project"
-            className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
-          >
-            Start your project
-          </Link>
+          {isAdmin ? (
+            <Link
+              to="/admin"
+              className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
+            >
+              Admin panel
+            </Link>
+          ) : (
+            <Link
+              to="/start-project"
+              className="inline-flex h-9 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]"
+            >
+              Start your project
+            </Link>
+          )}
         </div>
 
         <button
@@ -118,13 +127,23 @@ export function Header() {
                 Sign in
               </Link>
             )}
-            <Link
-              to="/start-project"
-              onClick={() => setOpen(false)}
-              className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
-            >
-              Start your project
-            </Link>
+            {isAdmin ? (
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
+              >
+                Admin panel
+              </Link>
+            ) : (
+              <Link
+                to="/start-project"
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[image:var(--gradient-gold)] px-4 text-sm font-semibold text-primary-foreground"
+              >
+                Start your project
+              </Link>
+            )}
           </div>
         </div>
       )}
