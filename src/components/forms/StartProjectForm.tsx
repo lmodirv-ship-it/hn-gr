@@ -69,7 +69,7 @@ export function StartProjectForm() {
   };
 
   if (success) {
-    const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://hn-gr.lovable.app";
+    const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://www.groupe-hn.com";
     const onShare = async () => {
       const data = { title: "HN-GROUPE", text: "I just started a project with HN-GROUPE.", url: shareUrl };
       if (typeof navigator !== "undefined" && navigator.share) {
