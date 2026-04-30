@@ -23,6 +23,14 @@ import { Route as BookCallRouteImport } from './routes/book-call'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminPortfolioRouteImport } from './routes/admin.portfolio'
+import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminChatRouteImport } from './routes/admin.chat'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 
 const WebDesignRoute = WebDesignRouteImport.update({
   id: '/web-design',
@@ -94,10 +102,50 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminChatRoute = AdminChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
   '/dashboard': typeof DashboardRoute
@@ -110,10 +158,17 @@ export interface FileRoutesByFullPath {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/chat': typeof AdminChatRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
   '/dashboard': typeof DashboardRoute
@@ -126,11 +181,19 @@ export interface FileRoutesByTo {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/chat': typeof AdminChatRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/book-call': typeof BookCallRoute
   '/dashboard': typeof DashboardRoute
@@ -143,6 +206,14 @@ export interface FileRoutesById {
   '/start-project': typeof StartProjectRoute
   '/thank-you': typeof ThankYouRoute
   '/web-design': typeof WebDesignRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/chat': typeof AdminChatRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,10 +232,17 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/admin/analytics'
+    | '/admin/chat'
+    | '/admin/leads'
+    | '/admin/portfolio'
+    | '/admin/services'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/auth'
     | '/book-call'
     | '/dashboard'
@@ -177,6 +255,14 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/admin/analytics'
+    | '/admin/chat'
+    | '/admin/leads'
+    | '/admin/portfolio'
+    | '/admin/services'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -193,11 +279,19 @@ export interface FileRouteTypes {
     | '/start-project'
     | '/thank-you'
     | '/web-design'
+    | '/admin/analytics'
+    | '/admin/chat'
+    | '/admin/leads'
+    | '/admin/portfolio'
+    | '/admin/services'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   BookCallRoute: typeof BookCallRoute
   DashboardRoute: typeof DashboardRoute
@@ -312,12 +406,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/portfolio': {
+      id: '/admin/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AdminPortfolioRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/chat': {
+      id: '/admin/chat'
+      path: '/chat'
+      fullPath: '/admin/chat'
+      preLoaderRoute: typeof AdminChatRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminChatRoute: typeof AdminChatRoute
+  AdminLeadsRoute: typeof AdminLeadsRoute
+  AdminPortfolioRoute: typeof AdminPortfolioRoute
+  AdminServicesRoute: typeof AdminServicesRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminChatRoute: AdminChatRoute,
+  AdminLeadsRoute: AdminLeadsRoute,
+  AdminPortfolioRoute: AdminPortfolioRoute,
+  AdminServicesRoute: AdminServicesRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   BookCallRoute: BookCallRoute,
   DashboardRoute: DashboardRoute,
