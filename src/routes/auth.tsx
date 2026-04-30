@@ -48,6 +48,13 @@ function AuthPage() {
     const fullName = String(fd.get("full_name") ?? "").trim();
 
     try {
+      if (typeof window !== "undefined") {
+        if (remember && email) {
+          window.localStorage.setItem("hn_remember_email", email);
+        } else if (!remember) {
+          window.localStorage.removeItem("hn_remember_email");
+        }
+      }
       if (mode === "magic") {
         const { error: err } = await supabase.auth.signInWithOtp({
           email,
