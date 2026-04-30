@@ -14,6 +14,7 @@ const tiers = [
       "Delivery in 7 days",
     ],
     type: "Website",
+    learnMore: "/web-design",
     popular: false,
   },
   {
@@ -28,6 +29,7 @@ const tiers = [
       "30-day post-launch support",
     ],
     type: "E-commerce",
+    learnMore: "/ecommerce",
     popular: true,
   },
   {
@@ -42,9 +44,10 @@ const tiers = [
       "Dedicated team",
     ],
     type: "Platform",
+    learnMore: "/saas",
     popular: false,
   },
-];
+] as const;
 
 export function PricingSection() {
   return (
@@ -102,6 +105,12 @@ export function PricingSection() {
               }`}
             >
               Start with {t.name}
+            </Link>
+            <Link
+              to={t.learnMore}
+              className="mt-2 text-center text-xs text-muted-foreground hover:text-primary"
+            >
+              Learn more →
             </Link>
           </div>
         ))}

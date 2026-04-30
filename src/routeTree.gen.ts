@@ -9,16 +9,31 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WebDesignRouteImport } from './routes/web-design'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as StartProjectRouteImport } from './routes/start-project'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SaasRouteImport } from './routes/saas'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as IdeaGeneratorRouteImport } from './routes/idea-generator'
+import { Route as EcommerceRouteImport } from './routes/ecommerce'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as BookCallRouteImport } from './routes/book-call'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WebDesignRoute = WebDesignRouteImport.update({
+  id: '/web-design',
+  path: '/web-design',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StartProjectRoute = StartProjectRouteImport.update({
   id: '/start-project',
   path: '/start-project',
@@ -34,6 +49,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SaasRoute = SaasRouteImport.update({
+  id: '/saas',
+  path: '/saas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
@@ -44,9 +64,19 @@ const IdeaGeneratorRoute = IdeaGeneratorRouteImport.update({
   path: '/idea-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EcommerceRoute = EcommerceRouteImport.update({
+  id: '/ecommerce',
+  path: '/ecommerce',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookCallRoute = BookCallRouteImport.update({
+  id: '/book-call',
+  path: '/book-call',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -69,35 +99,50 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/book-call': typeof BookCallRoute
   '/dashboard': typeof DashboardRoute
+  '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
+  '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-project': typeof StartProjectRoute
+  '/thank-you': typeof ThankYouRoute
+  '/web-design': typeof WebDesignRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/book-call': typeof BookCallRoute
   '/dashboard': typeof DashboardRoute
+  '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
+  '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-project': typeof StartProjectRoute
+  '/thank-you': typeof ThankYouRoute
+  '/web-design': typeof WebDesignRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/book-call': typeof BookCallRoute
   '/dashboard': typeof DashboardRoute
+  '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
   '/portfolio': typeof PortfolioRoute
+  '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start-project': typeof StartProjectRoute
+  '/thank-you': typeof ThankYouRoute
+  '/web-design': typeof WebDesignRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,50 +150,84 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/book-call'
     | '/dashboard'
+    | '/ecommerce'
     | '/idea-generator'
     | '/portfolio'
+    | '/saas'
     | '/services'
     | '/sitemap.xml'
     | '/start-project'
+    | '/thank-you'
+    | '/web-design'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/auth'
+    | '/book-call'
     | '/dashboard'
+    | '/ecommerce'
     | '/idea-generator'
     | '/portfolio'
+    | '/saas'
     | '/services'
     | '/sitemap.xml'
     | '/start-project'
+    | '/thank-you'
+    | '/web-design'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/auth'
+    | '/book-call'
     | '/dashboard'
+    | '/ecommerce'
     | '/idea-generator'
     | '/portfolio'
+    | '/saas'
     | '/services'
     | '/sitemap.xml'
     | '/start-project'
+    | '/thank-you'
+    | '/web-design'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
+  BookCallRoute: typeof BookCallRoute
   DashboardRoute: typeof DashboardRoute
+  EcommerceRoute: typeof EcommerceRoute
   IdeaGeneratorRoute: typeof IdeaGeneratorRoute
   PortfolioRoute: typeof PortfolioRoute
+  SaasRoute: typeof SaasRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StartProjectRoute: typeof StartProjectRoute
+  ThankYouRoute: typeof ThankYouRoute
+  WebDesignRoute: typeof WebDesignRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/web-design': {
+      id: '/web-design'
+      path: '/web-design'
+      fullPath: '/web-design'
+      preLoaderRoute: typeof WebDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/start-project': {
       id: '/start-project'
       path: '/start-project'
@@ -170,6 +249,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/saas': {
+      id: '/saas'
+      path: '/saas'
+      fullPath: '/saas'
+      preLoaderRoute: typeof SaasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
@@ -184,11 +270,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdeaGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ecommerce': {
+      id: '/ecommerce'
+      path: '/ecommerce'
+      fullPath: '/ecommerce'
+      preLoaderRoute: typeof EcommerceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-call': {
+      id: '/book-call'
+      path: '/book-call'
+      fullPath: '/book-call'
+      preLoaderRoute: typeof BookCallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -219,12 +319,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
+  BookCallRoute: BookCallRoute,
   DashboardRoute: DashboardRoute,
+  EcommerceRoute: EcommerceRoute,
   IdeaGeneratorRoute: IdeaGeneratorRoute,
   PortfolioRoute: PortfolioRoute,
+  SaasRoute: SaasRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StartProjectRoute: StartProjectRoute,
+  ThankYouRoute: ThankYouRoute,
+  WebDesignRoute: WebDesignRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
