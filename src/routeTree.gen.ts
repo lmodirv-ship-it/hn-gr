@@ -39,6 +39,7 @@ import { Route as AdminPluginsRouteImport } from './routes/admin.plugins'
 import { Route as AdminOwnerRouteImport } from './routes/admin.owner'
 import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminDatabaseRouteImport } from './routes/admin.database'
 import { Route as AdminConnectorsRouteImport } from './routes/admin.connectors'
 import { Route as AdminChatRouteImport } from './routes/admin.chat'
 import { Route as AdminCareersRouteImport } from './routes/admin.careers'
@@ -197,6 +198,11 @@ const AdminLeadsRoute = AdminLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDatabaseRoute = AdminDatabaseRouteImport.update({
+  id: '/database',
+  path: '/database',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminConnectorsRoute = AdminConnectorsRouteImport.update({
   id: '/connectors',
   path: '/connectors',
@@ -258,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
+  '/admin/database': typeof AdminDatabaseRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin/owner': typeof AdminOwnerRoute
@@ -296,6 +303,7 @@ export interface FileRoutesByTo {
   '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
+  '/admin/database': typeof AdminDatabaseRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin/owner': typeof AdminOwnerRoute
@@ -336,6 +344,7 @@ export interface FileRoutesById {
   '/admin/careers': typeof AdminCareersRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/connectors': typeof AdminConnectorsRoute
+  '/admin/database': typeof AdminDatabaseRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin/owner': typeof AdminOwnerRoute
@@ -377,6 +386,7 @@ export interface FileRouteTypes {
     | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
+    | '/admin/database'
     | '/admin/leads'
     | '/admin/monitoring'
     | '/admin/owner'
@@ -415,6 +425,7 @@ export interface FileRouteTypes {
     | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
+    | '/admin/database'
     | '/admin/leads'
     | '/admin/monitoring'
     | '/admin/owner'
@@ -454,6 +465,7 @@ export interface FileRouteTypes {
     | '/admin/careers'
     | '/admin/chat'
     | '/admin/connectors'
+    | '/admin/database'
     | '/admin/leads'
     | '/admin/monitoring'
     | '/admin/owner'
@@ -702,6 +714,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLeadsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/database': {
+      id: '/admin/database'
+      path: '/database'
+      fullPath: '/admin/database'
+      preLoaderRoute: typeof AdminDatabaseRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/connectors': {
       id: '/admin/connectors'
       path: '/connectors'
@@ -773,6 +792,7 @@ interface AdminRouteChildren {
   AdminCareersRoute: typeof AdminCareersRoute
   AdminChatRoute: typeof AdminChatRoute
   AdminConnectorsRoute: typeof AdminConnectorsRoute
+  AdminDatabaseRoute: typeof AdminDatabaseRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   AdminMonitoringRoute: typeof AdminMonitoringRoute
   AdminOwnerRoute: typeof AdminOwnerRoute
@@ -793,6 +813,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCareersRoute: AdminCareersRoute,
   AdminChatRoute: AdminChatRoute,
   AdminConnectorsRoute: AdminConnectorsRoute,
+  AdminDatabaseRoute: AdminDatabaseRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   AdminMonitoringRoute: AdminMonitoringRoute,
   AdminOwnerRoute: AdminOwnerRoute,
