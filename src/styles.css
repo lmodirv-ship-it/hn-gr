@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -112,6 +113,7 @@
     inset 0 1px 0 0 color-mix(in oklab, white 6%, transparent);
   --shadow-card: 0 8px 30px -12px oklch(0 0 0 / 0.6);
   --shadow-glow: 0 0 60px -10px color-mix(in oklab, var(--primary) 55%, transparent);
+  --font-arabic: "Tajawal", system-ui, sans-serif;
 }
 
 @layer base {
@@ -133,6 +135,26 @@
   h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
+  }
+
+
+  html[dir="rtl"],
+  html[dir="rtl"] body {
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+  }
+
+  html[dir="rtl"] h1,
+  html[dir="rtl"] h2,
+  html[dir="rtl"] h3,
+  html[dir="rtl"] h4,
+  html[dir="rtl"] .font-display {
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+  }
+
+  html[dir="rtl"] [class*="tracking-"] {
+    letter-spacing: 0;
   }
 
   /* Premium selection */
