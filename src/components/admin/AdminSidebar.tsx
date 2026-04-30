@@ -52,6 +52,8 @@ const main: NavItem[] = [
 const content: NavItem[] = [
   { title: "Services", url: "/admin/services", icon: Wrench },
   { title: "Portfolio", url: "/admin/portfolio", icon: ImageIcon },
+  { title: "Blog", url: "/admin/blog", icon: FileText },
+  { title: "Careers", url: "/admin/careers", icon: UserPlus, badgeKey: "applications" },
 ];
 
 const platform: NavItem[] = [
