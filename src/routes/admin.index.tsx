@@ -11,7 +11,6 @@ import {
   Wrench,
   Image as ImageIcon,
   Settings,
-  MessageSquare,
   Globe,
   Target,
 } from "lucide-react";
@@ -627,5 +626,3 @@ function QuickAction({ to, icon, label }: { to: string; icon: React.ReactNode; l
   );
 }
 
-// keep the import used
-void MessageSquare;
