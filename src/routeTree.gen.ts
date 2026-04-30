@@ -17,6 +17,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SaasRouteImport } from './routes/saas'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as IdeaGeneratorRouteImport } from './routes/idea-generator'
 import { Route as EcommerceRouteImport } from './routes/ecommerce'
@@ -84,6 +85,11 @@ const SaasRoute = SaasRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OwnerRoute = OwnerRouteImport.update({
+  id: '/owner',
+  path: '/owner',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/owner': typeof OwnerRoute
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -274,6 +281,7 @@ export interface FileRoutesByTo {
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/owner': typeof OwnerRoute
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -313,6 +321,7 @@ export interface FileRoutesById {
   '/ecommerce': typeof EcommerceRoute
   '/idea-generator': typeof IdeaGeneratorRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/owner': typeof OwnerRoute
   '/portfolio': typeof PortfolioRoute
   '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
@@ -353,6 +362,7 @@ export interface FileRouteTypes {
     | '/ecommerce'
     | '/idea-generator'
     | '/insights'
+    | '/owner'
     | '/portfolio'
     | '/saas'
     | '/services'
@@ -390,6 +400,7 @@ export interface FileRouteTypes {
     | '/ecommerce'
     | '/idea-generator'
     | '/insights'
+    | '/owner'
     | '/portfolio'
     | '/saas'
     | '/services'
@@ -428,6 +439,7 @@ export interface FileRouteTypes {
     | '/ecommerce'
     | '/idea-generator'
     | '/insights'
+    | '/owner'
     | '/portfolio'
     | '/saas'
     | '/services'
@@ -467,6 +479,7 @@ export interface RootRouteChildren {
   EcommerceRoute: typeof EcommerceRoute
   IdeaGeneratorRoute: typeof IdeaGeneratorRoute
   InsightsRoute: typeof InsightsRouteWithChildren
+  OwnerRoute: typeof OwnerRoute
   PortfolioRoute: typeof PortfolioRoute
   SaasRoute: typeof SaasRoute
   ServicesRoute: typeof ServicesRoute
@@ -533,6 +546,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/owner': {
+      id: '/owner'
+      path: '/owner'
+      fullPath: '/owner'
+      preLoaderRoute: typeof OwnerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -810,6 +830,7 @@ const rootRouteChildren: RootRouteChildren = {
   EcommerceRoute: EcommerceRoute,
   IdeaGeneratorRoute: IdeaGeneratorRoute,
   InsightsRoute: InsightsRouteWithChildren,
+  OwnerRoute: OwnerRoute,
   PortfolioRoute: PortfolioRoute,
   SaasRoute: SaasRoute,
   ServicesRoute: ServicesRoute,
