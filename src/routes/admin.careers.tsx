@@ -118,21 +118,20 @@ function AdminCareersPage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-wider text-primary">Content</p>
-        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">Careers · ATS</h1>
+        <p className="text-xs font-semibold uppercase tracking-wider text-primary">{tt("section.content")}</p>
+        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">{tt("careers.title")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Manage incoming job applications. {items.length} total ·{" "}
-          <span className="text-primary">{counts.new ?? 0} new</span>
+          {tt("careers.subtitle", { total: items.length, new: counts.new ?? 0 })}
         </p>
       </header>
 
       <div className="flex flex-wrap gap-2">
         <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>
-          All ({items.length})
+          {tt("common.all")} ({items.length})
         </FilterChip>
         {(Object.keys(STATUS_META) as Status[]).map((s) => (
           <FilterChip key={s} active={filter === s} onClick={() => setFilter(s)}>
-            {STATUS_META[s].label} ({counts[s] ?? 0})
+            {tt(STATUS_META[s].labelKey)} ({counts[s] ?? 0})
           </FilterChip>
         ))}
       </div>
@@ -140,7 +139,7 @@ function AdminCareersPage() {
       {filtered.length === 0 ? (
         <div className="grid place-items-center rounded-2xl border border-dashed border-border py-16">
           <UserPlus className="mb-2 h-8 w-8 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">No applications in this view.</p>
+          <p className="text-sm text-muted-foreground">{tt("careers.empty")}</p>
         </div>
       ) : (
         <div className="grid gap-3">
@@ -156,7 +155,7 @@ function AdminCareersPage() {
                     <span
                       className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${STATUS_META[a.status].cls}`}
                     >
-                      {STATUS_META[a.status].label}
+                      {tt(STATUS_META[a.status].labelKey)}
                     </span>
                     <span className="rounded-full bg-muted/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
                       {a.specialty}
@@ -183,7 +182,7 @@ function AdminCareersPage() {
                   {a.cv_summary ? (
                     <div className="mt-3 rounded-lg border border-primary/30 bg-primary/5 p-3 text-xs">
                       <div className="mb-1 inline-flex items-center gap-1.5 font-semibold uppercase tracking-wider text-primary">
-                        <Sparkles className="h-3 w-3" /> AI summary
+                        <Sparkles className="h-3 w-3" /> {tt("careers.aiSummary")}
                       </div>
                       <p className="text-foreground/90">{a.cv_summary}</p>
                     </div>
@@ -198,7 +197,7 @@ function AdminCareersPage() {
                       ) : (
                         <Sparkles className="h-3 w-3" />
                       )}
-                      AI summary
+                      {tt("careers.aiSummary")}
                     </button>
                   )}
                 </div>
@@ -210,7 +209,7 @@ function AdminCareersPage() {
                   >
                     {(Object.keys(STATUS_META) as Status[]).map((s) => (
                       <option key={s} value={s}>
-                        {STATUS_META[s].label}
+                        {tt(STATUS_META[s].labelKey)}
                       </option>
                     ))}
                   </select>
