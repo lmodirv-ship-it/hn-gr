@@ -186,7 +186,7 @@ function BookCallPage() {
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
         Can't find a time?{" "}
-        <a href="mailto:lmodirv@gmail.com" className="text-primary underline">
+        <a href="mailto:lmdorv@gmail.com" className="text-primary underline">
           Email us
         </a>{" "}
         directly.
