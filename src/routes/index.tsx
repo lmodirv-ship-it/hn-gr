@@ -11,7 +11,7 @@ import { PortfolioGrid } from "@/components/portfolio/PortfolioGrid";
 import { TechStackSection } from "@/components/home/TechStackSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { HowItWorks } from "@/components/home/HowItWorks";
-import { PricingSection } from "@/components/home/PricingSection";
+
 import { FAQSection } from "@/components/home/FAQSection";
 import { CTASection } from "@/components/home/CTASection";
 
@@ -39,8 +39,7 @@ function Home() {
   const { t } = useTranslation();
   return (
     <>
-      <HeroSection />
-      <PricingSection />
+      <HeroPricingRow />
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
