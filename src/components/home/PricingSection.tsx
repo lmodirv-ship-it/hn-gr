@@ -12,7 +12,7 @@ const tiers = [
 export function PricingSection() {
   const { t } = useTranslation();
   return (
-    <section id="pricing" className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <section id="pricing" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
         <span className="text-xs font-semibold uppercase tracking-widest text-primary">{t("pricing.eyebrow")}</span>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">{t("pricing.title.before")} <span className="text-gradient-gold">{t("pricing.title.highlight")}</span></h2>

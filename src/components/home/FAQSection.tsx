@@ -6,7 +6,7 @@ export function FAQSection() {
   const { t } = useTranslation();
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="relative mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
+    <section className="relative mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
         <span className="text-xs font-semibold uppercase tracking-widest text-primary">{t("faq.eyebrow")}</span>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">{t("faq.title.before")} <span className="text-gradient-gold">{t("faq.title.highlight")}</span>.</h2>
