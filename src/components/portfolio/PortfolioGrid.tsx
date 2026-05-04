@@ -2,6 +2,36 @@ import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
+import hnchatImg from "@/assets/projects/hnchat.png";
+import soukHnImg from "@/assets/projects/souk-hn.png";
+import hnVideoAiImg from "@/assets/projects/hn-videoai.png";
+import tangierPrintImg from "@/assets/projects/tangier-print.png";
+import hnImmoImg from "@/assets/projects/hn-immo.png";
+import hnDriverImg from "@/assets/projects/hn-driver.png";
+import hnDevImg from "@/assets/projects/hn-dev.png";
+
+const SLUG_IMAGES: Record<string, string> = {
+  "hn-chat-hub": hnchatImg,
+  "hnchat": hnchatImg,
+  "souk-hn": soukHnImg,
+  "hn-videoai": hnVideoAiImg,
+  "hn-aivideo": hnVideoAiImg,
+  "hn-cima": hnVideoAiImg,
+  "tangier-print": tangierPrintImg,
+  "hn-immobilier": hnImmoImg,
+  "hn-immo": hnImmoImg,
+  "hn-driver": hnDriverImg,
+  "hn-dev": hnDevImg,
+  "unified-future-hub": hnDevImg,
+  "studio-hn": hnDevImg,
+  "hn-carwash": hnDriverImg,
+  "wash-pal": hnDriverImg,
+  "db-guard": hnDevImg,
+  "income-igniter": hnDevImg,
+  "vigilant-guardian": hnDevImg,
+  "domain-monitor": hnDevImg,
+  "cloud-harmony": hnDevImg,
+};
 
 interface DbItem {
   id: string;
@@ -76,13 +106,16 @@ export function PortfolioGrid({ limit, showFilters = true }: Props) {
           const Inner = (
             <>
               <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                {p.image_url ? (
-                  <img src={p.image_url} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 via-background to-accent/20">
-                    <span className="font-display text-2xl font-bold text-foreground/70">{p.title.slice(0, 2).toUpperCase()}</span>
-                  </div>
-                )}
+                {(() => {
+                  const src = p.image_url || SLUG_IMAGES[p.slug];
+                  return src ? (
+                    <img src={src} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 via-background to-accent/20">
+                      <span className="font-display text-2xl font-bold text-foreground/70">{p.title.slice(0, 2).toUpperCase()}</span>
+                    </div>
+                  );
+                })()}
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
               <div className="p-5">
