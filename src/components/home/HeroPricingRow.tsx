@@ -11,7 +11,7 @@ type BillingCycle = "monthly" | "quarterly" | "semiannual" | "annual";
 // Monthly base prices in USD (no separators)
 const tiers = [
   {
-    monthly: 1490,
+    monthly: 20,
     features: [
       "1-page custom design",
       "Mobile-first + SEO basics",
@@ -23,7 +23,7 @@ const tiers = [
     popular: false,
   },
   {
-    monthly: 3900,
+    monthly: 49,
     features: [
       "Up to 8 pages or 50 products",
       "CMS / admin dashboard",
@@ -36,7 +36,7 @@ const tiers = [
     popular: true,
   },
   {
-    monthly: 6900,
+    monthly: 99,
     features: [
       "Tailored architecture & DB",
       "Auth, roles, dashboards",
