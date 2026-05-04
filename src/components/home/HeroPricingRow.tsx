@@ -1,13 +1,17 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Sparkles } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import heroBg from "@/assets/hero-bg.jpg";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import { trackEvent } from "@/hooks/use-track-event";
 
+type BillingCycle = "monthly" | "quarterly" | "semiannual" | "annual";
+
+// Monthly base prices in USD (no separators)
 const tiers = [
   {
-    price: "$1,490",
+    monthly: 1490,
     features: [
       "1-page custom design",
       "Mobile-first + SEO basics",
@@ -19,7 +23,7 @@ const tiers = [
     popular: false,
   },
   {
-    price: "$3,900",
+    monthly: 3900,
     features: [
       "Up to 8 pages or 50 products",
       "CMS / admin dashboard",
@@ -32,7 +36,7 @@ const tiers = [
     popular: true,
   },
   {
-    priceKey: "pricing.tier.2.price",
+    monthly: 6900,
     features: [
       "Tailored architecture & DB",
       "Auth, roles, dashboards",
@@ -45,6 +49,14 @@ const tiers = [
     popular: false,
   },
 ] as const;
+
+// months × discount factor (longer = bigger discount)
+const CYCLE_CONFIG: Record<BillingCycle, { months: number; discount: number; labelKey: string; suffixKey: string }> = {
+  monthly:    { months: 1,  discount: 0,    labelKey: "pricing.cycle.monthly",    suffixKey: "pricing.suffix.month" },
+  quarterly:  { months: 3,  discount: 0.05, labelKey: "pricing.cycle.quarterly",  suffixKey: "pricing.suffix.quarter" },
+  semiannual: { months: 6,  discount: 0.10, labelKey: "pricing.cycle.semiannual", suffixKey: "pricing.suffix.semiannual" },
+  annual:     { months: 12, discount: 0.20, labelKey: "pricing.cycle.annual",     suffixKey: "pricing.suffix.year" },
+};
 
 export function HeroPricingRow() {
   const { t } = useTranslation();
