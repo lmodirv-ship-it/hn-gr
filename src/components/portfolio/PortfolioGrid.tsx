@@ -2,6 +2,36 @@ import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
+import hnchatImg from "@/assets/projects/hnchat.png";
+import soukHnImg from "@/assets/projects/souk-hn.png";
+import hnVideoAiImg from "@/assets/projects/hn-videoai.png";
+import tangierPrintImg from "@/assets/projects/tangier-print.png";
+import hnImmoImg from "@/assets/projects/hn-immo.png";
+import hnDriverImg from "@/assets/projects/hn-driver.png";
+import hnDevImg from "@/assets/projects/hn-dev.png";
+
+const SLUG_IMAGES: Record<string, string> = {
+  "hn-chat-hub": hnchatImg,
+  "hnchat": hnchatImg,
+  "souk-hn": soukHnImg,
+  "hn-videoai": hnVideoAiImg,
+  "hn-aivideo": hnVideoAiImg,
+  "hn-cima": hnVideoAiImg,
+  "tangier-print": tangierPrintImg,
+  "hn-immobilier": hnImmoImg,
+  "hn-immo": hnImmoImg,
+  "hn-driver": hnDriverImg,
+  "hn-dev": hnDevImg,
+  "unified-future-hub": hnDevImg,
+  "studio-hn": hnDevImg,
+  "hn-carwash": hnDriverImg,
+  "wash-pal": hnDriverImg,
+  "db-guard": hnDevImg,
+  "income-igniter": hnDevImg,
+  "vigilant-guardian": hnDevImg,
+  "domain-monitor": hnDevImg,
+  "cloud-harmony": hnDevImg,
+};
 
 interface DbItem {
   id: string;
