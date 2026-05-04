@@ -359,6 +359,102 @@ export type Database = {
         }
         Relationships: []
       }
+      pricing_cycles: {
+        Row: {
+          active: boolean
+          created_at: string
+          discount: number
+          id: string
+          key: string
+          label_ar: string
+          label_en: string
+          months: number
+          sort_order: number
+          suffix_ar: string
+          suffix_en: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          discount?: number
+          id?: string
+          key: string
+          label_ar: string
+          label_en: string
+          months: number
+          sort_order?: number
+          suffix_ar: string
+          suffix_en: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          discount?: number
+          id?: string
+          key?: string
+          label_ar?: string
+          label_en?: string
+          months?: number
+          sort_order?: number
+          suffix_ar?: string
+          suffix_en?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      pricing_plans: {
+        Row: {
+          active: boolean
+          created_at: string
+          currency: string
+          features: Json
+          id: string
+          learn_more_path: string | null
+          monthly_price: number
+          name: string
+          popular: boolean
+          project_type: string | null
+          slug: string
+          sort_order: number
+          tagline: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          currency?: string
+          features?: Json
+          id?: string
+          learn_more_path?: string | null
+          monthly_price?: number
+          name: string
+          popular?: boolean
+          project_type?: string | null
+          slug: string
+          sort_order?: number
+          tagline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          currency?: string
+          features?: Json
+          id?: string
+          learn_more_path?: string | null
+          monthly_price?: number
+          name?: string
+          popular?: boolean
+          project_type?: string | null
+          slug?: string
+          sort_order?: number
+          tagline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
