@@ -97,9 +97,37 @@ export function HeroPricingRow() {
                 <span className="text-gradient-gold">{t("pricing.title.highlight")}</span>
               </h2>
             </div>
+
+            {/* Billing cycle switcher */}
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-surface/60 p-1.5">
+              {cycles.map((c) => {
+                const active = c === cycle;
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setCycle(c)}
+                    className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-all ${
+                      active
+                        ? "bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {t(CYCLE_CONFIG[c].labelKey)}
+                    {CYCLE_CONFIG[c].discount > 0 && (
+                      <span className={`ms-1 text-[9px] ${active ? "opacity-90" : "text-primary"}`}>
+                        −{Math.round(CYCLE_CONFIG[c].discount * 100)}%
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
             <div className="mt-6 grid gap-4">
               {tiers.map((tier, i) => {
                 const name = t(`pricing.tier.${i}.name`);
+                const totalPrice = Math.round(tier.monthly * cfg.months * (1 - cfg.discount));
                 return (
                   <div
                     key={name}
@@ -116,9 +144,12 @@ export function HeroPricingRow() {
                     )}
                     <div className="flex items-baseline justify-between gap-3">
                       <h3 className="font-display text-base font-bold">{name}</h3>
-                      <span className="font-display text-xl font-bold">
-                        {"priceKey" in tier ? t(tier.priceKey) : tier.price}
-                      </span>
+                      <div className="text-end">
+                        <span className="font-display text-xl font-bold">${totalPrice}</span>
+                        <span className="ms-1 text-[10px] text-muted-foreground">
+                          /{t(cfg.suffixKey)}
+                        </span>
+                      </div>
                     </div>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {t(`pricing.tier.${i}.tagline`)}
