@@ -10,7 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { PageViewTracker } from "@/hooks/use-track-event";
 import { WhatsAppButton } from "@/components/growth/WhatsAppButton";
 import { StickyCTA } from "@/components/growth/StickyCTA";
-import { ExitIntentModal } from "@/components/growth/ExitIntentModal";
+
 import { I18nProvider, I18nDirectionEffect } from "@/components/i18n/I18nProvider";
 
 function NotFoundComponent() {
@@ -128,7 +128,7 @@ function RootComponent() {
         <ChatWidget />
         <WhatsAppButton />
         <StickyCTA />
-        <ExitIntentModal />
+        
         <SoundController />
         <Toaster richColors position="top-center" />
         <PageViewTracker />
