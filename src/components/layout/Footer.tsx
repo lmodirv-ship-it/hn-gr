@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Linkedin, Mail, Send, MapPin, Phone, MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_CONTACT, buildTelHref, buildWhatsAppUrl } from "@/lib/contact-links";
+import hnLogo from "@/assets/hn-groupe-logo.png";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ export function Footer() {
         </div>
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <div className="flex items-center gap-2 font-display text-xl font-bold"><span className="grid h-9 w-9 place-items-center rounded-md bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]">H</span><span>HN<span className="text-primary">-GROUPE</span></span></div>
+            <div className="flex items-center gap-2 font-display text-xl font-bold"><img src={hnLogo} alt="HN Groupe" className="h-11 w-11 rounded-md object-cover shadow-[var(--shadow-gold)]" /><span>HN<span className="text-primary">-GROUPE</span></span></div>
             <p className="mt-4 max-w-md text-sm text-muted-foreground">{t("footer.description")}</p>
             <div className="mt-5 flex items-center gap-3">{[{ Icon: MessageCircle, href: whatsappHref, label: "WhatsApp" }, { Icon: Linkedin, href: "https://www.linkedin.com/company/hn-groupe", label: "LinkedIn" }].map(({ Icon, href, label }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="grid h-9 w-9 place-items-center rounded-md border border-border bg-surface/40 text-muted-foreground transition-all hover:border-primary/40 hover:text-primary"><Icon className="h-4 w-4" /></a>)}</div>
           </div>

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/use-auth";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { LiveStats } from "@/components/layout/LiveStats";
+import hnLogo from "@/assets/hn-groupe-logo.png";
 
 export function Header() {
   const { t } = useTranslation();
@@ -23,9 +24,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-white/5 bg-background/60 backdrop-blur-2xl backdrop-saturate-150">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]">
-            H
-          </span>
+          <img src={hnLogo} alt="HN Groupe" className="h-10 w-10 rounded-md object-cover shadow-[var(--shadow-gold)]" />
           <span>
             HN<span className="text-primary">-GROUPE</span>
           </span>
