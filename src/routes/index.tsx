@@ -73,7 +73,6 @@ function Home() {
       <TechStackSection />
       <TestimonialsSection />
       <HowItWorks />
-      <PricingSection />
       <FAQSection />
       <CTASection />
     </>
