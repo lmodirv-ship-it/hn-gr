@@ -6,7 +6,7 @@ const steps = [Search, PenTool, Code2, Rocket];
 export function ProcessSection() {
   const { t } = useTranslation();
   return (
-    <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
         <span className="text-xs font-semibold uppercase tracking-widest text-primary">{t("process.eyebrow")}</span>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">

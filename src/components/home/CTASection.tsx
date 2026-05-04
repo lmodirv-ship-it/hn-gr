@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 export function CTASection() {
   const { t } = useTranslation();
   return (
-    <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="glass-strong relative overflow-hidden rounded-3xl px-6 py-16 text-center sm:px-12 sm:py-20">
         <div aria-hidden className="absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30" style={{ background: "radial-gradient(circle, color-mix(in oklab, var(--primary) 30%, transparent), transparent 60%)" }} />
         <div aria-hidden className="absolute -top-20 -right-20 h-64 w-64 rounded-full border border-primary/20 animate-orbit" />

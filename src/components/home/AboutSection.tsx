@@ -12,7 +12,7 @@ export function AboutSection() {
   const { t } = useTranslation();
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
         <div className="relative overflow-hidden rounded-2xl border border-border">
           <img src={workspace} alt={t("about.imageAlt")} width={1280} height={960} loading="lazy" className="h-full w-full object-cover" />

@@ -8,7 +8,7 @@ export function ServicesSection({ detailed = false }: Props) {
   const { t } = useTranslation();
 
   return (
-    <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       {!detailed && (
         <div className="mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
           <div className="text-center md:text-right rtl:md:text-left">
