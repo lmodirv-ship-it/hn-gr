@@ -60,6 +60,10 @@ const CYCLE_CONFIG: Record<BillingCycle, { months: number; discount: number; lab
 
 export function HeroPricingRow() {
   const { t } = useTranslation();
+  const [cycle, setCycle] = useState<BillingCycle>("monthly");
+  const cfg = CYCLE_CONFIG[cycle];
+
+  const cycles: BillingCycle[] = ["monthly", "quarterly", "semiannual", "annual"];
 
   return (
     <section className="relative overflow-hidden">
