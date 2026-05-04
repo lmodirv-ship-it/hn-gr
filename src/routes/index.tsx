@@ -40,6 +40,7 @@ function Home() {
   return (
     <>
       <HeroSection />
+      <PricingSection />
       <TrustedBySection />
       <MissionSection />
       <AboutSection />
@@ -72,7 +73,6 @@ function Home() {
       <TechStackSection />
       <TestimonialsSection />
       <HowItWorks />
-      <PricingSection />
       <FAQSection />
       <CTASection />
     </>
