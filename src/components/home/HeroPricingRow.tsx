@@ -1,69 +1,79 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import heroBg from "@/assets/hero-bg.jpg";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import { trackEvent } from "@/hooks/use-track-event";
+import { supabase } from "@/integrations/supabase/client";
 
-type BillingCycle = "monthly" | "quarterly" | "semiannual" | "annual";
+type Plan = {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string | null;
+  monthly_price: number;
+  currency: string;
+  project_type: string | null;
+  learn_more_path: string | null;
+  features: string[];
+  popular: boolean;
+};
 
-// Monthly base prices in USD (no separators)
-const tiers = [
-  {
-    monthly: 20,
-    features: [
-      "1-page custom design",
-      "Mobile-first + SEO basics",
-      "Contact form + WhatsApp",
-      "Delivery in 7 days",
-    ],
-    type: "Website",
-    learnMore: "/web-design",
-    popular: false,
-  },
-  {
-    monthly: 49,
-    features: [
-      "Up to 8 pages or 50 products",
-      "CMS / admin dashboard",
-      "Analytics + conversion tracking",
-      "Stripe / payments integration",
-      "30-day post-launch support",
-    ],
-    type: "E-commerce",
-    learnMore: "/ecommerce",
-    popular: true,
-  },
-  {
-    monthly: 99,
-    features: [
-      "Tailored architecture & DB",
-      "Auth, roles, dashboards",
-      "Third-party APIs & AI",
-      "Scalable cloud deploy",
-      "Dedicated team",
-    ],
-    type: "Platform",
-    learnMore: "/saas",
-    popular: false,
-  },
-] as const;
-
-// months × discount factor (longer = bigger discount)
-const CYCLE_CONFIG: Record<BillingCycle, { months: number; discount: number; labelKey: string; suffixKey: string }> = {
-  monthly:    { months: 1,  discount: 0,    labelKey: "pricing.cycle.monthly",    suffixKey: "pricing.suffix.month" },
-  quarterly:  { months: 3,  discount: 0.05, labelKey: "pricing.cycle.quarterly",  suffixKey: "pricing.suffix.quarter" },
-  semiannual: { months: 6,  discount: 0.10, labelKey: "pricing.cycle.semiannual", suffixKey: "pricing.suffix.semiannual" },
-  annual:     { months: 12, discount: 0.20, labelKey: "pricing.cycle.annual",     suffixKey: "pricing.suffix.year" },
+type Cycle = {
+  id: string;
+  key: string;
+  label_en: string;
+  label_ar: string;
+  suffix_en: string;
+  suffix_ar: string;
+  months: number;
+  discount: number;
 };
 
 export function HeroPricingRow() {
-  const { t } = useTranslation();
-  const [cycle, setCycle] = useState<BillingCycle>("monthly");
-  const cfg = CYCLE_CONFIG[cycle];
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language?.startsWith("ar");
 
-  const cycles: BillingCycle[] = ["monthly", "quarterly", "semiannual", "annual"];
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [cycles, setCycles] = useState<Cycle[]>([]);
+  const [activeCycle, setActiveCycle] = useState<string>("monthly");
+
+  useEffect(() => {
+    let mounted = true;
+    void (async () => {
+      const [{ data: planRows }, { data: cycleRows }] = await Promise.all([
+        supabase
+          .from("pricing_plans")
+          .select("*")
+          .eq("active", true)
+          .order("sort_order", { ascending: true }),
+        supabase
+          .from("pricing_cycles")
+          .select("*")
+          .eq("active", true)
+          .order("sort_order", { ascending: true }),
+      ]);
+      if (!mounted) return;
+      if (planRows) {
+        setPlans(
+          planRows.map((p: any) => ({
+            ...p,
+            features: Array.isArray(p.features) ? p.features : [],
+          })),
+        );
+      }
+      if (cycleRows && cycleRows.length > 0) {
+        setCycles(cycleRows as Cycle[]);
+        setActiveCycle((cycleRows[0] as Cycle).key);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const cfg = cycles.find((c) => c.key === activeCycle);
 
   return (
     <section className="relative overflow-hidden">
@@ -99,63 +109,67 @@ export function HeroPricingRow() {
             </div>
 
             {/* Billing cycle switcher */}
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-surface/60 p-1.5">
-              {cycles.map((c) => {
-                const active = c === cycle;
-                return (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setCycle(c)}
-                    className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-all ${
-                      active
-                        ? "bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {t(CYCLE_CONFIG[c].labelKey)}
-                    {CYCLE_CONFIG[c].discount > 0 && (
-                      <span className={`ms-1 text-[9px] ${active ? "opacity-90" : "text-primary"}`}>
-                        −{Math.round(CYCLE_CONFIG[c].discount * 100)}%
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+            {cycles.length > 0 && (
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-surface/60 p-1.5">
+                {cycles.map((c) => {
+                  const active = c.key === activeCycle;
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setActiveCycle(c.key)}
+                      className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-all ${
+                        active
+                          ? "bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {isAr ? c.label_ar : c.label_en}
+                      {Number(c.discount) > 0 && (
+                        <span className={`ms-1 text-[9px] ${active ? "opacity-90" : "text-primary"}`}>
+                          −{Math.round(Number(c.discount) * 100)}%
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             <div className="mt-6 grid gap-4">
-              {tiers.map((tier, i) => {
-                const name = t(`pricing.tier.${i}.name`);
-                const totalPrice = Math.round(tier.monthly * cfg.months * (1 - cfg.discount));
+              {plans.map((plan) => {
+                const months = cfg?.months ?? 1;
+                const discount = Number(cfg?.discount ?? 0);
+                const totalPrice = Math.round(Number(plan.monthly_price) * months * (1 - discount));
+                const suffix = cfg ? (isAr ? cfg.suffix_ar : cfg.suffix_en) : "";
                 return (
                   <div
-                    key={name}
+                    key={plan.id}
                     className={`relative flex flex-col rounded-2xl border p-5 transition-all ${
-                      tier.popular
+                      plan.popular
                         ? "border-primary/60 bg-surface/80 shadow-[var(--shadow-gold)]"
                         : "border-border bg-surface/40 hover:border-primary/30"
                     }`}
                   >
-                    {tier.popular && (
+                    {plan.popular && (
                       <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full bg-[image:var(--gradient-gold)] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">
                         <Sparkles className="h-3 w-3" /> {t("pricing.popular")}
                       </span>
                     )}
                     <div className="flex items-baseline justify-between gap-3">
-                      <h3 className="font-display text-base font-bold">{name}</h3>
+                      <h3 className="font-display text-base font-bold">{plan.name}</h3>
                       <div className="text-end">
                         <span className="font-display text-xl font-bold">${totalPrice}</span>
-                        <span className="ms-1 text-[10px] text-muted-foreground">
-                          /{t(cfg.suffixKey)}
-                        </span>
+                        {suffix && (
+                          <span className="ms-1 text-[10px] text-muted-foreground">/{suffix}</span>
+                        )}
                       </div>
                     </div>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {t(`pricing.tier.${i}.tagline`)}
-                    </p>
+                    {plan.tagline && (
+                      <p className="mt-1 text-xs text-muted-foreground">{plan.tagline}</p>
+                    )}
                     <ul className="mt-3 grid gap-1.5 text-xs">
-                      {tier.features.slice(0, 3).map((f) => (
+                      {plan.features.slice(0, 3).map((f) => (
                         <li key={f} className="flex items-start gap-2">
                           <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
                           <span>{f}</span>
@@ -164,17 +178,17 @@ export function HeroPricingRow() {
                     </ul>
                     <Link
                       to="/start-project"
-                      search={{ projectType: tier.type }}
+                      search={{ projectType: plan.project_type ?? plan.name }}
                       onClick={() =>
-                        void trackEvent("cta_click", { cta: "pricing_tier", tier: name })
+                        void trackEvent("cta_click", { cta: "pricing_tier", tier: plan.name })
                       }
                       className={`mt-4 inline-flex h-9 items-center justify-center rounded-md text-xs font-semibold transition-transform hover:scale-[1.02] ${
-                        tier.popular
+                        plan.popular
                           ? "bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
                           : "border border-border bg-background hover:border-primary/40"
                       }`}
                     >
-                      {t("pricing.startWith", { name })}
+                      {t("pricing.startWith", { name: plan.name })}
                     </Link>
                   </div>
                 );
