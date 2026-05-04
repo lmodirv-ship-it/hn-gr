@@ -1,5 +1,5 @@
 export const DEFAULT_CONTACT = {
-  email: "contact@groupe-hn.com",
+  email: "lmodirv@gmail.com",
   phone: "0668546358",
   whatsapp: "0668546358",
   calendly: "",
