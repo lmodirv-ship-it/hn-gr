@@ -40,6 +40,7 @@ function Home() {
   return (
     <>
       <HeroSection />
+      <PricingSection />
       <TrustedBySection />
       <MissionSection />
       <AboutSection />
