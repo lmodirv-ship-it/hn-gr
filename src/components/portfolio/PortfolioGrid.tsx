@@ -36,24 +36,32 @@ export function PortfolioGrid({ limit, showFilters = true }: Props) {
         </div>
       )}
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((p) => (
-          <article key={p.id} className="glass group overflow-hidden rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:ring-glow">
-            <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-              <img src={p.image} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            </div>
-            <div className="p-5">
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="font-display text-lg font-semibold">{p.title}</h3>
-                {p.link && <a href={p.link} target="_blank" rel="noreferrer" aria-label={`Open ${p.title}`} className="text-muted-foreground hover:text-primary"><ExternalLink className="h-4 w-4" /></a>}
+        {visible.map((p) => {
+          const Card = (
+            <>
+              <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                <img src={p.image} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">{t(`portfolio.project.${p.id}.description`, p.description)}</p>
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {p.techStack.map((tech) => <span key={tech} className="rounded-md border border-border bg-background/40 px-2 py-0.5 text-xs text-muted-foreground">{tech}</span>)}
+              <div className="p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="font-display text-lg font-semibold">{p.title}</h3>
+                  {p.link && <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary" />}
+                </div>
+                <p className="mt-1 text-sm text-muted-foreground">{t(`portfolio.project.${p.id}.description`, p.description)}</p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {p.techStack.map((tech) => <span key={tech} className="rounded-md border border-border bg-background/40 px-2 py-0.5 text-xs text-muted-foreground">{tech}</span>)}
+                </div>
               </div>
-            </div>
-          </article>
-        ))}
+            </>
+          );
+          const className = "glass group block overflow-hidden rounded-2xl transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:ring-glow";
+          return p.link ? (
+            <a key={p.id} href={p.link} target="_blank" rel="noreferrer" aria-label={`Open ${p.title}`} className={className}>{Card}</a>
+          ) : (
+            <article key={p.id} className={className}>{Card}</article>
+          );
+        })}
       </div>
     </div>
   );
