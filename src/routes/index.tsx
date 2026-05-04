@@ -41,11 +41,6 @@ function Home() {
     <>
       <HeroSection />
       <PricingSection />
-      <TrustedBySection />
-      <MissionSection />
-      <AboutSection />
-      <ServicesSection />
-      <ProcessSection />
 
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -70,6 +65,11 @@ function Home() {
         </div>
       </section>
 
+      <TrustedBySection />
+      <MissionSection />
+      <AboutSection />
+      <ServicesSection />
+      <ProcessSection />
       <TechStackSection />
       <TestimonialsSection />
       <HowItWorks />
