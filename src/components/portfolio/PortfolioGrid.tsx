@@ -106,13 +106,16 @@ export function PortfolioGrid({ limit, showFilters = true }: Props) {
           const Inner = (
             <>
               <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                {p.image_url ? (
-                  <img src={p.image_url} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 via-background to-accent/20">
-                    <span className="font-display text-2xl font-bold text-foreground/70">{p.title.slice(0, 2).toUpperCase()}</span>
-                  </div>
-                )}
+                {(() => {
+                  const src = p.image_url || SLUG_IMAGES[p.slug];
+                  return src ? (
+                    <img src={src} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 via-background to-accent/20">
+                      <span className="font-display text-2xl font-bold text-foreground/70">{p.title.slice(0, 2).toUpperCase()}</span>
+                    </div>
+                  );
+                })()}
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
               <div className="p-5">
