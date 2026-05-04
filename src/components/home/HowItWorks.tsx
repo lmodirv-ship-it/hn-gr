@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 export function HowItWorks() {
   const { t } = useTranslation();
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
         <span className="text-xs font-semibold uppercase tracking-widest text-primary">{t("how.eyebrow")}</span>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">{t("how.title")}</h2>
