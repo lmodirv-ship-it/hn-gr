@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { HeroSection } from "@/components/home/HeroSection";
+import { HeroPricingRow } from "@/components/home/HeroPricingRow";
 import { TrustedBySection } from "@/components/home/TrustedBySection";
 import { MissionSection } from "@/components/home/MissionSection";
 import { AboutSection } from "@/components/home/AboutSection";
