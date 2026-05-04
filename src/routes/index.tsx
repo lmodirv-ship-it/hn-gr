@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { HeroSection } from "@/components/home/HeroSection";
+import { HeroPricingRow } from "@/components/home/HeroPricingRow";
 import { TrustedBySection } from "@/components/home/TrustedBySection";
 import { MissionSection } from "@/components/home/MissionSection";
 import { AboutSection } from "@/components/home/AboutSection";
@@ -11,7 +11,7 @@ import { PortfolioGrid } from "@/components/portfolio/PortfolioGrid";
 import { TechStackSection } from "@/components/home/TechStackSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { HowItWorks } from "@/components/home/HowItWorks";
-import { PricingSection } from "@/components/home/PricingSection";
+
 import { FAQSection } from "@/components/home/FAQSection";
 import { CTASection } from "@/components/home/CTASection";
 
@@ -39,8 +39,7 @@ function Home() {
   const { t } = useTranslation();
   return (
     <>
-      <HeroSection />
-      <PricingSection />
+      <HeroPricingRow />
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
