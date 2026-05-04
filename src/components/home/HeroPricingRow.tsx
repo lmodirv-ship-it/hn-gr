@@ -1,13 +1,17 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Sparkles } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import heroBg from "@/assets/hero-bg.jpg";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import { trackEvent } from "@/hooks/use-track-event";
 
+type BillingCycle = "monthly" | "quarterly" | "semiannual" | "annual";
+
+// Monthly base prices in USD (no separators)
 const tiers = [
   {
-    price: "$1,490",
+    monthly: 1490,
     features: [
       "1-page custom design",
       "Mobile-first + SEO basics",
@@ -19,7 +23,7 @@ const tiers = [
     popular: false,
   },
   {
-    price: "$3,900",
+    monthly: 3900,
     features: [
       "Up to 8 pages or 50 products",
       "CMS / admin dashboard",
@@ -32,7 +36,7 @@ const tiers = [
     popular: true,
   },
   {
-    priceKey: "pricing.tier.2.price",
+    monthly: 6900,
     features: [
       "Tailored architecture & DB",
       "Auth, roles, dashboards",
@@ -46,8 +50,20 @@ const tiers = [
   },
 ] as const;
 
+// months × discount factor (longer = bigger discount)
+const CYCLE_CONFIG: Record<BillingCycle, { months: number; discount: number; labelKey: string; suffixKey: string }> = {
+  monthly:    { months: 1,  discount: 0,    labelKey: "pricing.cycle.monthly",    suffixKey: "pricing.suffix.month" },
+  quarterly:  { months: 3,  discount: 0.05, labelKey: "pricing.cycle.quarterly",  suffixKey: "pricing.suffix.quarter" },
+  semiannual: { months: 6,  discount: 0.10, labelKey: "pricing.cycle.semiannual", suffixKey: "pricing.suffix.semiannual" },
+  annual:     { months: 12, discount: 0.20, labelKey: "pricing.cycle.annual",     suffixKey: "pricing.suffix.year" },
+};
+
 export function HeroPricingRow() {
   const { t } = useTranslation();
+  const [cycle, setCycle] = useState<BillingCycle>("monthly");
+  const cfg = CYCLE_CONFIG[cycle];
+
+  const cycles: BillingCycle[] = ["monthly", "quarterly", "semiannual", "annual"];
 
   return (
     <section className="relative overflow-hidden">
@@ -81,9 +97,37 @@ export function HeroPricingRow() {
                 <span className="text-gradient-gold">{t("pricing.title.highlight")}</span>
               </h2>
             </div>
+
+            {/* Billing cycle switcher */}
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-surface/60 p-1.5">
+              {cycles.map((c) => {
+                const active = c === cycle;
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setCycle(c)}
+                    className={`rounded-full px-3 py-1.5 text-[11px] font-semibold transition-all ${
+                      active
+                        ? "bg-[image:var(--gradient-gold)] text-primary-foreground shadow-[var(--shadow-gold)]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {t(CYCLE_CONFIG[c].labelKey)}
+                    {CYCLE_CONFIG[c].discount > 0 && (
+                      <span className={`ms-1 text-[9px] ${active ? "opacity-90" : "text-primary"}`}>
+                        −{Math.round(CYCLE_CONFIG[c].discount * 100)}%
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
             <div className="mt-6 grid gap-4">
               {tiers.map((tier, i) => {
                 const name = t(`pricing.tier.${i}.name`);
+                const totalPrice = Math.round(tier.monthly * cfg.months * (1 - cfg.discount));
                 return (
                   <div
                     key={name}
@@ -100,9 +144,12 @@ export function HeroPricingRow() {
                     )}
                     <div className="flex items-baseline justify-between gap-3">
                       <h3 className="font-display text-base font-bold">{name}</h3>
-                      <span className="font-display text-xl font-bold">
-                        {"priceKey" in tier ? t(tier.priceKey) : tier.price}
-                      </span>
+                      <div className="text-end">
+                        <span className="font-display text-xl font-bold">${totalPrice}</span>
+                        <span className="ms-1 text-[10px] text-muted-foreground">
+                          /{t(cfg.suffixKey)}
+                        </span>
+                      </div>
                     </div>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {t(`pricing.tier.${i}.tagline`)}
