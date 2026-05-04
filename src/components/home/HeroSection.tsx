@@ -29,7 +29,7 @@ export function HeroSection() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-40">
-        <div className="mx-auto max-w-3xl text-center animate-fade-up">
+        <div className="mx-auto max-w-3xl animate-fade-up rounded-3xl border border-primary/20 bg-surface/40 p-6 text-center shadow-[var(--shadow-gold)] backdrop-blur-xl sm:p-10 lg:p-12">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-surface/40 px-4 py-1.5 text-xs text-muted-foreground backdrop-blur-md">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
