@@ -122,6 +122,70 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_comments: {
+        Row: {
+          author_name: string | null
+          content: string
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          author_name?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          author_name?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_likes: {
+        Row: {
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
           author_id: string | null
@@ -132,12 +196,19 @@ export type Database = {
           created_at: string
           excerpt: string | null
           id: string
+          lang: string
+          likes_count: number
           published_at: string | null
+          reading_time: number | null
+          seo_description: string | null
+          seo_title: string | null
           slug: string
           status: Database["public"]["Enums"]["post_status"]
           tags: Json
           title: string
           updated_at: string
+          video_url: string | null
+          views_count: number
         }
         Insert: {
           author_id?: string | null
@@ -148,12 +219,19 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          lang?: string
+          likes_count?: number
           published_at?: string | null
+          reading_time?: number | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug: string
           status?: Database["public"]["Enums"]["post_status"]
           tags?: Json
           title: string
           updated_at?: string
+          video_url?: string | null
+          views_count?: number
         }
         Update: {
           author_id?: string | null
@@ -164,12 +242,19 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          lang?: string
+          likes_count?: number
           published_at?: string | null
+          reading_time?: number | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["post_status"]
           tags?: Json
           title?: string
           updated_at?: string
+          video_url?: string | null
+          views_count?: number
         }
         Relationships: []
       }
@@ -654,6 +739,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_post_views: { Args: { _slug: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "client" | "super_admin"
