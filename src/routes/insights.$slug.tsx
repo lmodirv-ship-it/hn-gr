@@ -216,7 +216,7 @@ function PostPage() {
         <section className="mt-14 border-t border-border pt-8">
           <h3 className="font-display text-xl font-semibold">Related articles</h3>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {related.map((r) => (
+            {related.map((r: Related) => (
               <Link
                 key={r.id}
                 to="/insights/$slug"
