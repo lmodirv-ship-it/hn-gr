@@ -25,11 +25,13 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as BookCallRouteImport } from './routes/book-call'
 import { Route as BlogDashboardRouteImport } from './routes/blog-dashboard'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as BlogEditorIdRouteImport } from './routes/blog-editor.$id'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
@@ -130,6 +132,11 @@ const BlogDashboardRoute = BlogDashboardRouteImport.update({
   path: '/blog-dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -154,6 +161,11 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => InsightsRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const BlogEditorIdRoute = BlogEditorIdRouteImport.update({
   id: '/blog-editor/$id',
@@ -255,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
@@ -289,6 +302,7 @@ export interface FileRoutesByFullPath {
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/blog-editor/$id': typeof BlogEditorIdRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -296,6 +310,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
@@ -330,6 +345,7 @@ export interface FileRoutesByTo {
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/blog-editor/$id': typeof BlogEditorIdRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -339,6 +355,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
@@ -373,6 +390,7 @@ export interface FileRoutesById {
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/blog-editor/$id': typeof BlogEditorIdRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -383,6 +401,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/blog'
     | '/blog-dashboard'
     | '/book-call'
     | '/careers'
@@ -417,6 +436,7 @@ export interface FileRouteTypes {
     | '/admin/translations'
     | '/admin/users'
     | '/blog-editor/$id'
+    | '/blog/$slug'
     | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
@@ -424,6 +444,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/blog'
     | '/blog-dashboard'
     | '/book-call'
     | '/careers'
@@ -458,6 +479,7 @@ export interface FileRouteTypes {
     | '/admin/translations'
     | '/admin/users'
     | '/blog-editor/$id'
+    | '/blog/$slug'
     | '/insights/$slug'
     | '/admin'
     | '/admin/blog/$id'
@@ -466,6 +488,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/blog'
     | '/blog-dashboard'
     | '/book-call'
     | '/careers'
@@ -500,6 +523,7 @@ export interface FileRouteTypes {
     | '/admin/translations'
     | '/admin/users'
     | '/blog-editor/$id'
+    | '/blog/$slug'
     | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
@@ -509,6 +533,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
   BlogDashboardRoute: typeof BlogDashboardRoute
   BookCallRoute: typeof BookCallRoute
   CareersRoute: typeof CareersRoute
@@ -642,6 +667,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -676,6 +708,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/insights/$slug'
       preLoaderRoute: typeof InsightsSlugRouteImport
       parentRoute: typeof InsightsRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/blog-editor/$id': {
       id: '/blog-editor/$id'
@@ -869,6 +908,16 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface InsightsRouteChildren {
   InsightsSlugRoute: typeof InsightsSlugRoute
 }
@@ -885,6 +934,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
   BlogDashboardRoute: BlogDashboardRoute,
   BookCallRoute: BookCallRoute,
   CareersRoute: CareersRoute,
@@ -906,3 +956,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
