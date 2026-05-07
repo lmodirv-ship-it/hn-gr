@@ -13,10 +13,11 @@ export function Header() {
   const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
 
-  const links: { to: "/" | "/services" | "/portfolio" | "/book-call"; label: string; exact?: boolean }[] = [
+  const links: { to: "/" | "/services" | "/portfolio" | "/insights" | "/book-call"; label: string; exact?: boolean }[] = [
     { to: "/", label: t("nav.home"), exact: true },
     { to: "/services", label: t("nav.services") },
     { to: "/portfolio", label: t("nav.portfolio") },
+    { to: "/insights", label: "Blog" },
     { to: "/book-call", label: t("nav.bookCall") },
   ];
 

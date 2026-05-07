@@ -24,11 +24,15 @@ import { Route as EcommerceRouteImport } from './routes/ecommerce'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as BookCallRouteImport } from './routes/book-call'
+import { Route as BlogDashboardRouteImport } from './routes/blog-dashboard'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as BlogEditorIdRouteImport } from './routes/blog-editor.$id'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
@@ -123,6 +127,16 @@ const BookCallRoute = BookCallRouteImport.update({
   path: '/book-call',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogDashboardRoute = BlogDashboardRouteImport.update({
+  id: '/blog-dashboard',
+  path: '/blog-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -147,6 +161,16 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => InsightsRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
+const BlogEditorIdRoute = BlogEditorIdRouteImport.update({
+  id: '/blog-editor/$id',
+  path: '/blog-editor/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -243,6 +267,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
@@ -275,6 +301,8 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog-editor/$id': typeof BlogEditorIdRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -282,6 +310,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
@@ -314,6 +344,8 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog-editor/$id': typeof BlogEditorIdRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -323,6 +355,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
@@ -355,6 +389,8 @@ export interface FileRoutesById {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog-editor/$id': typeof BlogEditorIdRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -365,6 +401,8 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/blog'
+    | '/blog-dashboard'
     | '/book-call'
     | '/careers'
     | '/dashboard'
@@ -397,6 +435,8 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/translations'
     | '/admin/users'
+    | '/blog-editor/$id'
+    | '/blog/$slug'
     | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
@@ -404,6 +444,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/blog'
+    | '/blog-dashboard'
     | '/book-call'
     | '/careers'
     | '/dashboard'
@@ -436,6 +478,8 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/translations'
     | '/admin/users'
+    | '/blog-editor/$id'
+    | '/blog/$slug'
     | '/insights/$slug'
     | '/admin'
     | '/admin/blog/$id'
@@ -444,6 +488,8 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/blog'
+    | '/blog-dashboard'
     | '/book-call'
     | '/careers'
     | '/dashboard'
@@ -476,6 +522,8 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/translations'
     | '/admin/users'
+    | '/blog-editor/$id'
+    | '/blog/$slug'
     | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
@@ -485,6 +533,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
+  BlogDashboardRoute: typeof BlogDashboardRoute
   BookCallRoute: typeof BookCallRoute
   CareersRoute: typeof CareersRoute
   DashboardRoute: typeof DashboardRoute
@@ -500,6 +550,7 @@ export interface RootRouteChildren {
   ThankYouRoute: typeof ThankYouRoute
   WebDesignRoute: typeof WebDesignRoute
   Web3Route: typeof Web3Route
+  BlogEditorIdRoute: typeof BlogEditorIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -609,6 +660,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookCallRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog-dashboard': {
+      id: '/blog-dashboard'
+      path: '/blog-dashboard'
+      fullPath: '/blog-dashboard'
+      preLoaderRoute: typeof BlogDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -643,6 +708,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/insights/$slug'
       preLoaderRoute: typeof InsightsSlugRouteImport
       parentRoute: typeof InsightsRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/blog-editor/$id': {
+      id: '/blog-editor/$id'
+      path: '/blog-editor/$id'
+      fullPath: '/blog-editor/$id'
+      preLoaderRoute: typeof BlogEditorIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
       id: '/admin/users'
@@ -829,6 +908,16 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface InsightsRouteChildren {
   InsightsSlugRoute: typeof InsightsSlugRoute
 }
@@ -845,6 +934,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
+  BlogDashboardRoute: BlogDashboardRoute,
   BookCallRoute: BookCallRoute,
   CareersRoute: CareersRoute,
   DashboardRoute: DashboardRoute,
@@ -860,6 +951,7 @@ const rootRouteChildren: RootRouteChildren = {
   ThankYouRoute: ThankYouRoute,
   WebDesignRoute: WebDesignRoute,
   Web3Route: Web3Route,
+  BlogEditorIdRoute: BlogEditorIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

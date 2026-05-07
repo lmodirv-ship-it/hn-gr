@@ -81,6 +81,13 @@ function DashboardPage() {
             </Link>
           )}
           <Link
+            to="/blog-dashboard"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border px-3 text-sm text-muted-foreground hover:text-foreground"
+          >
+            <Plus className="h-4 w-4" />
+            My articles
+          </Link>
+          <Link
             to="/start-project"
             className="inline-flex h-9 items-center gap-1.5 rounded-md bg-[image:var(--gradient-gold)] px-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-gold)]"
           >
