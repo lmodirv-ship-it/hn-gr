@@ -26,7 +26,7 @@ function AdminLayout() {
 
   useEffect(() => {
     if (authLoading) return;
-    if (!user) void navigate({ to: "/auth" });
+    if (!user) void navigate({ to: "/" });
     else if (role && !isAdmin) void navigate({ to: "/dashboard" });
   }, [user, authLoading, isAdmin, role, navigate]);
 

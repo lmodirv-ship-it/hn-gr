@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { LogOut, ChevronRight, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -33,6 +33,7 @@ export function AdminTopbar() {
   const { t } = useTranslation();
   const tt = useAdminT();
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const path = useRouterState({ select: (r) => r.location.pathname });
   const segments = path.split("/").filter(Boolean);
 
@@ -120,7 +121,9 @@ export function AdminTopbar() {
           </span>
           <button
             aria-label={tt("topbar.signOut")}
-            onClick={() => void signOut()}
+            onClick={() => {
+              void signOut().then(() => navigate({ to: "/" }));
+            }}
             className="text-muted-foreground hover:text-foreground"
           >
             <LogOut className="h-3.5 w-3.5" />
