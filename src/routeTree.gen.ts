@@ -24,6 +24,7 @@ import { Route as EcommerceRouteImport } from './routes/ecommerce'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as BookCallRouteImport } from './routes/book-call'
+import { Route as BlogDashboardRouteImport } from './routes/blog-dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -121,6 +122,11 @@ const CareersRoute = CareersRouteImport.update({
 const BookCallRoute = BookCallRouteImport.update({
   id: '/book-call',
   path: '/book-call',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogDashboardRoute = BlogDashboardRouteImport.update({
+  id: '/blog-dashboard',
+  path: '/blog-dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -243,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
@@ -282,6 +289,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
@@ -323,6 +331,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog-dashboard': typeof BlogDashboardRoute
   '/book-call': typeof BookCallRoute
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
@@ -365,6 +374,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/blog-dashboard'
     | '/book-call'
     | '/careers'
     | '/dashboard'
@@ -404,6 +414,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/blog-dashboard'
     | '/book-call'
     | '/careers'
     | '/dashboard'
@@ -444,6 +455,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/blog-dashboard'
     | '/book-call'
     | '/careers'
     | '/dashboard'
@@ -485,6 +497,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BlogDashboardRoute: typeof BlogDashboardRoute
   BookCallRoute: typeof BookCallRoute
   CareersRoute: typeof CareersRoute
   DashboardRoute: typeof DashboardRoute
@@ -607,6 +620,13 @@ declare module '@tanstack/react-router' {
       path: '/book-call'
       fullPath: '/book-call'
       preLoaderRoute: typeof BookCallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog-dashboard': {
+      id: '/blog-dashboard'
+      path: '/blog-dashboard'
+      fullPath: '/blog-dashboard'
+      preLoaderRoute: typeof BlogDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -845,6 +865,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
+  BlogDashboardRoute: BlogDashboardRoute,
   BookCallRoute: BookCallRoute,
   CareersRoute: CareersRoute,
   DashboardRoute: DashboardRoute,
