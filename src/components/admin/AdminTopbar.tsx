@@ -121,7 +121,9 @@ export function AdminTopbar() {
           </span>
           <button
             aria-label={tt("topbar.signOut")}
-            onClick={() => void signOut()}
+            onClick={() => {
+              void signOut().then(() => navigate({ to: "/" }));
+            }}
             className="text-muted-foreground hover:text-foreground"
           >
             <LogOut className="h-3.5 w-3.5" />
