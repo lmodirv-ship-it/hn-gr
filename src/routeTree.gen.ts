@@ -30,6 +30,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as BlogEditorIdRouteImport } from './routes/blog-editor.$id'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
@@ -153,6 +154,11 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => InsightsRoute,
+} as any)
+const BlogEditorIdRoute = BlogEditorIdRouteImport.update({
+  id: '/blog-editor/$id',
+  path: '/blog-editor/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -282,6 +288,7 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog-editor/$id': typeof BlogEditorIdRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -322,6 +329,7 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog-editor/$id': typeof BlogEditorIdRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -364,6 +372,7 @@ export interface FileRoutesById {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/blog-editor/$id': typeof BlogEditorIdRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
@@ -407,6 +416,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/translations'
     | '/admin/users'
+    | '/blog-editor/$id'
     | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
@@ -447,6 +457,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/translations'
     | '/admin/users'
+    | '/blog-editor/$id'
     | '/insights/$slug'
     | '/admin'
     | '/admin/blog/$id'
@@ -488,6 +499,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/translations'
     | '/admin/users'
+    | '/blog-editor/$id'
     | '/insights/$slug'
     | '/admin/'
     | '/admin/blog/$id'
@@ -513,6 +525,7 @@ export interface RootRouteChildren {
   ThankYouRoute: typeof ThankYouRoute
   WebDesignRoute: typeof WebDesignRoute
   Web3Route: typeof Web3Route
+  BlogEditorIdRoute: typeof BlogEditorIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -663,6 +676,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/insights/$slug'
       preLoaderRoute: typeof InsightsSlugRouteImport
       parentRoute: typeof InsightsRoute
+    }
+    '/blog-editor/$id': {
+      id: '/blog-editor/$id'
+      path: '/blog-editor/$id'
+      fullPath: '/blog-editor/$id'
+      preLoaderRoute: typeof BlogEditorIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
       id: '/admin/users'
@@ -881,6 +901,7 @@ const rootRouteChildren: RootRouteChildren = {
   ThankYouRoute: ThankYouRoute,
   WebDesignRoute: WebDesignRoute,
   Web3Route: Web3Route,
+  BlogEditorIdRoute: BlogEditorIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
