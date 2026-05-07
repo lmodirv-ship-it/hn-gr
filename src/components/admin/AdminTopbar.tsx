@@ -33,6 +33,7 @@ export function AdminTopbar() {
   const { t } = useTranslation();
   const tt = useAdminT();
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const path = useRouterState({ select: (r) => r.location.pathname });
   const segments = path.split("/").filter(Boolean);
 
