@@ -37,7 +37,7 @@ function DashboardPage() {
   const [requests, setRequests] = useState<Request[] | null>(null);
 
   useEffect(() => {
-    if (!authLoading && !user) void navigate({ to: "/auth" });
+    if (!authLoading && !user) void navigate({ to: "/" });
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
