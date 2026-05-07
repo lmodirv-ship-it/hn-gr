@@ -105,7 +105,7 @@ export function CommandPalette() {
             <CommandItem
               onSelect={() => {
                 setOpen(false);
-                void supabase.auth.signOut();
+                void supabase.auth.signOut().then(() => navigate({ to: "/" }));
               }}
             >
               <LogOut className="mr-2 h-4 w-4" /> Sign out
