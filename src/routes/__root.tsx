@@ -70,6 +70,10 @@ export const Route = createRootRoute({
         crossOrigin: "anonymous",
       },
       {
+        src: "https://hn-bd.online/hn.js",
+        "data-site": "hn-chat",
+      } as never,
+      {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
