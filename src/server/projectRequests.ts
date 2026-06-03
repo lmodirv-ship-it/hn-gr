@@ -11,22 +11,22 @@ const inputSchema = z.object({
   prefilledFromChat: z.boolean().optional().default(false),
 });
 
-interface StoredRequest extends z.infer<typeof inputSchema> {
-  id: string;
-  createdAt: string;
-}
-
-const store: StoredRequest[] = [];
-
+/**
+ * Note: The public StartProjectForm writes directly to the `project_requests`
+ * table via RLS. This server function is kept as a typed RPC entry point and
+ * intentionally does NOT keep an in-memory buffer of PII, and does NOT log
+ * personal fields (name, email, phone) to the server console.
+ */
 export const submitProjectRequest = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => inputSchema.parse(input))
   .handler(async ({ data }) => {
-    const record: StoredRequest = {
-      ...data,
-      id: crypto.randomUUID(),
+    const id = crypto.randomUUID();
+    // Log only non-sensitive metadata.
+    console.log("[HN-groupe] New project request:", {
+      id,
+      projectType: data.projectType,
+      prefilledFromChat: data.prefilledFromChat ?? false,
       createdAt: new Date().toISOString(),
-    };
-    store.push(record);
-    console.log("[HN-groupe] New project request:", record);
-    return { success: true as const, id: record.id };
+    });
+    return { success: true as const, id };
   });
