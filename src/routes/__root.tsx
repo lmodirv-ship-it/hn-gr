@@ -62,7 +62,12 @@ export const Route = createRootRoute({
       { name: "description", content: "HN-groupe is a software and web solutions studio website showcasing services and projects." },
       { property: "og:description", content: "HN-groupe is a software and web solutions studio website showcasing services and projects." },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" },
+    ],
     scripts: [
       {
         async: true,
