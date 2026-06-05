@@ -55,8 +55,7 @@ export function useAuth() {
     };
   }, []);
 
-  const isOwnerEmail = user?.email ? OWNER_EMAILS.has(user.email.toLowerCase()) : false;
-  const isSuperAdmin = roles.includes("super_admin") || isOwnerEmail;
+  const isSuperAdmin = roles.includes("super_admin");
   const isAdmin = isSuperAdmin || roles.includes("admin");
   const role: Role | null = isSuperAdmin
     ? "super_admin"
