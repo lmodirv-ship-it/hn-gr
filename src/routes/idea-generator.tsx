@@ -12,7 +12,7 @@ import {
   ArrowRight,
   Users,
 } from "lucide-react";
-import { generateProjectIdea, type ProjectIdea } from "@/server/ideaGenerator";
+import { generateProjectIdea, type ProjectIdea } from "@/lib/ideaGenerator.functions";
 
 export const Route = createFileRoute("/idea-generator")({
   head: () => ({
