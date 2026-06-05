@@ -192,7 +192,7 @@ function PostPage() {
       {isHtml ? (
         <article
           className="prose prose-invert mt-10 max-w-none"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content, { FORBID_TAGS: ["script", "style"], FORBID_ATTR: ["onerror", "onload", "onclick"] }) }}
         />
       ) : (
         <article className="prose prose-invert mt-10 max-w-none">
