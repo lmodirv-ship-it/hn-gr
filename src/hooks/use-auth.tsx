@@ -3,7 +3,6 @@ import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
 type Role = "admin" | "client" | "super_admin";
-const OWNER_EMAILS = new Set(["lmdorv@gmail.com", "lmodirv@gmail.com"]);
 
 async function fetchRoles(userId: string): Promise<Role[]> {
   const { data, error } = await supabase
