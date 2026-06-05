@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Calendar, ArrowLeft, Clock, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ArticleSocial } from "@/components/blog/ArticleSocial";
+import DOMPurify from "isomorphic-dompurify";
 
 interface Post {
   id: string;
