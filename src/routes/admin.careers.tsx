@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Loader2, Download, Trash2, Mail, Phone, UserPlus, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { generateCvSummary } from "@/server/cvSummary";
+import { generateCvSummary } from "@/lib/cvSummary.functions";
 import { useAdminT } from "@/lib/i18n/adminText";
 
 type Status = "new" | "in_review" | "shortlisted" | "interviewed" | "hired" | "rejected";
