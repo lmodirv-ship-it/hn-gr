@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { trackEvent } from "@/hooks/use-track-event";
 import { supabase } from "@/integrations/supabase/client";
-import { DEFAULT_CONTACT, buildWhatsAppUrl, normalizePhone } from "@/lib/contact-links";
+import { buildWhatsAppUrl, normalizePhone } from "@/lib/contact-links";
 
 export function WhatsAppButton() {
-  const [phone, setPhone] = useState<string>(DEFAULT_CONTACT.whatsapp);
+  const [phone, setPhone] = useState<string>("");
 
   useEffect(() => {
     let cancelled = false;
@@ -24,6 +24,9 @@ export function WhatsAppButton() {
       cancelled = true;
     };
   }, []);
+
+  // Hide the floating button until an admin sets a public WhatsApp number.
+  if (!phone) return null;
 
   const href = buildWhatsAppUrl(phone);
 

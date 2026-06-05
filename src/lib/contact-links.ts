@@ -1,7 +1,11 @@
+// Public defaults intentionally empty. Personal contact details are stored
+// in the admin-only `contact_private` site_settings row and never bundled
+// into the client. Admins can populate public business contact info via the
+// `contact` row in admin settings.
 export const DEFAULT_CONTACT = {
-  email: "lmodirv@gmail.com",
-  phone: "0668546358",
-  whatsapp: "0668546358",
+  email: "",
+  phone: "",
+  whatsapp: "",
   calendly: "",
 };
 
