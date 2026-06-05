@@ -63,7 +63,7 @@ function CareersPage() {
     setSubmitting(true);
     try {
       const ext = file.name.split(".").pop() ?? "pdf";
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const path = `applications/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
       const up = await supabase.storage.from("cvs").upload(path, file, {
         contentType: file.type,
         upsert: false,
