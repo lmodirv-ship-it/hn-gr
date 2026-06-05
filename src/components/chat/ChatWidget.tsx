@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { MessageCircle, X, Send, Loader2, Sparkles, ArrowRight } from "lucide-react";
-import { sendChatMessage, type ChatSuggestion } from "@/server/chat";
+import { sendChatMessage, type ChatSuggestion } from "@/lib/chat.functions";
 import { trackEvent } from "@/hooks/use-track-event";
 import { supabase } from "@/integrations/supabase/client";
 
