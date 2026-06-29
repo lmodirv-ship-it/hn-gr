@@ -143,6 +143,8 @@ function RootComponent() {
         <ChatWidget />
         <WhatsAppButton />
         <StickyCTA />
+        <MatchPredictionModal />
+        
         
         <SoundController />
         <Toaster richColors position="top-center" />
