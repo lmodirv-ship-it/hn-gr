@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { PageViewTracker } from "@/hooks/use-track-event";
 import { WhatsAppButton } from "@/components/growth/WhatsAppButton";
 import { StickyCTA } from "@/components/growth/StickyCTA";
+import { MatchPredictionModal } from "@/components/growth/MatchPredictionModal";
 
 import { I18nProvider, I18nDirectionEffect } from "@/components/i18n/I18nProvider";
 
@@ -142,6 +143,8 @@ function RootComponent() {
         <ChatWidget />
         <WhatsAppButton />
         <StickyCTA />
+        <MatchPredictionModal />
+        
         
         <SoundController />
         <Toaster richColors position="top-center" />
