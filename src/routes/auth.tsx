@@ -168,6 +168,8 @@ function AuthPage() {
             </div>
           </>
         )}
+
+        {magicSent ? (
           <div className="mt-6 rounded-xl border border-primary/30 bg-primary/5 p-5 text-center">
             <div className="mx-auto mb-3 grid h-10 w-10 place-items-center rounded-full bg-primary/15 text-primary">
               <Check className="h-5 w-5" />
