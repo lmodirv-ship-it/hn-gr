@@ -474,7 +474,7 @@ export const seedResources = {
       "footer.clientLogin": "دخول العميل",
       "footer.location": "عن بُعد · الدار البيضاء · باريس",
       "footer.copyright": "© {{year}} HN-GROUPE — الحسني مولاي إسماعيل. جميع الحقوق محفوظة.",
-      "footer.built": "Created by Groupe-HN",
+      "footer.built": "تم الإنشاء بواسطة Groupe-HN",
 
       "section.about": "من نحن",
       "section.services": "خدماتنا",
