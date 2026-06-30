@@ -10,7 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { PageViewTracker } from "@/hooks/use-track-event";
 import { WhatsAppButton } from "@/components/growth/WhatsAppButton";
 import { StickyCTA } from "@/components/growth/StickyCTA";
-import { MatchPredictionModal } from "@/components/growth/MatchPredictionModal";
+
 
 import { I18nProvider, I18nDirectionEffect } from "@/components/i18n/I18nProvider";
 
@@ -60,8 +60,6 @@ export const Route = createRootRoute({
       { name: "twitter:description", content: "HN-groupe is a software and web solutions studio website showcasing services and projects." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/g9dYUUMiwpd1WQjB2jpPGmqKT172/social-images/social-1776539517041-hn-groupe.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/g9dYUUMiwpd1WQjB2jpPGmqKT172/social-images/social-1776539517041-hn-groupe.webp" },
-      { name: "description", content: "HN-groupe is a software and web solutions studio website showcasing services and projects." },
-      { property: "og:description", content: "HN-groupe is a software and web solutions studio website showcasing services and projects." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -143,9 +141,6 @@ function RootComponent() {
         <ChatWidget />
         <WhatsAppButton />
         <StickyCTA />
-        <MatchPredictionModal />
-        
-        
         <SoundController />
         <Toaster richColors position="top-center" />
         <PageViewTracker />
