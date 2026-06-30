@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HN Groupe — وكالة رقمية | Digital Agency</title>
+  <meta name="description" content="HN Groupe — وكالة رقمية متخصصة في تطوير المواقع والتطبيقات والذكاء الاصطناعي." />
+  <meta property="og:title" content="HN Groupe — Digital Agency" />
+  <meta property="og:description" content="تطوير مواقع، تطبيقات، حلول الذكاء الاصطناعي." />
+  <meta property="og:image" content="/hn-groupe-logo.png" />
+  <meta property="og:url" content="https://www.groupe-hn.com/index.html" />
+  <link rel="icon" href="/hn-groupe-logo.png" />
+  <link rel="canonical" href="https://www.groupe-hn.com/index.html" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;background:#0a1628;color:#fff;min-height:100vh}
+    body{background:radial-gradient(ellipse at top,#1e3a5f 0%,#0a1628 60%)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:48px;height:48px;border-radius:10px;background:#fff;padding:4px}
+    .brand h1{font-size:22px;margin:0;color:#fff}
+    .brand span{display:block;font-size:12px;color:#d4af37;font-weight:500}
+    .lang{display:flex;gap:8px}
+    .lang button{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px}
+    .lang button.active{background:#d4af37;color:#0a1628;border-color:#d4af37;font-weight:600}
+    .hero{text-align:center;padding:80px 20px 40px}
+    .hero h2{font-size:clamp(32px,5vw,56px);margin:0 0 16px;line-height:1.15;background:linear-gradient(135deg,#fff 0%,#d4af37 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .hero p{font-size:clamp(15px,2vw,18px);color:#b8c5d6;max-width:680px;margin:0 auto 32px;line-height:1.7}
+    .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-block;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;transition:transform .2s,box-shadow .2s}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+    .btn-primary{background:linear-gradient(135deg,#d4af37,#b8941f);color:#0a1628}
+    .btn-secondary{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:48px auto;max-width:760px}
+    @media(max-width:600px){.stats{grid-template-columns:1fr}}
+    .stat{background:rgba(255,255,255,.05);border:1px solid rgba(212,175,55,.2);border-radius:14px;padding:24px;text-align:center;backdrop-filter:blur(10px)}
+    .stat .v{font-size:32px;font-weight:700;color:#d4af37;margin-bottom:6px}
+    .stat .l{font-size:13px;color:#b8c5d6}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:32px 0}
+    .feature{background:rgba(255,255,255,.04);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+    .feature h3{margin:0 0 8px;font-size:16px;color:#d4af37}
+    .feature p{margin:0;font-size:13px;color:#b8c5d6;line-height:1.6}
+    footer{text-align:center;padding:32px 20px;border-top:1px solid rgba(255,255,255,.08);margin-top:48px;color:#7a8699;font-size:13px}
+    footer a{color:#d4af37;text-decoration:none;margin:0 8px}
+    [dir=ltr] .lang{flex-direction:row-reverse}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="/hn-groupe-logo.png" alt="HN Groupe" />
+        <div>
+          <h1>HN Groupe</h1>
+          <span data-i18n="tag">وكالة رقمية احترافية</span>
+        </div>
+      </div>
+      <div class="lang">
+        <button data-lang="ar" class="active">العربية</button>
+        <button data-lang="en">English</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h2 data-i18n="title">نُحوّل أفكارك إلى واقع رقمي</h2>
+      <p data-i18n="desc">تطوير مواقع وتطبيقات حديثة، حلول ذكاء اصطناعي، وتصميم رقمي يصنع الفارق لعلامتك التجارية.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="/" data-i18n="enter">دخول الموقع الكامل</a>
+        <a class="btn btn-secondary" href="/auth" data-i18n="login">تسجيل الدخول</a>
+      </div>
+    </section>
+
+    <section class="stats" id="stats">
+      <div class="stat"><div class="v" id="s-visitors">—</div><div class="l" data-i18n="visitors">إجمالي الزوار</div></div>
+      <div class="stat"><div class="v" id="s-online">—</div><div class="l" data-i18n="online">متواجدون الآن</div></div>
+      <div class="stat"><div class="v" id="s-registered">—</div><div class="l" data-i18n="registered">مسجلون</div></div>
+    </section>
+
+    <section class="features">
+      <div class="feature"><h3 data-i18n="f1t">تطوير المواقع</h3><p data-i18n="f1d">مواقع سريعة، آمنة، ومتجاوبة بأحدث التقنيات.</p></div>
+      <div class="feature"><h3 data-i18n="f2t">تطبيقات الجوال</h3><p data-i18n="f2d">تطبيقات أصلية وهجينة لـ iOS و Android.</p></div>
+      <div class="feature"><h3 data-i18n="f3t">الذكاء الاصطناعي</h3><p data-i18n="f3d">حلول AI متكاملة تعزز الإنتاجية والابتكار.</p></div>
+      <div class="feature"><h3 data-i18n="f4t">التسويق الرقمي</h3><p data-i18n="f4d">استراتيجيات تسويق تُحقّق نتائج قابلة للقياس.</p></div>
+    </section>
+
+    <footer>
+      <div>
+        <a href="https://wa.me/212668546358">WhatsApp</a> ·
+        <a href="mailto:lmodirv@gmail.com">lmodirv@gmail.com</a> ·
+        <a href="/">www.groupe-hn.com</a>
+      </div>
+      <div style="margin-top:8px">© 2026 HN-GROUPE — Created by Groupe-HN · El Hassani Moulay Ismail</div>
+    </footer>
+  </div>
+
+  <script>
+    const SB_URL = "https://ypqzqihqpufawcwdzbcs.supabase.co";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwcXpxaWhxcHVmYXdjd2R6YmNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MjQ4MjgsImV4cCI6MjA5MjEwMDgyOH0.X50W58q8bb2yonZYwgwh8Cpig4lR6T3s18B7yIiQR40";
+
+    async function loadStats(){
+      try{
+        const r = await fetch(SB_URL+"/rest/v1/rpc/get_public_site_stats",{
+          method:"POST",
+          headers:{"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json"},
+          body:"{}"
+        });
+        const d = await r.json();
+        document.getElementById("s-visitors").textContent = (d.visitors||0).toLocaleString();
+        document.getElementById("s-online").textContent = (d.online||0).toLocaleString();
+        document.getElementById("s-registered").textContent = (d.registered||0).toLocaleString();
+      }catch(e){console.error(e)}
+    }
+    loadStats();
+    setInterval(loadStats, 30000);
+
+    const I18N = {
+      ar:{tag:"وكالة رقمية احترافية",title:"نُحوّل أفكارك إلى واقع رقمي",desc:"تطوير مواقع وتطبيقات حديثة، حلول ذكاء اصطناعي، وتصميم رقمي يصنع الفارق لعلامتك التجارية.",enter:"دخول الموقع الكامل",login:"تسجيل الدخول",visitors:"إجمالي الزوار",online:"متواجدون الآن",registered:"مسجلون",f1t:"تطوير المواقع",f1d:"مواقع سريعة، آمنة، ومتجاوبة بأحدث التقنيات.",f2t:"تطبيقات الجوال",f2d:"تطبيقات أصلية وهجينة لـ iOS و Android.",f3t:"الذكاء الاصطناعي",f3d:"حلول AI متكاملة تعزز الإنتاجية والابتكار.",f4t:"التسويق الرقمي",f4d:"استراتيجيات تسويق تُحقّق نتائج قابلة للقياس."},
+      en:{tag:"Professional Digital Agency",title:"We turn your ideas into digital reality",desc:"Modern websites & apps, AI solutions, and digital design that makes a real difference for your brand.",enter:"Enter Full Site",login:"Sign In",visitors:"Total Visitors",online:"Online Now",registered:"Registered",f1t:"Web Development",f1d:"Fast, secure, responsive sites with the latest tech.",f2t:"Mobile Apps",f2d:"Native & hybrid apps for iOS and Android.",f3t:"Artificial Intelligence",f3d:"End-to-end AI solutions that boost productivity.",f4t:"Digital Marketing",f4d:"Marketing strategies with measurable results."}
+    };
+    document.querySelectorAll(".lang button").forEach(b=>{
+      b.addEventListener("click",()=>{
+        const lang = b.dataset.lang;
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang==="ar"?"rtl":"ltr";
+        document.querySelectorAll(".lang button").forEach(x=>x.classList.toggle("active",x===b));
+        const dict = I18N[lang];
+        document.querySelectorAll("[data-i18n]").forEach(el=>{
+          const k = el.dataset.i18n; if(dict[k]) el.textContent = dict[k];
+        });
+      });
+    });
+  </script>
+</body>
+</html>
